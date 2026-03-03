@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- ⚡ OBRIGATÓRIO: charset DEVE ser a PRIMEIRA meta tag (WCAG e segurança) -->
+    <meta charset="UTF-8" />
+    
+    <!-- CSP - Content Security Policy (segurança XSS) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://maps.gstatic.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;" />
+    
+    <!-- HSTS - HTTP Strict Transport Security (força HTTPS) -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload" />
+    
+    <!-- COOP - Cross-Origin-Opener-Policy (isolamento de origem) -->
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin" />
+    
+    <!-- COEP/CORP em modo compatível para integrações de terceiros (Google Maps/Places) -->
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="unsafe-none" />
+    <meta http-equiv="Cross-Origin-Resource-Policy" content="cross-origin" />
+    
+    <!-- Google tag (gtag.js) - Carregamento adiado para não bloquear renderização -->
+    <!-- Carrega apenas após interação do usuário ou 3s após load para reduzir tarefas longas -->
+    <script>
+      (function() {
+        var gaLoaded = false;
+        
+        function loadGA() {
+          if (gaLoaded) return;
+          gaLoaded = true;
+          
+          // Carregar script do GA
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T91KB49251';
+          script.onload = function() {
+            // Dividir inicialização em chunks menores para evitar tarefa longa
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            
+            // Usar setTimeout para quebrar tarefa longa
+            setTimeout(function() {
+              gtag('js', new Date());
+            }, 0);
+            
+            setTimeout(function() {
+              gtag('config', 'G-T91KB49251', {
+                'send_page_view': true,
+                'page_path': window.location.pathname + window.location.search,
+                'page_title': document.title
+              });
+            }, 0);
+          };
+          document.head.appendChild(script);
+        }
+
+        // Carregar após interação do usuário (click, scroll, touch) OU após 3s
+        var userInteracted = false;
+        var interactionEvents = ['click', 'scroll', 'touchstart', 'keydown'];
+        
+        interactionEvents.forEach(function(event) {
+          document.addEventListener(event, function() {
+            if (!userInteracted) {
+              userInteracted = true;
+              // Carregar após pequeno delay para não bloquear interação
+              setTimeout(loadGA, 100);
+            }
+          }, { once: true, passive: true });
+        });
+
+        // Fallback: carregar após 3s se usuário não interagir
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            if (!gaLoaded) {
+              loadGA();
+            }
+          }, 3000);
+        });
+      })();
+    </script>
+    
+    <!-- Viewport otimizado para mobile-first -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes" />
+    
+    <!-- Mobile Web App Capable -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Theme Color (cor primária do site - amarelo) -->
+    <meta name="theme-color" content="#FDB147" />
+    <meta name="msapplication-TileColor" content="#FDB147" />
+    <meta name="msapplication-navbutton-color" content="#FDB147" />
+    
+    <!-- Resource Hints - Otimização de Carregamento (FCP) -->
+    <!-- Preconnect para domínios externos (reduz latência de DNS/TLS) -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://maps.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+    <!-- Preload de recursos críticos (adicionado automaticamente) -->
+    <link rel="preload" as="style" href="/assets/index-Bp2NkMxa.css" />
+    <link rel="preload" as="script" href="/assets/index-Dx8vJi8E.js" />
+    <link rel="preload" as="script" href="/assets/react-vendor-CeRvbKfO.js" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-525w-D0Sp9iYG.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-400w-DSNl4w5Z.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/logo-fenix-cred-299w-TiKoL6JW.webp" type="image/webp" />
+
+    
+    <!-- PLACEHOLDER_RESOURCE_HINTS -->
+    
+    <link rel="icon" type="image/webp" href="/favicon_fenix_cred.webp" />
+    <!-- Título otimizado para mobile-first (56 caracteres - ideal 50-60) -->
+    <title>Crédito CLT e Antecipação FGTS | Fênix Cred São Paulo</title>
+    
+    <!-- Meta Description otimizada (156 caracteres - ideal 150-160) -->
+    <meta
+      name="description"
+      content="Crédito CLT e Antecipação do FGTS de forma simples e segura. +90 mil clientes atendidos ao mês. Nota 4.8 no Google. Atendemos todo Brasil desde 2018. Simule!"
+    />
+    <meta
+      name="keywords"
+      content="crédito CLT, antecipação FGTS, crédito consignado CLT, empréstimo CLT, antecipar FGTS, crédito para trabalhador CLT, crédito consignado, antecipação saque FGTS"
+    />
+    <meta name="author" content="Fênix Cred Soluções Financeiras" />
+    <meta name="language" content="Portuguese-BR" />
+    <!-- Robots otimizado para mobile-first indexing -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://fenixcredbr.com.br/" />
+
+    <!-- Open Graph / Facebook - Otimizado para mobile -->
+    <meta property="og:url" content="https://fenixcredbr.com.br/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Crédito CLT e Antecipação FGTS | Fênix Cred São Paulo"
+    />
+    <meta
+      property="og:description"
+      content="Crédito CLT e Antecipação do FGTS de forma simples e segura. +90 mil clientes atendidos ao mês. Nota 4.8 no Google. Atendemos todo Brasil desde 2018. Simule!"
+    />
+    <meta
+      property="og:image"
+      content="https://fenixcredbr.com.br/assets/logo-fenix-cred.webp"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Fênix Cred Soluções Financeiras" />
+
+    <!-- Open Graph - Localização (NAP) -->
+    <meta property="og:locality" content="São Paulo" />
+    <meta property="og:region" content="SP" />
+    <meta property="og:postal-code" content="03220-200" />
+    <meta property="og:country-name" content="Brazil" />
+    <meta
+      property="og:street-address"
+      content="Av. do Oratório, 4098 - Jardim Guairaca"
+    />
+
+    <!-- Meta Tags de Contato -->
+    <meta name="contact" content="contato@fenixcredbr.com.br" />
+    <meta name="telephone" content="+55-11-99949-0655" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@fenixcred" />
+    <meta name="twitter:url" content="https://fenixcredbr.com.br" />
+    <!-- Twitter Card otimizado para mobile -->
+    <meta
+      name="twitter:title"
+      content="Crédito CLT e Antecipação FGTS | Fênix Cred São Paulo"
+    />
+    <meta
+      name="twitter:description"
+      content="Crédito CLT e Antecipação do FGTS de forma simples e segura. +90 mil clientes atendidos ao mês. Nota 4.8 no Google. Atendemos todo Brasil desde 2018. Simule!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://fenixcredbr.com.br/assets/logo-fenix-cred.webp"
+    />
+
+    <!-- Alternates para mobile -->
+    <meta name="mobile-alternate" content="https://fenixcredbr.com.br/" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/favicon_fenix_cred.webp" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_fenix_cred.webp" />
+    
+    <!-- Format Detection (desabilitar auto-detecção de telefone) -->
+    <meta name="format-detection" content="telephone=yes" />
+    
+    <!-- Mobile Optimization -->
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+
+    <!-- CSS Crítico Inline - Above the Fold (Header + Hero) -->
+    <style>
+      /* Reset básico */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg-dark: #050528;
+        --bg-darker: #030318;
+        --primary-yellow: #fdb147;
+        --primary-yellow-light: #fdc567;
+        --whatsapp-green: #25d366;
+        --whatsapp-green-dark: #20ba5a;
+        --text-white: #ffffff;
+        --text-gray: rgba(255, 255, 255, 0.8);
+        --text-gray-light: rgba(255, 255, 255, 0.6);
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+          "Droid Sans", "Helvetica Neue", sans-serif;
+        line-height: 1.5;
+        font-weight: 400;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        background-color: var(--bg-dark);
+        overflow-x: hidden;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+      }
+      .header {
+        background: rgba(5, 5, 40, 0.5);
+        backdrop-filter: blur(10px);
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        padding: 1rem 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: opacity 0.3s;
+      }
+      .logo-link:hover {
+        opacity: 0.8;
+      }
+      .nav-desktop {
+        display: none;
+        gap: 8px; /* Espaçamento mínimo de 8px entre elementos (WCAG 2.5.5) */
+        align-items: center;
+      }
+      .nav-desktop a {
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.3s;
+        position: relative;
+        padding: 14px 18px !important; /* Área de toque aumentada (WCAG 2.5.5) */
+        min-height: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+        min-width: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center;
+        margin: 0 4px; /* Espaçamento mínimo de 8px entre elementos */
+      }
+      .nav-desktop a:hover {
+        color: #fdb147;
+      }
+      .btn-whatsapp-header {
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        background: #128a3f;
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-height: 48px;
+      }
+      .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+      .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: #fff;
+        transition: all 0.3s;
+        border-radius: 2px;
+      }
+      @media (min-width: 1024px) {
+        .nav-desktop {
+          display: flex;
+        }
+        .btn-whatsapp-header {
+          display: flex;
+        }
+        .menu-toggle {
+          display: none;
+        }
+      }
+      .hero {
+        background: #050528;
+        color: #fff;
+        padding: 120px 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        margin-top: 70px;
+      }
+      .hero-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .hero-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .hero-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border: 2px solid #fdb147;
+        border-radius: 50px;
+        color: #050528;
+        background: #fdb147;
+        font-weight: 600;
+        font-size: 0.9rem;
+        width: fit-content;
+      }
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: #fdb147;
+        line-height: 1.2;
+        margin: 0;
+      }
+      .hero-subheadline {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        margin: 0.5rem 0;
+      }
+      .hero-description {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 500px;
+      }
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+      }
+      .btn-primary {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #128a3f;
+        color: #fff;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-height: 48px;
+      }
+      .btn-secondary {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fdb147;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+      .hero-image {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .hero-image-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        height: 600px;
+      }
+      .hero-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+        background: var(--primary-yellow);
+        border-radius: 50%;
+        z-index: 1;
+      }
+      .hero-person {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-model-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        border-radius: 20px;
+        position: relative;
+        z-index: 2;
+      }
+      @media (max-width: 1024px) {
+        .hero-content {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .hero-image {
+          order: -1;
+        }
+      }
+      @media (max-width: 768px) {
+        .hero {
+          padding: 80px 0 60px;
+        }
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .hero-description {
+          font-size: 1rem;
+        }
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+      .logo-image {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+
+    <!-- Script para tornar CSS não-crítico não-bloqueante -->
+    <script>
+      /* Tornar CSS não-crítico não-bloqueante usando técnica de print media */
+      (function () {
+        // Função para tornar links de CSS não-bloqueantes
+        function makeCSSNonBlocking() {
+          // Aguardar um pouco para que o Vite injete os links de CSS
+          setTimeout(function () {
+            var links = document.querySelectorAll('link[rel="stylesheet"]');
+            links.forEach(function (link) {
+              // Se o CSS foi injetado pelo Vite (não é inline)
+              if (link.href && !link.href.startsWith('data:')) {
+                // Usar técnica de print media para carregar sem bloquear
+                link.media = 'print';
+                link.onload = function () {
+                  this.media = 'all';
+                };
+                // Fallback para browsers antigos
+                if (!('onload' in link)) {
+                  setTimeout(function () {
+                    link.media = 'all';
+                  }, 0);
+                }
+              }
+            });
+          }, 0);
+        }
+
+        // Executar após DOM estar pronto
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", makeCSSNonBlocking);
+        } else {
+          makeCSSNonBlocking();
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-f-NV0j0e.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-BX7KH9JZ.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-CeRvbKfO.js">
+    <link rel="modulepreload" crossorigin href="/assets/faq-B9Piga1C.js">
+    <link rel="stylesheet" crossorigin href="/assets/faq-CuadtUTI.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-DqU4TMhp.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
