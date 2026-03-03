@@ -6,11 +6,18 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    
+
     # Redirecionar HTTP para HTTPS
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-    
+
+    # Servir arquivos da pasta dist/ (deploy via Git)
+    # Se não é um arquivo/pasta existente na raiz, buscar em dist/
+    RewriteCond %{REQUEST_URI} !^/dist/
+    RewriteCond %{DOCUMENT_ROOT}/dist%{REQUEST_URI} -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/dist%{REQUEST_URI} -d
+    RewriteRule ^(.*)$ /dist/$1 [L]
+
     # Redirecionar www para não-www (ou vice-versa, ajustar conforme preferência)
     # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
     # RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
@@ -160,12 +167,12 @@ CustomLog /dev/null combined env=dontlog
 
 <IfModule mod_rewrite.c>
     # Redirecionar /page-credito-clt diretamente para o SPA (React renderiza CreditoCLT)
-    RewriteRule ^page-credito-clt/?$ /index.html [L]
+    RewriteRule ^page-credito-clt/?$ /dist/index.html [L]
 
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /index.html [L]
+    RewriteRule . /dist/index.html [L]
 </IfModule>
 
 # ============================================
