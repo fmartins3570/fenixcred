@@ -166,8 +166,9 @@ CustomLog /dev/null combined env=dontlog
 # ============================================
 
 <IfModule mod_rewrite.c>
-    # Redirecionar /page-credito-clt diretamente para o SPA (React renderiza CreditoCLT)
+    # Redirecionar rotas do SPA diretamente para o index.html
     RewriteRule ^page-credito-clt/?$ /dist/index.html [L]
+    RewriteRule ^politica-privacidade/?$ /dist/index.html [L]
 
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
     RewriteCond %{REQUEST_FILENAME} !-f
