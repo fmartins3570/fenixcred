@@ -169,6 +169,7 @@ CustomLog /dev/null combined env=dontlog
     # Redirecionar rotas do SPA diretamente para o index.html
     RewriteRule ^page-credito-clt/?$ /dist/index.html [L]
     RewriteRule ^politica-privacidade/?$ /dist/index.html [L]
+    RewriteRule ^exclusao-de-dados/?$ /dist/index.html [L]
 
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
     RewriteCond %{REQUEST_FILENAME} !-f

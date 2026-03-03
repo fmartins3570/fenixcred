@@ -40,6 +40,7 @@ const TrabalheConosco = lazy(() => import("./components/TrabalheConosco"));
 const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
 const ReviewsSection = lazy(() => import("./components/ReviewsSection"));
 const CreditoCLT = lazy(() => import("./components/CreditoCLT"));
+const DataDeletion = lazy(() => import("./components/DataDeletion"));
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -65,6 +66,12 @@ function App() {
       return;
     }
 
+    // Verifica o pathname para exclusão de dados (Meta Developers - Data Deletion)
+    if (pathname === "/exclusao-de-dados" || pathname === "/exclusao-de-dados/") {
+      setCurrentPage("data-deletion");
+      return;
+    }
+
     // Verifica o hash na URL ao carregar a página
     const hash = window.location.hash.replace("#", "");
     if (hash === "politica-privacidade") {
@@ -83,6 +90,11 @@ function App() {
 
       if (newPathname === "/politica-privacidade" || newPathname === "/politica-privacidade/") {
         setCurrentPage("privacy-standalone");
+        return;
+      }
+
+      if (newPathname === "/exclusao-de-dados" || newPathname === "/exclusao-de-dados/") {
+        setCurrentPage("data-deletion");
         return;
       }
 
@@ -116,6 +128,25 @@ function App() {
           }
         >
           <CreditoCLT />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // Exclusão de dados standalone (Meta Developers - Data Deletion Instructions)
+  if (currentPage === "data-deletion") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <DataDeletion />
         </Suspense>
       </div>
     );
