@@ -1,0 +1,15 @@
+{
+  "name": "fenixcred-meta-ads",
+  "version": "1.0.0",
+  "description": "Conexao com Meta Ads API para Fenix Cred",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "accounts": "node commands/accounts.js",
+    "campaigns": "node commands/campaigns.js",
+    "insights": "node commands/insights.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
+}
