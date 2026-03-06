@@ -149,6 +149,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: visible !important;
 }
 
 .step-card:hover {
