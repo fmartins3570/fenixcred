@@ -128,14 +128,14 @@
     # HSTS - HTTP Strict Transport Security (força HTTPS)
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     
-    # COOP - Cross-Origin-Opener-Policy (isolamento de origem)
-    Header always set Cross-Origin-Opener-Policy "same-origin"
-    
-    # COEP - Cross-Origin-Embedder-Policy
-    Header always set Cross-Origin-Embedder-Policy "require-corp"
-    
-    # CORP - Cross-Origin-Resource-Policy
-    Header always set Cross-Origin-Resource-Policy "same-origin"
+    # COOP - Cross-Origin-Opener-Policy
+    Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+
+    # COEP - Desabilitado para permitir Google Maps e recursos cross-origin
+    # Header always set Cross-Origin-Embedder-Policy "require-corp"
+
+    # CORP - Relaxado para permitir recursos cross-origin (Google Maps, fonts, etc)
+    Header always set Cross-Origin-Resource-Policy "cross-origin"
 </IfModule>
 
 # ============================================
