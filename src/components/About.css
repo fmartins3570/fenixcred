@@ -1,0 +1,143 @@
+/* About - Section About Us */
+
+.about {
+  padding: 5rem 2rem;
+  background: #050528;
+  color: white;
+  position: relative;
+}
+
+.about::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(253, 177, 71, 0.2), transparent);
+}
+
+.about-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.about-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Centered text */
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  text-align: center;
+}
+
+.about-heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.about-description {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.about-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #fdb147;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-top: 1rem;
+  transition: all 0.3s;
+  width: fit-content;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(253, 177, 71, 0.2);
+  background: rgba(253, 177, 71, 0.05);
+  align-self: center;
+}
+
+.about-link:hover {
+  color: #fdc567;
+  background: rgba(253, 177, 71, 0.1);
+  border-color: rgba(253, 177, 71, 0.3);
+  transform: translateY(-1px);
+}
+
+.about-link svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s;
+}
+
+.about-link:hover svg {
+  transform: translateX(4px);
+}
+
+/* Contact Info NAP */
+.about-contact-info {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.about-contact-info .about-description {
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.about-contact-info .about-description strong {
+  color: #fdb147;
+  font-weight: 600;
+}
+
+.about-contact-info .about-description a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.about-contact-info .about-description a:hover {
+  color: #fdb147;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about {
+    padding: 3rem 1.5rem;
+  }
+
+  .about-heading {
+    font-size: 2rem;
+  }
+
+  .about-description {
+    font-size: 1rem;
+  }
+
+  .about-text {
+    text-align: left;
+  }
+
+  .about-link {
+    align-self: flex-start;
+  }
+}

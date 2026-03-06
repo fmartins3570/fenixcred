@@ -1,0 +1,23 @@
+/* Estilos globais do App */
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #050528;
+}
+
+/* Garante que o main ocupe o espaço disponível */
+main {
+  flex: 1;
+}
+
+/* Scroll suave ao clicar nos links de navegação */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Espaçamento entre seções */
+section {
+  scroll-margin-top: 80px; /* Espaço para header fixo */
+}

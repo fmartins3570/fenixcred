@@ -1,0 +1,229 @@
+/* Header - Fundo escuro, fixo no topo */
+
+.header {
+  background: rgba(5, 5, 40, 0.5);
+  backdrop-filter: blur(10px);
+  color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.logo-link:hover {
+  opacity: 0.8;
+}
+
+/* Menu Desktop */
+.nav-desktop {
+  display: none;
+  gap: 8px; /* Espaçamento mínimo de 8px entre elementos (WCAG 2.5.5) */
+  align-items: center;
+}
+
+.nav-desktop a {
+  color: #ffffff; /* Branco puro para contraste WCAG AA (7:1 sobre fundo escuro) */
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+  position: relative;
+  padding: 0.5rem 0; /* Área de toque aumentada */
+  min-height: 48px; /* Mínimo 48px para área de toque */
+  display: flex;
+  align-items: center;
+}
+
+.nav-desktop a:hover {
+  color: #fdb147;
+}
+
+.nav-desktop a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #fdb147;
+  transition: width 0.3s;
+}
+
+.nav-desktop a:hover::after {
+  width: 100%;
+}
+
+.nav-desktop a.active {
+  color: #fdb147;
+}
+
+.nav-desktop a.active::after {
+  width: 100%;
+}
+
+/* Botão WhatsApp Header - Verde neon */
+.btn-whatsapp-header {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  background: #0d7a3a; /* Verde mais escuro para melhor contraste (WCAG AA: 4.5:1) */
+  color: #ffffff; /* Branco puro para máximo contraste */
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 48px;
+}
+
+.btn-whatsapp-header:hover {
+  background: #0a5d2b; /* Verde ainda mais escuro no hover para manter contraste */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(18, 138, 63, 0.4);
+}
+
+.btn-whatsapp-header:active {
+  transform: translateY(0);
+}
+
+.btn-whatsapp-header:focus {
+  outline: 2px solid #0d7a3a; /* Cor atualizada para match com background */
+  outline-offset: 2px;
+}
+
+.btn-whatsapp-header:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn-whatsapp-header svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Botão Hambúrguer */
+.menu-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1001;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  transition: all 0.3s;
+  border-radius: 2px;
+}
+
+/* Menu Mobile */
+.nav-mobile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 300px;
+  height: 100vh;
+  background: #050528;
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 2rem 2rem;
+  gap: 1.5rem;
+  transition: right 0.3s ease;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.nav-mobile.active {
+  right: 0;
+}
+
+.nav-mobile a {
+  color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 14px 18px !important; /* Área de toque aumentada (WCAG 2.5.5) */
+  min-height: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+  min-width: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: padding-left 0.3s;
+  margin-bottom: 4px; /* Espaçamento mínimo entre elementos */
+}
+
+.nav-mobile a:hover {
+  padding-left: 1rem;
+  color: #fdb147;
+}
+
+.btn-whatsapp-mobile {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #0d7a3a; /* Verde mais escuro para melhor contraste (WCAG AA: 4.5:1) */
+  color: #ffffff; /* Branco puro para máximo contraste */
+  border: none;
+  padding: 1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 48px;
+}
+
+.btn-whatsapp-mobile:hover {
+  background: #0a5d2b; /* Verde ainda mais escuro no hover para manter contraste */
+}
+
+.btn-whatsapp-mobile:focus {
+  outline: 2px solid #0d7a3a; /* Cor atualizada para match com background */
+  outline-offset: 2px;
+}
+
+/* Media Query - Desktop */
+@media (min-width: 1024px) {
+  .nav-desktop {
+    display: flex;
+  }
+
+  .btn-whatsapp-header {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .nav-mobile {
+    display: none;
+  }
+}

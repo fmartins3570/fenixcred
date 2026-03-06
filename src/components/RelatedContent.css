@@ -1,0 +1,136 @@
+/* RelatedContent - Links Internos Automáticos */
+
+.related-content {
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(253, 177, 71, 0.1);
+  margin-top: 2rem;
+}
+
+.related-content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.related-content-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fdb147;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.related-content-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.related-content-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.related-content-item {
+  margin: 0;
+  padding: 0;
+}
+
+.related-content-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(253, 177, 71, 0.1);
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s ease;
+  min-height: 100px;
+}
+
+.related-content-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(253, 177, 71, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(253, 177, 71, 0.15);
+}
+
+.related-content-link-icon {
+  font-size: 1.5rem;
+  color: #fdb147;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  margin-top: 0.25rem;
+}
+
+.related-content-link:hover .related-content-link-icon {
+  transform: translateX(5px);
+}
+
+.related-content-link-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.related-content-link-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #fdb147;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.related-content-link-description {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  display: block;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .related-content-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .related-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .related-content-title {
+    font-size: 1.5rem;
+  }
+
+  .related-content-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .related-content-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .related-content-link {
+    padding: 1.25rem;
+    min-height: auto;
+  }
+
+  .related-content-link-title {
+    font-size: 1rem;
+  }
+
+  .related-content-link-description {
+    font-size: 0.85rem;
+  }
+}

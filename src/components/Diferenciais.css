@@ -1,0 +1,165 @@
+/* Diferenciais - Section */
+
+.diferenciais {
+  padding: 5rem 2rem;
+  background: linear-gradient(180deg, #050528 0%, #0a0a3a 50%, #050528 100%);
+  color: white;
+  position: relative;
+}
+
+.diferenciais::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(253, 177, 71, 0.2), transparent);
+}
+
+.diferenciais-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.diferenciais-heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fdb147;
+  text-align: center;
+  margin-bottom: 4rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.diferenciais-carousel {
+  position: relative;
+}
+
+.carousel-wrapper {
+  overflow: hidden;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 1.5rem;
+}
+
+.diferencial-card {
+  min-width: calc(33.333% - 1rem);
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 2.5rem 2rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.diferencial-card:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(253, 177, 71, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fdb147;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.card-description {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.carousel-btn {
+  background: rgba(253, 177, 71, 0.08);
+  border: 1.5px solid rgba(253, 177, 71, 0.25);
+  color: #fdb147;
+  min-width: 48px;
+  min-height: 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+.carousel-btn:focus {
+  outline: 2px solid #fdb147;
+  outline-offset: 2px;
+}
+
+.carousel-btn:hover {
+  background: linear-gradient(135deg, #FDB147 0%, #f09819 100%);
+  color: #050528;
+  border-color: transparent;
+  transform: scale(1.08);
+}
+
+.carousel-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .diferencial-card {
+    min-width: calc(50% - 0.75rem);
+  }
+
+  .carousel-track {
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .diferenciais {
+    padding: 3rem 1.5rem;
+  }
+
+  .diferenciais-heading {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .diferencial-card {
+    min-width: 100%;
+  }
+
+  .carousel-track {
+    gap: 1rem;
+  }
+
+  .diferencial-card {
+    padding: 2rem 1.5rem;
+  }
+}

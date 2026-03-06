@@ -1,0 +1,327 @@
+/* Hero - Fundo escuro, layout 2 colunas */
+
+.hero {
+  position: relative;
+  background: #050528;
+  color: white;
+  padding: 120px 0 100px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  margin-top: 70px;
+  overflow: hidden;
+}
+
+/* Subtle radial background */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(253, 177, 71, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(253, 177, 71, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* Left Column - Text */
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: heroFadeInUp 0.8s ease-out;
+}
+
+@keyframes heroFadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.15) 0%, rgba(253, 177, 71, 0.05) 100%);
+  border: 1px solid rgba(253, 177, 71, 0.25);
+  border-radius: 50px;
+  color: #FDB147;
+  font-weight: 600;
+  font-size: 0.85rem;
+  width: fit-content;
+  letter-spacing: 0.01em;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #fdb147;
+  line-height: 1.12;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.hero-subheadline {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  margin: 0.5rem 0;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 500px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Primary Button - WhatsApp Green Gradient */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
+  color: #ffffff;
+  border: none;
+  padding: 1.1rem 2.25rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 48px;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  background-size: 200% 100%;
+  animation: btnShimmer 3s infinite;
+  border-radius: inherit;
+}
+
+@keyframes btnShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-primary:focus {
+  outline: 3px solid #25d366;
+  outline-offset: 3px;
+}
+
+.btn-primary:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn-primary svg {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Secondary Button - Gold Accent */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #fdb147;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(253, 177, 71, 0.2);
+  background: rgba(253, 177, 71, 0.05);
+}
+
+.btn-secondary:hover {
+  color: #fdc567;
+  background: rgba(253, 177, 71, 0.1);
+  border-color: rgba(253, 177, 71, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:focus {
+  outline: 2px solid var(--primary-yellow);
+  outline-offset: 2px;
+  border-radius: 9999px;
+}
+
+.btn-secondary:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn-secondary svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s;
+}
+
+.btn-secondary:hover svg {
+  transform: translateX(4px);
+}
+
+/* Right Column - Image behind Frame */
+.hero-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: heroFadeIn 1s ease-out 0.2s both;
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 560px;
+}
+
+/* Frame overlay - sits ON TOP of the image */
+.hero-circle {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 30%, transparent 70%, rgba(5,5,40,0.6) 100%);
+  z-index: 3;
+  pointer-events: none;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(253, 177, 71, 0.1);
+}
+
+/* Golden accent line at top of frame */
+.hero-circle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(253, 177, 71, 0.6), transparent);
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+/* Image container - sits BEHIND the frame, bottom aligned */
+.hero-person {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.hero-model-image {
+  width: 115%;
+  height: 115%;
+  object-fit: contain;
+  object-position: center bottom;
+  border-radius: 0;
+  position: relative;
+  filter: none;
+  max-width: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .hero-image {
+    order: -1;
+  }
+
+  .hero-image-wrapper {
+    max-width: 360px;
+    height: 440px;
+  }
+
+  .hero-text {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 80px 0 60px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-image-wrapper {
+    max-width: 280px;
+    height: 360px;
+  }
+
+}

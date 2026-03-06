@@ -1,0 +1,238 @@
+/* How It Works Section */
+
+.how-it-works-clt {
+  padding: 5rem 0;
+  background: #050528;
+  position: relative;
+}
+
+.how-it-works-clt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(253, 177, 71, 0.2), transparent);
+}
+
+.how-it-works-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.how-it-works-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.how-it-works-badge {
+  display: inline-block;
+  padding: 0.35rem 1.25rem;
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.12) 0%, rgba(253, 177, 71, 0.04) 100%);
+  border: 1px solid rgba(253, 177, 71, 0.2);
+  color: #FDB147;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 9999px;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.how-it-works-title {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.how-it-works-title-highlight {
+  color: #FDB147;
+}
+
+@media (min-width: 768px) {
+  .how-it-works-title {
+    font-size: 2.75rem;
+  }
+}
+
+.how-it-works-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.how-it-works-timeline {
+  position: relative;
+}
+
+/* Timeline connector line */
+.how-it-works-line {
+  display: none;
+  position: absolute;
+  top: 56px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: rgba(253, 177, 71, 0.12);
+  z-index: 1;
+}
+
+.how-it-works-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, #FDB147, transparent);
+  animation: timeline-flow 3s ease-in-out infinite;
+}
+
+@media (min-width: 1024px) {
+  .how-it-works-line {
+    display: block;
+  }
+}
+
+@keyframes timeline-flow {
+  0% { left: -10%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+.how-it-works-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 640px) {
+  .how-it-works-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .how-it-works-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.step-card-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.step-card {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-card:hover {
+  border-color: rgba(253, 177, 71, 0.2);
+  background-color: rgba(255, 255, 255, 0.06);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+}
+
+/* Step number badge */
+.step-number-badge {
+  position: absolute;
+  top: -14px;
+  right: -8px;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #FDB147 0%, #f09819 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #050528;
+  font-weight: 800;
+  font-size: 0.8rem;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(253, 177, 71, 0.3);
+  border: 2px solid #050528;
+}
+
+.step-icon-wrapper {
+  margin: 0 auto 1.5rem;
+}
+
+.step-icon-circle {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.15) 0%, rgba(253, 177, 71, 0.05) 100%);
+  border: 1px solid rgba(253, 177, 71, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FDB147;
+  transition: all 0.3s;
+}
+
+.step-card:hover .step-icon-circle {
+  background: linear-gradient(135deg, #FDB147 0%, #f09819 100%);
+  color: #050528;
+  border-color: transparent;
+  transform: scale(1.08);
+}
+
+.step-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.step-description {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  flex-grow: 1;
+}
+
+/* Mobile arrows */
+.step-arrow {
+  display: flex;
+  justify-content: center;
+  margin: 0.75rem 0;
+  color: rgba(253, 177, 71, 0.4);
+}
+
+@media (min-width: 1024px) {
+  .step-arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .step-arrow svg {
+    transform: rotate(90deg);
+  }
+}

@@ -1,0 +1,82 @@
+/* TrabalheConosco - Seção de oportunidades */
+
+.trabalhe-conosco {
+  padding: 5rem 2rem;
+  background: #050528;
+  color: white;
+}
+
+.trabalhe-conosco-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.trabalhe-conosco-content {
+  text-align: center;
+}
+
+.trabalhe-conosco-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.info-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2.5rem 2rem;
+  border-radius: 15px;
+  border: 1px solid rgba(253, 177, 71, 0.1);
+  transition: all 0.3s;
+}
+
+.info-card:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(253, 177, 71, 0.3);
+  transform: translateY(-5px);
+}
+
+.info-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.info-card h3 {
+  font-size: 1.5rem;
+  color: #fdb147;
+  margin-bottom: 1rem;
+}
+
+.info-card p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.trabalhe-conosco-content .btn-primary {
+  margin-top: 2rem;
+  background: #0d7a3a; /* Verde mais escuro para melhor contraste (WCAG AA: 4.5:1) */
+  color: #ffffff; /* Branco puro para máximo contraste */
+  min-height: 48px;
+}
+
+.trabalhe-conosco-content .btn-primary:hover {
+  background: #0a5d2b; /* Verde ainda mais escuro no hover para manter contraste */
+}
+
+.trabalhe-conosco-content .btn-primary:focus {
+  outline: 2px solid #0d7a3a; /* Cor atualizada para match com background */
+  outline-offset: 2px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .trabalhe-conosco {
+    padding: 3rem 1.5rem;
+  }
+
+  .trabalhe-conosco-info {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

@@ -1,0 +1,88 @@
+# robots.txt - Fênix Cred Soluções Financeiras
+# Otimizado para economizar crawl budget (bloquear 71% de recursos não-indexáveis)
+
+# Permitir todos os crawlers
+User-agent: *
+# Permitir todas as páginas HTML e rotas principais
+Allow: /
+
+# ============================================
+# BLOQUEAR ASSETS PARA ECONOMIZAR CRAWL BUDGET
+# ============================================
+
+# Bloquear arquivos JavaScript individuais
+Disallow: /*.js$
+
+# Bloquear arquivos CSS individuais
+Disallow: /*.css$
+
+# Bloquear arquivos JSON
+Disallow: /*.json$
+
+# Bloquear diretórios de plugins/vendor (se existirem)
+Disallow: /wp-content/plugins/
+Disallow: /wp-includes/
+Disallow: /node_modules/
+Disallow: /vendor/
+Disallow: /plugins/
+
+# Bloquear diretórios de build/static (Next.js, Vite, etc)
+Disallow: /_next/static/
+Disallow: /_next/data/
+Disallow: /static/
+Disallow: /build/
+
+# Bloquear arquivos de fonte (já servidos com CORS)
+Disallow: /*.woff$
+Disallow: /*.woff2$
+Disallow: /*.ttf$
+Disallow: /*.eot$
+Disallow: /*.otf$
+
+# Bloquear arquivos de imagem individuais (opcional - descomente se necessário)
+# Disallow: /*.jpg$
+# Disallow: /*.jpeg$
+# Disallow: /*.png$
+# Disallow: /*.gif$
+# Disallow: /*.svg$
+# Disallow: /*.webp$
+
+# ============================================
+# BLOQUEAR ADMIN/API
+# ============================================
+
+# Bloquear rotas de administração
+Disallow: /admin
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /cache/
+
+# Bloquear rotas de API
+Disallow: /api/
+Disallow: /api
+
+# ============================================
+# CONFIGURAÇÕES ESPECÍFICAS
+# ============================================
+
+# Configurações específicas para Google
+User-agent: Googlebot
+Allow: /
+# Permitir acesso ao sitemap e robots.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# Configurações específicas para Bing
+User-agent: Bingbot
+Allow: /
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# ============================================
+# SITEMAP
+# ============================================
+
+# Localização do sitemap
+Sitemap: https://fenixcredbr.com.br/sitemap.xml

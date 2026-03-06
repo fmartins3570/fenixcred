@@ -1,0 +1,60 @@
+/* Section Divider - Subtle golden line */
+
+.section-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.divider-line {
+  width: 60%;
+  height: 1px;
+  margin: 0 auto;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(253, 177, 71, 0.25) 30%,
+    rgba(253, 177, 71, 0.4) 50%,
+    rgba(253, 177, 71, 0.25) 70%,
+    transparent 100%
+  );
+  position: relative;
+  z-index: 1;
+}
+
+.divider-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 12px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(253, 177, 71, 0.15) 0%,
+    rgba(253, 177, 71, 0.05) 50%,
+    transparent 80%
+  );
+  filter: blur(8px);
+  z-index: 0;
+}
+
+.divider-glow::before {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .divider-line {
+    width: 80%;
+  }
+
+  .divider-glow {
+    width: 60%;
+    height: 8px;
+    filter: blur(6px);
+  }
+}

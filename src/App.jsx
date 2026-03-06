@@ -54,7 +54,13 @@ function App() {
   useEffect(() => {
     const pathname = window.location.pathname;
 
-    // Verifica o pathname para landing page CLT
+    // Verifica o pathname para landing page CLT personalizada (com popup + greeting)
+    if (pathname === "/page-credito-clt-personalizado" || pathname === "/page-credito-clt-personalizado/") {
+      setCurrentPage("credito-clt-personalizado");
+      return;
+    }
+
+    // Verifica o pathname para landing page CLT (sem popup)
     if (pathname === "/page-credito-clt" || pathname === "/page-credito-clt/") {
       setCurrentPage("credito-clt");
       return;
@@ -83,6 +89,11 @@ function App() {
     // Escuta mudanças no pathname e hash
     const handleLocationChange = () => {
       const newPathname = window.location.pathname;
+      if (newPathname === "/page-credito-clt-personalizado" || newPathname === "/page-credito-clt-personalizado/") {
+        setCurrentPage("credito-clt-personalizado");
+        return;
+      }
+
       if (newPathname === "/page-credito-clt" || newPathname === "/page-credito-clt/") {
         setCurrentPage("credito-clt");
         return;
@@ -114,7 +125,26 @@ function App() {
     };
   }, []);
 
-  // Se estiver na landing page de crédito CLT
+  // Landing page CLT personalizada (com popup de captura + greeting)
+  if (currentPage === "credito-clt-personalizado") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <CreditoCLT personalized />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // Landing page CLT padrão (sem popup, sem personalização)
   if (currentPage === "credito-clt") {
     return (
       <div className="App">

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Página Principal -->
+  <url>
+    <loc>https://fenixcredbr.com.br/</loc>
+    <lastmod>2026-02-25T15:35:57.795Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://fenixcredbr.com.br/assets/logo-fenix-cred.webp</image:loc>
+      <image:title>Fênix Cred - Soluções Financeiras</image:title>
+    </image:image>
+  </url>
+
+  <!-- Seção Home/Início -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#inicio</loc>
+    <lastmod>2026-02-25T15:35:57.795Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Seção Sobre Nós -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#sobre</loc>
+    <lastmod>2026-01-16T15:08:49.164Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Seção Serviços -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#servicos</loc>
+    <lastmod>2026-01-16T15:08:49.164Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- Seção Avaliações/Depoimentos -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#depoimentos</loc>
+    <lastmod>2026-02-25T15:36:12.823Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Seção Parceiros -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#parceiros</loc>
+    <lastmod>2025-12-22T17:19:22.535Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Seção FAQ -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#faq</loc>
+    <lastmod>2026-01-16T15:08:49.164Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Seção Trabalhe Conosco -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#trabalhe-conosco</loc>
+    <lastmod>2026-01-12T18:50:31.932Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Política de Privacidade -->
+  <url>
+    <loc>https://fenixcredbr.com.br/#politica-privacidade</loc>
+    <lastmod>2025-12-22T18:23:36.657Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.50</priority>
+  </url>
+
+</urlset>

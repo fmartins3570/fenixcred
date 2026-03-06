@@ -6,18 +6,11 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-
+    
     # Redirecionar HTTP para HTTPS
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-    # Servir arquivos da pasta dist/ (deploy via Git)
-    # Se não é um arquivo/pasta existente na raiz, buscar em dist/
-    RewriteCond %{REQUEST_URI} !^/dist/
-    RewriteCond %{DOCUMENT_ROOT}/dist%{REQUEST_URI} -f [OR]
-    RewriteCond %{DOCUMENT_ROOT}/dist%{REQUEST_URI} -d
-    RewriteRule ^(.*)$ /dist/$1 [L]
-
+    
     # Redirecionar www para não-www (ou vice-versa, ajustar conforme preferência)
     # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
     # RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
@@ -121,21 +114,6 @@
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-XSS-Protection "1; mode=block"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    
-    # CSP - Content Security Policy (segurança XSS)
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;"
-    
-    # HSTS - HTTP Strict Transport Security (força HTTPS)
-    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-    
-    # COOP - Cross-Origin-Opener-Policy (isolamento de origem)
-    Header always set Cross-Origin-Opener-Policy "same-origin"
-    
-    # COEP - Cross-Origin-Embedder-Policy
-    Header always set Cross-Origin-Embedder-Policy "require-corp"
-    
-    # CORP - Cross-Origin-Resource-Policy
-    Header always set Cross-Origin-Resource-Policy "same-origin"
 </IfModule>
 
 # ============================================
@@ -166,16 +144,10 @@ CustomLog /dev/null combined env=dontlog
 # ============================================
 
 <IfModule mod_rewrite.c>
-    # Redirecionar rotas do SPA diretamente para o index.html
-    RewriteRule ^page-credito-clt-personalizado/?$ /dist/index.html [L]
-    RewriteRule ^page-credito-clt/?$ /dist/index.html [L]
-    RewriteRule ^politica-privacidade/?$ /dist/index.html [L]
-    RewriteRule ^exclusao-de-dados/?$ /dist/index.html [L]
-
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /dist/index.html [L]
+    RewriteRule . /index.html [L]
 </IfModule>
 
 # ============================================

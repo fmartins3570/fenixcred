@@ -1,0 +1,381 @@
+/* Hero Section - Landing Page Credito CLT */
+
+.hero-clt {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: #050528;
+  overflow: hidden;
+  padding: 100px 0 100px;
+  margin-top: 40px;
+}
+
+/* Animated gradient background */
+.hero-clt-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(253, 177, 71, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(253, 177, 71, 0.03) 0%, transparent 50%),
+    linear-gradient(to bottom right, #050528, #030318);
+}
+
+.hero-clt-decoration-1 {
+  position: absolute;
+  top: 60px;
+  right: -40px;
+  width: 400px;
+  height: 400px;
+  background: rgba(253, 177, 71, 0.04);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.hero-clt-decoration-2 {
+  position: absolute;
+  bottom: 40px;
+  left: -60px;
+  width: 500px;
+  height: 500px;
+  background: rgba(253, 177, 71, 0.025);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.hero-clt-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-clt-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-clt-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3rem;
+  }
+}
+
+/* Left Column - Content */
+.hero-clt-content {
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@media (min-width: 1024px) {
+  .hero-clt-content {
+    text-align: left;
+  }
+}
+
+.hero-clt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.15) 0%, rgba(253, 177, 71, 0.05) 100%);
+  border: 1px solid rgba(253, 177, 71, 0.25);
+  color: #FDB147;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 9999px;
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.01em;
+}
+
+.hero-clt-badge--personalized {
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.12), rgba(37, 211, 102, 0.03));
+  border-color: rgba(37, 211, 102, 0.25);
+  color: #25d366;
+}
+
+.hero-clt-badge--personalized svg {
+  flex-shrink: 0;
+}
+
+/* Extra purpose tags */
+.hero-clt-extra-purposes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hero-clt-extra-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.hero-clt-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.12;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+
+.hero-clt-title-highlight {
+  color: #FDB147;
+  position: relative;
+}
+
+.hero-clt-title-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(253, 177, 71, 0.3);
+  border-radius: 2px;
+}
+
+@media (min-width: 640px) {
+  .hero-clt-title {
+    font-size: 3.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-clt-title {
+    font-size: 3.75rem;
+  }
+}
+
+.hero-clt-subheadline {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 2.25rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-clt-subheadline strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .hero-clt-subheadline {
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 1.15rem;
+  }
+}
+
+/* CTA */
+.hero-clt-cta {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-clt-cta {
+    justify-content: flex-start;
+  }
+}
+
+.btn-whatsapp-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
+  color: #ffffff;
+  border: none;
+  padding: 1.1rem 2.25rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 56px;
+  box-shadow:
+    0 4px 15px rgba(37, 211, 102, 0.3),
+    0 0 0 0 rgba(37, 211, 102, 0);
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-whatsapp-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+  border-radius: inherit;
+}
+
+.btn-whatsapp-hero:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 8px 30px rgba(37, 211, 102, 0.4),
+    0 0 0 4px rgba(37, 211, 102, 0.1);
+}
+
+.btn-whatsapp-hero:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-whatsapp-hero:focus {
+  outline: 3px solid #25d366;
+  outline-offset: 3px;
+}
+
+.whatsapp-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .whatsapp-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .btn-whatsapp-hero {
+    font-size: 1.125rem;
+    padding: 1.25rem 2.5rem;
+  }
+}
+
+/* Trust Badges */
+.hero-clt-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+@media (min-width: 1024px) {
+  .hero-clt-trust {
+    justify-content: flex-start;
+  }
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  transition: all 0.3s;
+}
+
+.trust-badge:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(253, 177, 71, 0.2);
+}
+
+.trust-badge-icon {
+  color: #FDB147;
+  display: flex;
+  align-items: center;
+}
+
+.trust-badge-text {
+  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+/* Right Column - Image behind Frame */
+.hero-clt-image-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  height: 660px;
+  margin: 0 auto;
+  animation: fadeIn 1s ease-out 0.2s both;
+}
+
+/* Frame overlay - sits ON TOP of the image */
+.hero-clt-circle {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 30%, transparent 70%, rgba(5,5,40,0.6) 100%);
+  z-index: 3;
+  pointer-events: none;
+  filter: none;
+  width: auto;
+  height: auto;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(253, 177, 71, 0.1);
+}
+
+/* Golden accent line at top of frame */
+.hero-clt-circle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(253, 177, 71, 0.6), transparent);
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+/* Image - sits BEHIND the frame, bottom aligned */
+.hero-clt-model-image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: none;
+  z-index: 1;
+}
+
+@media (max-width: 1024px) {
+  .hero-clt-image-wrapper {
+    max-width: 360px;
+    height: 460px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-clt-image-wrapper {
+    max-width: 300px;
+    height: 380px;
+  }
+
+}

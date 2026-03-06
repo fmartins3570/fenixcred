@@ -1,0 +1,60 @@
+/* Logo - Componente reutilizável do logo */
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Placeholder temporário - será removido quando o logo real for adicionado */
+.logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  padding: 0.5rem 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Tamanhos do logo */
+.logo-small {
+  max-height: 40px;
+}
+
+.logo-medium {
+  max-height: 60px;
+}
+
+.logo-large {
+  max-height: 100px;
+}
+
+.logo-xlarge {
+  max-height: 150px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .logo-medium {
+    max-height: 50px;
+  }
+
+  .logo-large {
+    max-height: 80px;
+  }
+
+  .logo-xlarge {
+    max-height: 120px;
+  }
+}
+

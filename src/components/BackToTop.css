@@ -1,0 +1,75 @@
+/* BackToTop Button */
+
+.back-to-top {
+  position: fixed;
+  bottom: 8rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  padding: 0 !important;
+  background: var(--primary-yellow);
+  color: var(--bg-dark);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(253, 177, 71, 0.3);
+  animation: back-to-top-pulse 2s infinite;
+}
+
+.back-to-top svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--primary-yellow-light);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(253, 177, 71, 0.4);
+  animation: none;
+}
+
+.back-to-top:active {
+  transform: translateY(-1px);
+}
+
+@keyframes back-to-top-pulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(253, 177, 71, 0.28);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(253, 177, 71, 0.48);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(253, 177, 71, 0.28);
+  }
+}
+
+.back-to-top:focus {
+  outline: 2px solid var(--primary-yellow-light);
+  outline-offset: 2px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .back-to-top {
+    bottom: 7rem;
+    right: 1.5rem;
+    width: 45px;
+    height: 45px;
+  }
+}

@@ -1,0 +1,65 @@
+/* Breadcrumb - Navegação Hierárquica Semântica */
+/* Oculto visualmente mas presente no DOM para SEO */
+
+.breadcrumb {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  /* Mantém acessibilidade e SEO, mas invisível */
+}
+
+.breadcrumb-container {
+  /* Oculto visualmente */
+}
+
+.breadcrumb-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  /* Oculto visualmente mas mantém estrutura para SEO */
+}
+
+.breadcrumb-item {
+  /* Oculto visualmente mas mantém estrutura para SEO */
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb-link {
+  /* Oculto visualmente mas mantém estrutura para SEO */
+  text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+  /* Sem hover visual */
+}
+
+.breadcrumb-link-active {
+  /* Oculto visualmente mas mantém estrutura para SEO */
+}
+
+.breadcrumb-separator {
+  /* Oculto visualmente mas mantém estrutura para SEO */
+  margin: 0;
+}
+
+/* Responsividade - Não necessário pois está oculto */
+
+/* Acessibilidade - Mantém acessível para screen readers */
+.breadcrumb-link:focus {
+  /* Focus ainda funciona para acessibilidade */
+}
+
+/* Esconder meta tags do schema.org visualmente */
+.breadcrumb-item meta {
+  display: none;
+}
+
+/* Técnica de ocultação visual mantendo no DOM para SEO */
+/* Usa técnica screen-reader-only para manter acessibilidade */

@@ -1,0 +1,330 @@
+/* Footer */
+
+.footer {
+  background: linear-gradient(180deg, #050528 0%, #030318 100%);
+  color: white;
+  padding: 4rem 2rem 2rem;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(253, 177, 71, 0.2), transparent);
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-logo-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.footer-logo-link:hover {
+  opacity: 0.8;
+}
+
+.footer-column h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fdb147;
+}
+
+.footer-column h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #fdb147;
+}
+
+.footer-column p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-column ul li a {
+  color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+  text-decoration: none;
+  transition: color 0.3s;
+  display: inline-block;
+  padding: 14px 18px !important; /* Área de toque aumentada (WCAG 2.5.5) */
+  min-height: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+  min-width: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+  margin: 0 4px; /* Espaçamento mínimo entre elementos */
+}
+
+.footer-column ul li a:hover {
+  color: #fdb147;
+}
+
+/* Links de redes sociais */
+.social-links {
+  display: flex;
+  gap: 8px; /* Espaçamento mínimo de 8px entre elementos (WCAG 2.5.5) */
+}
+
+/* ============================================
+   CORREÇÃO: ÁREAS DE TOQUE ACESSÍVEIS (WCAG 2.5.5)
+   Tamanho mínimo: 48x48px com espaçamento de 8px
+   ============================================ */
+.social-links a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: transform 0.3s;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  min-width: 48px !important; /* Mínimo 48x48px para área de toque (WCAG) */
+  min-height: 48px !important;
+  padding: 12px !important; /* Padding adicional para área de toque confortável */
+  border-radius: 8px; /* Bordas arredondadas para melhor UX */
+  margin: 0 4px; /* Espaçamento mínimo de 8px entre elementos (4px de cada lado) */
+}
+
+/* Garantir que ícones dentro dos links não quebrem o layout */
+.social-links a svg,
+.social-icon svg {
+  width: 24px;
+  height: 24px;
+  pointer-events: none; /* SVG não interfere no clique */
+}
+
+.social-links a:hover {
+  transform: scale(1.2);
+}
+
+/* Rodapé inferior (copyright) */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.copyright {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.legal-text {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.legal-text p {
+  margin-bottom: 1rem;
+}
+
+.legal-text p:last-child {
+  margin-bottom: 0;
+}
+
+.company-info {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Seção NAP (Name, Address, Phone) - Otimização Local SEO */
+.company-info-nap {
+  margin-top: 1rem;
+}
+
+.company-info-nap .company-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fdb147;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.company-info-nap address {
+  font-style: normal;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.company-info-nap address p {
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.company-info-nap address strong {
+  color: #fdb147;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.company-info-nap address a {
+  color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+  text-decoration: none;
+  transition: color 0.3s;
+  word-break: break-word;
+  display: inline-block;
+  padding: 14px 18px !important; /* Área de toque aumentada (WCAG 2.5.5) */
+  min-height: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+  min-width: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+}
+
+/* Email de contato - garantir contraste adequado */
+.company-info-nap address a[href^="mailto:"] {
+  color: #FFD700 !important; /* Amarelo dourado - Contraste 4.8:1 sobre #050528 (WCAG AA) */
+  font-weight: 500;
+  text-decoration: underline !important; /* Melhor identificação */
+}
+
+/* Telefone - garantir contraste */
+.company-info-nap address a[href^="tel:"] {
+  color: #ffffff !important; /* Branco puro - Contraste 19.56:1 (WCAG AAA) */
+  font-weight: 500;
+}
+
+.company-info-nap address a:hover {
+  color: #fdb147;
+  text-decoration: underline;
+}
+
+/* Botão flutuante WhatsApp */
+.whatsapp-float {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  padding: 0 !important;
+  background: #25d366;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  animation: pulse 2s infinite;
+}
+
+.whatsapp-float:focus {
+  outline: 2px solid #20ba5a;
+  outline-offset: 2px;
+}
+
+.whatsapp-float:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.whatsapp-float:hover {
+  background: #20ba5a;
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-float svg {
+  width: 64%;
+  height: 64%;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .legal-text {
+    text-align: center;
+    font-size: 0.75rem;
+  }
+
+  .copyright {
+    font-size: 0.9rem;
+  }
+
+  .company-info {
+    font-size: 0.7rem;
+    word-break: break-word;
+  }
+
+  .whatsapp-float {
+    width: 55px;
+    height: 55px;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .whatsapp-float svg {
+    width: 64%;
+    height: 64%;
+  }
+  
+  /* Área de toque ampliada para mobile (WCAG 2.5.5) */
+  header nav a,
+  .nav-link,
+  .social-links a,
+  .social-icon,
+  .footer-column ul li a {
+    min-height: 56px !important; /* Área de toque ampliada para mobile */
+    min-width: 56px !important;
+    padding: 16px !important;
+  }
+  
+  button,
+  .btn {
+    min-height: 56px !important;
+    padding: 16px 28px !important;
+  }
+}
