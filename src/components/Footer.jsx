@@ -1,5 +1,6 @@
 import "./Footer.css";
 import Logo from "./Logo";
+import { trackEvent, trackCustomEvent } from '../utils/metaPixel';
 
 /**
  * Componente Footer - Rodapé do site
@@ -8,6 +9,7 @@ import Logo from "./Logo";
  */
 function Footer() {
   const openWhatsApp = () => {
+    trackEvent('Contact', { content_name: 'Footer WhatsApp Float', content_category: 'whatsapp' })
     window.open(
       "https://api.whatsapp.com/send?phone=5511917082143&text=Ol%C3%A1%2C%20gostaria%20de%20simular%20o%20cr%C3%A9dito%20para%20o%20CLT.",
       "_blank"
@@ -35,6 +37,7 @@ function Footer() {
                 rel="noopener noreferrer"
                 aria-label="Facebook da Fênix Cred"
                 className="social-icon"
+                onClick={() => trackCustomEvent('SocialClick', { platform: 'facebook' })}
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.8-3.89 1.1 0 2.25.2 2.25.2v2.46h-1.27c-1.25 0-1.64.78-1.64 1.58V12h2.79l-.45 2.89h-2.34v6.99A10 10 0 0 0 22 12Z" />
@@ -46,6 +49,7 @@ function Footer() {
                 rel="noopener noreferrer"
                 aria-label="Instagram da Fênix Cred"
                 className="social-icon"
+                onClick={() => trackCustomEvent('SocialClick', { platform: 'instagram' })}
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Zm5.5-2.2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z" />
@@ -57,6 +61,7 @@ function Footer() {
                 rel="noopener noreferrer"
                 aria-label="TikTok da Fênix Cred"
                 className="social-icon"
+                onClick={() => trackCustomEvent('SocialClick', { platform: 'tiktok' })}
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M14.5 3c.3 1.8 1.4 3.3 3 4.2 1 .5 2 .8 3.2.8v3a9.4 9.4 0 0 1-4.2-1v6.2a6.2 6.2 0 1 1-6.2-6.2c.3 0 .6 0 .9.1v3.1a3.2 3.2 0 1 0 2.3 3V3h3Z" />
@@ -146,6 +151,7 @@ function Footer() {
                   <a
                     href="tel:+5511917082143"
                     aria-label="Ligar para (11) 91708-2143"
+                    onClick={() => trackEvent('Contact', { content_name: 'Footer Telefone', content_category: 'phone' })}
                   >
                     (11) 91708-2143
                   </a>
@@ -156,6 +162,7 @@ function Footer() {
                   <a
                     href="mailto:contato@fenixcredbr.com.br"
                     aria-label="Enviar email para contato@fenixcredbr.com.br"
+                    onClick={() => trackEvent('Contact', { content_name: 'Footer Email', content_category: 'email' })}
                   >
                     contato@fenixcredbr.com.br
                   </a>

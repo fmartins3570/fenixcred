@@ -1,4 +1,5 @@
 import "./Hero.css";
+import { trackEvent } from '../utils/metaPixel'
 // Imports das versões responsivas otimizadas
 // Versões normais (1x) para telas padrão
 import modeloImage400w from "../assets/modelo_fenix_cred-400w.webp";
@@ -21,6 +22,7 @@ import modeloImage1050wp2 from "../assets/modelo_fenix_cred-1050wp2.webp";
  */
 function Hero() {
   const openWhatsApp = () => {
+    trackEvent('Contact', { content_name: 'Hero WhatsApp', content_category: 'whatsapp' })
     window.open(
       "https://api.whatsapp.com/send?phone=5511917082143&text=Ol%C3%A1%2C%20gostaria%20de%20simular%20o%20cr%C3%A9dito%20para%20o%20CLT.",
       "_blank"

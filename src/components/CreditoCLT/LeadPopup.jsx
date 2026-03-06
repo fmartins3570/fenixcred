@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useLeadData } from '../../hooks/credito-clt/useLeadData'
+import { trackEvent, trackCustomEvent } from '../../utils/metaPixel'
 import './LeadPopup.css'
 
 export const PURPOSES = [
@@ -33,18 +34,26 @@ export default function LeadPopup() {
 
   useEffect(() => {
     if (isCaptured || sessionStorage.getItem(SESSION_KEY)) return
-    const timer = setTimeout(() => setOpen(true), 500)
+    const timer = setTimeout(() => {
+      setOpen(true)
+      trackCustomEvent('LeadPopupView', {})
+    }, 500)
     return () => clearTimeout(timer)
   }, [isCaptured])
+
+  const dismissPopup = useCallback(() => {
+    trackCustomEvent('LeadPopupDismissed', { step })
+    setOpen(false)
+  }, [step])
 
   useEffect(() => {
     if (!open) return
     const handleEsc = (e) => {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key === 'Escape') dismissPopup()
     }
     document.addEventListener('keydown', handleEsc)
     return () => document.removeEventListener('keydown', handleEsc)
-  }, [open])
+  }, [open, dismissPopup])
 
   useEffect(() => {
     if (open) {
@@ -72,6 +81,7 @@ export default function LeadPopup() {
   const handleStep1Submit = (e) => {
     e.preventDefault()
     if (!validateStep1()) return
+    trackEvent('Lead', { content_name: 'LeadPopup Step1', value: 0, currency: 'BRL' })
     setStep(2)
   }
 
@@ -82,6 +92,7 @@ export default function LeadPopup() {
   }
 
   const finishCapture = (selectedPurposes) => {
+    trackEvent('CompleteRegistration', { content_name: 'LeadPopup Complete', status: true })
     const leadData = {
       name: name.trim(),
       phone: phone.replace(/\D/g, ''),
@@ -107,10 +118,10 @@ export default function LeadPopup() {
 
   return (
     <div className="lead-overlay" role="dialog" aria-modal="true" aria-label="Simule seu crédito CLT">
-      <div className="lead-overlay-bg" onClick={() => setOpen(false)} />
+      <div className="lead-overlay-bg" onClick={dismissPopup} />
 
       <div className="lead-modal">
-        <button className="lead-close" onClick={() => setOpen(false)} aria-label="Fechar">
+        <button className="lead-close" onClick={dismissPopup} aria-label="Fechar">
           ✕
         </button>
 

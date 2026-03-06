@@ -10,6 +10,7 @@ import SchemaJSON from "../SchemaJSON";
 import HeaderCLT from "./HeaderCLT";
 import BackToTop from "../BackToTop";
 import LeadPopup from "./LeadPopup";
+import { trackEvent } from "../../utils/metaPixel";
 import "./index.css";
 
 /**
@@ -47,6 +48,7 @@ export default function CreditoCLT({ personalized = false }) {
 
 function WhatsAppFloatingButton() {
   const handleClick = () => {
+    trackEvent('Contact', { content_name: 'WhatsApp Float CLT', content_category: 'whatsapp' })
     const message = encodeURIComponent(
       "Olá! Gostaria de simular um crédito consignado CLT.",
     );

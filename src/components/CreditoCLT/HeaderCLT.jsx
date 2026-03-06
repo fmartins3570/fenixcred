@@ -1,5 +1,6 @@
 import Logo from '../Logo'
 import '../Header.css'
+import { trackEvent } from '../../utils/metaPixel'
 
 /**
  * Header simplificado para landing pages CLT
@@ -7,6 +8,7 @@ import '../Header.css'
  */
 export default function HeaderCLT() {
   const openWhatsApp = () => {
+    trackEvent('Contact', { content_name: 'Header CLT WhatsApp', content_category: 'whatsapp' })
     window.open(
       'https://api.whatsapp.com/send?phone=5511917082143&text=Ol%C3%A1%2C%20gostaria%20de%20simular%20o%20cr%C3%A9dito%20para%20o%20CLT.',
       '_blank'

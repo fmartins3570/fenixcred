@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./FAQ.css";
 import RelatedContent from "./RelatedContent";
+import { trackCustomEvent } from '../utils/metaPixel';
 
 /**
  * Componente FAQ - Seção de perguntas frequentes
@@ -62,6 +63,9 @@ function FAQ() {
   ];
 
   const toggleFAQ = (index) => {
+    if (openIndex !== index) {
+      trackCustomEvent('FAQ_Open', { question: faqs[index].pergunta })
+    }
     setOpenIndex(openIndex === index ? null : index);
   };
 

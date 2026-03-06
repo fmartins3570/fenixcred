@@ -1,4 +1,5 @@
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
+import { trackEvent } from '../../utils/metaPixel'
 
 /**
  * Hook para integração com WhatsApp
@@ -6,7 +7,8 @@ import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 export function useWhatsApp() {
   const phoneNumber = WHATSAPP_NUMBER
 
-  const openWhatsApp = (message = 'Olá, gostaria de simular um crédito CLT') => {
+  const openWhatsApp = (message = 'Olá, gostaria de simular um crédito CLT', trackingName = 'WhatsApp CLT') => {
+    trackEvent('Contact', { content_name: trackingName, content_category: 'whatsapp' })
     const encodedMessage = encodeURIComponent(message)
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
     window.open(url, '_blank', 'noopener,noreferrer')

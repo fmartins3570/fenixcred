@@ -1,5 +1,6 @@
 import './Services.css'
 import RelatedContent from './RelatedContent'
+import { trackEvent } from '../utils/metaPixel'
 
 /**
  * Componente Services - Seção de serviços oferecidos
@@ -56,7 +57,7 @@ function Services() {
               <div className="service-icon" aria-label={`Ícone de ${service.title} – ${service.title} em São Paulo`}>{service.icon}</div>
               <h3 className="service-title">{service.title}</h3>
               <p className="service-description">{service.description}</p>
-              <a href="#contato" className="service-link">
+              <a href="#contato" className="service-link" onClick={() => trackEvent('ViewContent', { content_name: service.title })}>
                 {service.linkText} →
               </a>
             </div>
