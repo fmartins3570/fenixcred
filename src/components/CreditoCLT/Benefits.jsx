@@ -1,11 +1,9 @@
 import { benefits } from '../../utils/credito-clt/constants'
+import { useViewContent } from '../../hooks/useViewContent'
 import './Benefits.css'
 
-/**
- * Benefits Section
- * Grid de 6 benefícios com ícones
- */
 export default function Benefits() {
+  const sectionRef = useViewContent('Benefits')
   const iconMap = {
     TrendingDown: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -40,7 +38,7 @@ export default function Benefits() {
   }
 
   return (
-    <section id="beneficios-clt" className="benefits-clt">
+    <section id="beneficios-clt" className="benefits-clt" ref={sectionRef}>
       <div className="benefits-clt-container">
         {/* Header */}
         <div className="benefits-clt-header">

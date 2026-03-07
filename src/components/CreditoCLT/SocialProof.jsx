@@ -1,4 +1,5 @@
 import { stats } from '../../utils/credito-clt/constants'
+import { useViewContent } from '../../hooks/useViewContent'
 import './SocialProof.css'
 
 const iconMap = {
@@ -26,8 +27,9 @@ const iconMap = {
  * Floating bar between Hero and Benefits showing key metrics
  */
 export default function SocialProof() {
+  const sectionRef = useViewContent('SocialProof')
   return (
-    <section className="social-proof-clt" aria-label="Resultados da Fenix Cred">
+    <section className="social-proof-clt" aria-label="Resultados da Fenix Cred" ref={sectionRef}>
       <div className="social-proof-container">
         <div className="social-proof-grid">
           {stats.map((stat, index) => (

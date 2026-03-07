@@ -1,4 +1,5 @@
 import { steps } from '../../utils/credito-clt/constants'
+import { useViewContent } from '../../hooks/useViewContent'
 import './HowItWorks.css'
 
 const iconMap = {
@@ -25,8 +26,9 @@ const iconMap = {
 }
 
 export default function HowItWorks() {
+  const sectionRef = useViewContent('HowItWorks')
   return (
-    <section id="como-funciona-clt" className="how-it-works-clt">
+    <section id="como-funciona-clt" className="how-it-works-clt" ref={sectionRef}>
       <div className="how-it-works-container">
         {/* Header */}
         <div className="how-it-works-header">
