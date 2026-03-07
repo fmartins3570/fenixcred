@@ -13,7 +13,22 @@ export const getMetaCookies = () => {
     const c = cookies.find((c) => c.startsWith(name + '='))
     return c ? decodeURIComponent(c.split('=')[1]) : ''
   }
-  return { fbc: get('_fbc'), fbp: get('_fbp') }
+
+  let fbc = get('_fbc')
+  const fbp = get('_fbp')
+
+  // Se não tem _fbc cookie mas tem fbclid na URL, gera o fbc manualmente
+  // Formato: fb.1.{timestamp}.{fbclid}
+  if (!fbc) {
+    const params = new URLSearchParams(window.location.search)
+    const fbclid = params.get('fbclid')
+    if (fbclid) {
+      fbc = `fb.1.${Date.now()}.${fbclid}`
+      document.cookie = `_fbc=${fbc}; max-age=${90 * 24 * 60 * 60}; path=/; SameSite=Lax`
+    }
+  }
+
+  return { fbc, fbp }
 }
 
 /**
