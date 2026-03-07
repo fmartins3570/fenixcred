@@ -17,65 +17,28 @@
     <meta http-equiv="Cross-Origin-Embedder-Policy" content="unsafe-none" />
     <meta http-equiv="Cross-Origin-Resource-Policy" content="cross-origin" />
     
-    <!-- Google tag (gtag.js) - Carregamento adiado para não bloquear renderização -->
-    <!-- Carrega apenas após interação do usuário ou 3s após load para reduzir tarefas longas -->
+    <!-- Google Analytics - Stub + carregamento condicional (LGPD) -->
+    <!-- GA só carrega após consentimento de cookies via CookieBanner -->
     <script>
-      (function() {
-        var gaLoaded = false;
-        
-        function loadGA() {
-          if (gaLoaded) return;
-          gaLoaded = true;
-          
-          // Carregar script do GA
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T91KB49251';
-          script.onload = function() {
-            // Dividir inicialização em chunks menores para evitar tarefa longa
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            window.gtag = gtag;
-            
-            // Usar setTimeout para quebrar tarefa longa
-            setTimeout(function() {
-              gtag('js', new Date());
-            }, 0);
-            
-            setTimeout(function() {
-              gtag('config', 'G-T91KB49251', {
-                'send_page_view': true,
-                'page_path': window.location.pathname + window.location.search,
-                'page_title': document.title
-              });
-            }, 0);
-          };
-          document.head.appendChild(script);
-        }
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ window.dataLayer.push(arguments); };
 
-        // Carregar após interação do usuário (click, scroll, touch) OU após 3s
-        var userInteracted = false;
-        var interactionEvents = ['click', 'scroll', 'touchstart', 'keydown'];
-        
-        interactionEvents.forEach(function(event) {
-          document.addEventListener(event, function() {
-            if (!userInteracted) {
-              userInteracted = true;
-              // Carregar após pequeno delay para não bloquear interação
-              setTimeout(loadGA, 100);
-            }
-          }, { once: true, passive: true });
-        });
-
-        // Fallback: carregar após 3s se usuário não interagir
-        window.addEventListener('load', function() {
-          setTimeout(function() {
-            if (!gaLoaded) {
-              loadGA();
-            }
-          }, 3000);
-        });
-      })();
+      window.__loadGA = function() {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-T91KB49251';
+        s.onload = function() {
+          window.gtag('js', new Date());
+          window.gtag('config', 'G-T91KB49251', {
+            send_page_view: true,
+            page_path: window.location.pathname + window.location.search,
+            page_title: document.title
+          });
+        };
+        document.head.appendChild(s);
+      };
     </script>
     
     <!-- Viewport otimizado para mobile-first -->
@@ -492,15 +455,23 @@
       }
     </style>
 
-    <!-- Meta Pixel (Facebook) - Pixel Fenix Cred -->
+    <!-- Meta Pixel - Stub + carregamento condicional (LGPD) -->
+    <!-- Pixel só carrega após consentimento de cookies via CookieBanner -->
     <script>
-      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-      document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '2877752735949899');
-      fbq('track', 'PageView');
+      window.fbq = function(){ (window.fbq.queue = window.fbq.queue || []).push(arguments); };
+      window._fbq = window.fbq;
+
+      window.__loadMetaPixel = function() {
+        if (window.__metaPixelLoaded) return;
+        window.__metaPixelLoaded = true;
+        !function(f,b,e,v,n,t,s){if(f.fbq&&f.fbq.loaded)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2877752735949899');
+        fbq('track', 'PageView');
+      };
     </script>
     <!-- End Meta Pixel -->
 
@@ -542,10 +513,6 @@
     </script>
   </head>
   <body>
-    <!-- Meta Pixel noscript fallback -->
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=2877752735949899&ev=PageView&noscript=1"
-    /></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

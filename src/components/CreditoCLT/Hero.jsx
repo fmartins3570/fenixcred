@@ -12,17 +12,11 @@ import modeloImage525wp2 from '../../assets/modelo_fenix_cred-525wp2 copy.webp'
 import modeloImage1050wp2 from '../../assets/modelo_fenix_cred-1050wp2 copy.webp'
 
 const PURPOSE_CONTENT = {
-  dividas: {
+  organizar: {
     badge: 'Proposta personalizada',
-    headline: 'vamos te ajudar a se livrar das dívidas',
-    subheadline: 'Com parcelas que cabem no seu bolso e desconto direto na folha, você retoma o controle financeiro sem estresse.',
-    cta: 'Quero quitar minhas dívidas',
-  },
-  contas: {
-    badge: 'Proposta personalizada',
-    headline: 'chega de contas acumulando',
-    subheadline: 'Coloque tudo em dia com condições que não pesam no orçamento. Sem burocracia, sem consulta ao SPC.',
-    cta: 'Quero colocar as contas em dia',
+    headline: 'vamos organizar suas finanças juntos',
+    subheadline: 'Com parcelas que cabem no seu bolso e desconto direto na folha, você retoma o controle financeiro com tranquilidade.',
+    cta: 'Quero organizar minhas finanças',
   },
   veiculo: {
     badge: 'Proposta personalizada',
@@ -36,12 +30,6 @@ const PURPOSE_CONTENT = {
     subheadline: 'Reforma com planejamento e parcelas fixas. Valorize seu patrimônio com as melhores condições.',
     cta: 'Quero reformar minha casa',
   },
-  saude: {
-    badge: 'Proposta personalizada',
-    headline: 'cuide do que importa sem preocupação',
-    subheadline: 'Dinheiro rápido na conta para resolver a urgência. Aprovação em minutos, sem burocracia.',
-    cta: 'Preciso resolver uma urgência',
-  },
   viagem: {
     badge: 'Proposta personalizada',
     headline: 'sua próxima viagem começa aqui',
@@ -53,6 +41,18 @@ const PURPOSE_CONTENT = {
     headline: 'invista no seu crescimento',
     subheadline: 'Capital para seu negócio com as melhores taxas do mercado. Sem comprometer o fluxo de caixa.',
     cta: 'Quero investir no meu negócio',
+  },
+  educacao: {
+    badge: 'Proposta personalizada',
+    headline: 'invista no seu futuro',
+    subheadline: 'Faculdade, pós-graduação ou cursos profissionalizantes com parcelas que cabem no seu orçamento.',
+    cta: 'Quero investir em educação',
+  },
+  projeto: {
+    badge: 'Proposta personalizada',
+    headline: 'realize seu próximo projeto',
+    subheadline: 'Crédito consignado CLT com condições especiais para tirar seus planos do papel.',
+    cta: 'Quero realizar meu projeto',
   },
   outro: {
     badge: 'Proposta personalizada',
@@ -157,9 +157,14 @@ export default function Hero({ personalized = false }) {
                   </button>
                 </div>
 
+                <div className="hero-clt-rates">
+                  <p>Taxas a partir de <strong>1,49% a.m.</strong> | CET a partir de <strong>29,90% a.a.</strong></p>
+                  <p className="hero-clt-rates-disclaimer">Condições sujeitas a análise de crédito. A Fenix Cred atua como correspondente bancário.</p>
+                </div>
+
                 <div className="hero-clt-trust">
                   <TrustBadge icon="shield" text="Sem consulta SPC/Serasa" />
-                  <TrustBadge icon="clock" text="Aprovação em minutos" />
+                  <TrustBadge icon="clock" text="Resposta em minutos" />
                   <TrustBadge icon="check" text="100% Online" />
                 </div>
               </>
@@ -170,7 +175,7 @@ export default function Hero({ personalized = false }) {
                 </span>
 
                 <h1 className="hero-clt-title">
-                  Crédito Consignado CLT com Aprovação em{' '}
+                  Crédito Consignado CLT com Análise em{' '}
                   <span className="hero-clt-title-highlight">minutos</span>
                 </h1>
 
@@ -198,8 +203,13 @@ export default function Hero({ personalized = false }) {
                   </button>
                 </div>
 
+                <div className="hero-clt-rates">
+                  <p>Taxas a partir de <strong>1,49% a.m.</strong> | CET a partir de <strong>29,90% a.a.</strong></p>
+                  <p className="hero-clt-rates-disclaimer">Condições sujeitas a análise de crédito. A Fenix Cred atua como correspondente bancário.</p>
+                </div>
+
                 <div className="hero-clt-trust">
-                  <TrustBadge icon="clock" text="Aprovação em minutos" />
+                  <TrustBadge icon="clock" text="Resposta em minutos" />
                   <TrustBadge icon="check" text="100% Online" />
                   <TrustBadge icon="shield" text="Sem burocracia" />
                 </div>

@@ -201,6 +201,33 @@
   transform: translateX(4px);
 }
 
+/* Informações de taxas — compliance Meta Ads */
+.hero-rates {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid rgba(253, 177, 71, 0.4);
+  background: rgba(253, 177, 71, 0.04);
+  border-radius: 0 8px 8px 0;
+}
+
+.hero-rates p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+}
+
+.hero-rates strong {
+  color: #fdb147;
+  font-weight: 700;
+}
+
+.hero-rates-disclaimer {
+  font-size: 0.75rem !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  margin-top: 0.25rem !important;
+}
+
 /* Right Column - Image behind Frame */
 .hero-image {
   position: relative;

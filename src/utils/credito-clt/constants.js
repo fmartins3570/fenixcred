@@ -13,13 +13,13 @@ export const benefits = [
   },
   {
     icon: 'Clock',
-    title: 'Aprovação em minutos',
-    description: 'Análise rápida. Sem burocracia e com total transparência.',
+    title: 'Análise em minutos',
+    description: 'Retorno ágil sobre sua solicitação. Sem burocracia e com total transparência.',
   },
   {
     icon: 'ShieldCheck',
     title: 'Sem Consulta SPC/Serasa',
-    description: 'Aprovação garantida para trabalhadores CLT, mesmo com restrições no nome.',
+    description: 'Facilidade para trabalhadores CLT, mesmo com restrições no nome.',
   },
   {
     icon: 'Wallet',
@@ -106,8 +106,8 @@ export const faqs = [
     answer: 'Documentos básicos: RG ou CNH, CPF, comprovante de residência atualizado, contracheque dos últimos 3 meses e dados bancários para depósito. Todo o envio pode ser feito digitalmente.',
   },
   {
-    question: 'Quanto tempo leva para aprovação?',
-    answer: 'A análise é realizada em minutos após o envio da documentação completa. Em muitos casos, a aprovação acontece no mesmo dia.',
+    question: 'Quanto tempo leva para ter uma resposta?',
+    answer: 'A análise é realizada em minutos após o envio da documentação completa. Em muitos casos, você recebe um retorno no mesmo dia.',
   },
   {
     question: 'Posso antecipar ou quitar as parcelas?',

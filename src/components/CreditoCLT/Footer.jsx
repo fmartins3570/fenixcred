@@ -1,4 +1,5 @@
 import { companyInfo } from '../../utils/credito-clt/constants'
+import logoFM from '../../assets/logo_fm_consultoria.webp'
 import '../Footer.css'
 
 /**
@@ -78,6 +79,15 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* CNPJ e Razão Social — obrigatório para anúncios de serviços financeiros */}
+        <div className="footer-cnpj">
+          <p>
+            <strong>H.I INTERMEDIACAO FINANCEIRA LTDA - ME</strong>
+          </p>
+          <p>CNPJ: 52.069.594/0001-90</p>
+          <p>Av. do Oratório, 4098 - Jardim Guairaca - CEP 03220-200 - São Paulo - SP</p>
+        </div>
+
         {/* Separador */}
         <div className="footer-bottom">
           <div className="footer-bottom-content">
@@ -100,7 +110,30 @@ export default function Footer() {
             A Fênix Cred atua como correspondente bancário, intermediando operações de crédito
             consignado entre instituições financeiras parceiras e clientes. Todas as operações
             são realizadas em conformidade com as normas do Banco Central do Brasil.
+            Taxas a partir de 1,49% a.m. CET a partir de 29,90% a.a. Condições sujeitas a análise de crédito.
           </p>
+        </div>
+
+        {/* Crédito de desenvolvimento */}
+        <div className="footer-credit">
+          <span className="footer-credit-text">Desenvolvido por</span>
+          <a
+            href="https://martinsfelipe.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-credit-link"
+            aria-label="Site da FM Consultoria"
+          >
+            <img
+              src={logoFM}
+              alt="FM Consultoria"
+              className="footer-credit-logo"
+              width="32"
+              height="32"
+              loading="lazy"
+            />
+            <span>FM Consultoria</span>
+          </a>
         </div>
       </div>
     </footer>

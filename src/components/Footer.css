@@ -220,6 +220,65 @@
   text-decoration: underline;
 }
 
+/* CNPJ e Razão Social — destaque obrigatório */
+.footer-cnpj {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.footer-cnpj p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer-cnpj strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+/* Crédito de desenvolvimento — FM Consultoria */
+.footer-credit {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.footer-credit-text {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+}
+
+.footer-credit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: color 0.3s, opacity 0.3s;
+}
+
+.footer-credit-link:hover {
+  color: #fff;
+}
+
+.footer-credit-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
 /* Botão flutuante WhatsApp */
 .whatsapp-float {
   position: fixed;

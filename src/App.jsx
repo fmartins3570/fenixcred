@@ -28,6 +28,7 @@ import Footer from "./components/Footer";
 import SectionDivider from "./components/SectionDivider";
 import SchemaJSON from "./components/SchemaJSON";
 import BackToTop from "./components/BackToTop";
+import CookieBanner from "./components/CookieBanner";
 import { useActiveSection } from "./hooks/useActiveSection";
 import { useLazyComponent } from "./hooks/useLazyComponent";
 import "./App.css";
@@ -282,6 +283,7 @@ function App() {
       </main>
       <Footer />
       <BackToTop />
+      <CookieBanner />
     </div>
   );
 }

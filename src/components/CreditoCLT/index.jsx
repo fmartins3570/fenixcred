@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import SchemaJSON from "../SchemaJSON";
 import HeaderCLT from "./HeaderCLT";
 import BackToTop from "../BackToTop";
+import CookieBanner from "../CookieBanner";
 import LeadPopup from "./LeadPopup";
 import { trackEvent } from "../../utils/metaPixel";
 import "./index.css";
@@ -42,6 +43,7 @@ export default function CreditoCLT({ personalized = false }) {
 
       {/* WhatsApp Floating Button */}
       <WhatsAppFloatingButton />
+      <CookieBanner />
     </div>
   );
 }
