@@ -69,6 +69,7 @@ export default function FinalCTA() {
     sendServerEvent('Lead', eventId, {
       name: formData.name.trim(),
       phone: formData.phone.replace(/\D/g, ''),
+      city: formData.city.trim(),
       page: window.location.pathname,
     }, { value: numericValue, currency: 'BRL' })
     openWhatsAppWithFormData(
