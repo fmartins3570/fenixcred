@@ -4,7 +4,7 @@
   <!-- Página Principal -->
   <url>
     <loc>https://fenixcredbr.com.br/</loc>
-    <lastmod>2026-03-06T20:11:49.231Z</lastmod>
+    <lastmod>2026-03-07T02:52:54.643Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -16,7 +16,7 @@
   <!-- Seção Home/Início -->
   <url>
     <loc>https://fenixcredbr.com.br/#inicio</loc>
-    <lastmod>2026-03-06T20:11:49.231Z</lastmod>
+    <lastmod>2026-03-07T02:52:54.643Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -32,7 +32,7 @@
   <!-- Seção Serviços -->
   <url>
     <loc>https://fenixcredbr.com.br/#servicos</loc>
-    <lastmod>2026-03-06T20:11:52.379Z</lastmod>
+    <lastmod>2026-03-07T02:53:37.503Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
