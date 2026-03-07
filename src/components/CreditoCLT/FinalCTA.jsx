@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useWhatsApp } from '../../hooks/credito-clt/useWhatsApp'
 import { maskPhone, maskCurrency } from '../../utils/credito-clt/formValidation'
-import { trackEvent } from '../../utils/metaPixel'
+import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import './FinalCTA.css'
 
 export default function FinalCTA() {
@@ -62,7 +63,14 @@ export default function FinalCTA() {
     }
 
     setIsSubmitting(true)
-    trackEvent('Lead', { content_name: 'FinalCTA Form', value: 0, currency: 'BRL' })
+    const numericValue = parseInt(formData.amount.replace(/\D/g, ''), 10) / 100 || 0
+    const eventId = generateEventId()
+    trackEvent('Lead', { content_name: 'FinalCTA Form', value: numericValue, currency: 'BRL' }, eventId)
+    sendServerEvent('Lead', eventId, {
+      name: formData.name.trim(),
+      phone: formData.phone.replace(/\D/g, ''),
+      page: window.location.pathname,
+    }, { value: numericValue, currency: 'BRL' })
     openWhatsAppWithFormData(
       formData.name,
       formData.phone,
