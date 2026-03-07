@@ -54,8 +54,7 @@ function PrivacyPolicy() {
             <h2>Encarregado de dados</h2>
             <p>Esta política foi aprovada pelo nosso encarregado de dados:</p>
             <ul className="privacy-list">
-              <li><strong>Nome:</strong> __________________________</li>
-              <li><strong>CPF:</strong> ___________________________</li>
+              <li><strong>Nome:</strong> Henrique Longo</li>
               <li><strong>E-mail:</strong> encarregado@fenixcred.com.br</li>
             </ul>
           </div>
@@ -184,9 +183,56 @@ function PrivacyPolicy() {
             </p>
           </div>
 
+          {/* Cookies e Tecnologias de Rastreamento */}
+          <div className="privacy-section">
+            <h2>5. Cookies e tecnologias de rastreamento</h2>
+            <p>
+              O site da FÊNIX CRED utiliza cookies e tecnologias similares para melhorar a experiência do
+              usuário, analisar o tráfego e personalizar conteúdo e anúncios. Ao utilizar nosso site, você
+              concorda com o uso dessas tecnologias conforme descrito abaixo.
+            </p>
+            <h3>5.1 Cookies essenciais</h3>
+            <p>
+              Necessários para o funcionamento básico do site, como preferências de sessão e navegação.
+              Não podem ser desativados.
+            </p>
+            <h3>5.2 Cookies de análise (Google Analytics)</h3>
+            <p>
+              Utilizamos o Google Analytics (Google LLC) para coletar dados agregados sobre o uso do site,
+              como páginas visitadas, tempo de permanência e origem do tráfego. Esses dados são anonimizados
+              e utilizados exclusivamente para melhoria do site e dos serviços.
+            </p>
+            <h3>5.3 Cookies de publicidade (Meta Pixel)</h3>
+            <p>
+              Utilizamos o Meta Pixel (Meta Platforms, Inc.) para mensurar a eficácia de campanhas
+              publicitárias, criar públicos personalizados e otimizar anúncios. Os dados coletados incluem
+              páginas visitadas, ações realizadas no site (como envio de formulários) e identificadores de
+              navegador. Esses dados são compartilhados com a Meta para fins de publicidade direcionada.
+            </p>
+            <h3>5.4 Conversions API (CAPI)</h3>
+            <p>
+              Além do Meta Pixel, utilizamos a Conversions API da Meta para enviar eventos do servidor,
+              garantindo maior precisão na mensuração de resultados. Os dados de usuário enviados via CAPI
+              são criptografados (hash SHA-256) antes do envio.
+            </p>
+            <h3>5.5 Compartilhamento com terceiros</h3>
+            <p>
+              Os dados coletados por meio de cookies e pixels podem ser compartilhados com:
+            </p>
+            <ul className="privacy-list">
+              <li><strong>Meta Platforms, Inc.</strong> — para otimização de campanhas publicitárias e mensuração de conversões.</li>
+              <li><strong>Google LLC</strong> — para análise de tráfego e desempenho do site.</li>
+              <li><strong>Google LLC (Maps/Places)</strong> — para exibição de mapas e informações de localização.</li>
+            </ul>
+            <p>
+              Você pode gerenciar suas preferências de cookies a qualquer momento nas configurações do seu
+              navegador. A desativação de cookies não essenciais pode afetar funcionalidades do site.
+            </p>
+          </div>
+
           {/* Segurança */}
           <div className="privacy-section">
-            <h2>5. Segurança da informação</h2>
+            <h2>6. Segurança da informação</h2>
             <p>
               A FÊNIX CRED e seus usuários se comprometem com a veracidade das informações prestadas, responsabilizando-se em 
               caso de ilegalidade decorrente de dados falsos ou não autorizados. A FÊNIX CRED emprega esforços técnicos e 
@@ -205,7 +251,7 @@ function PrivacyPolicy() {
 
           {/* Atualizações */}
           <div className="privacy-section">
-            <h2>6. Atualizações da política</h2>
+            <h2>7. Atualizações da política</h2>
             <p>
               A FÊNIX CRED busca continuamente aprimorar seus sistemas, serviços e mecanismos de proteção de dados, podendo 
               atualizar ou alterar esta Política de Privacidade de forma unilateral. Eventuais mudanças serão publicadas nesta 
@@ -219,17 +265,17 @@ function PrivacyPolicy() {
 
           {/* Resolução de Conflitos */}
           <div className="privacy-section">
-            <h2>7. Resolução de conflitos</h2>
+            <h2>8. Resolução de conflitos</h2>
             <p>
               Para dirimir eventuais conflitos relacionados a esta Política ou ao tratamento de dados pessoais, fica eleito o 
-              foro da Comarca de __________________, com renúncia expressa a qualquer outro, por mais privilegiado que seja. As 
+              foro da Comarca de São Paulo/SP, com renúncia expressa a qualquer outro, por mais privilegiado que seja. As 
               solicitações judiciais de registros e informações serão processadas nos termos da Lei 13.709/2018 e demais normas aplicáveis.
             </p>
           </div>
 
           {/* Vigência */}
           <div className="privacy-section">
-            <h2>8. Vigência</h2>
+            <h2>9. Vigência</h2>
             <p>
               Esta Política de Privacidade entra em vigor na data de sua publicação no site da FÊNIX CRED e permanecerá válida 
               até que seja substituída por nova versão.
@@ -238,7 +284,7 @@ function PrivacyPolicy() {
 
           {/* LGPD */}
           <div className="privacy-section">
-            <h2>9. LGPD e bases legais</h2>
+            <h2>10. LGPD e bases legais</h2>
             <p>
               A LGPD regula o tratamento de dados pessoais, inclusive por meios digitais, com o objetivo de proteger direitos 
               fundamentais de liberdade, privacidade e o livre desenvolvimento da personalidade da pessoa natural. O tratamento 
@@ -260,7 +306,7 @@ function PrivacyPolicy() {
 
           {/* Disposições Gerais */}
           <div className="privacy-section">
-            <h2>10. Disposições gerais</h2>
+            <h2>11. Disposições gerais</h2>
             <p>
               Os usuários declaram que concordam e se comprometem a cumprir as disposições desta Política de Privacidade da 
               FÊNIX CRED. Não há vínculo empregatício, associativo ou societário entre a FÊNIX CRED e os usuários, seus empregados, 
@@ -271,7 +317,7 @@ function PrivacyPolicy() {
 
           {/* Contato */}
           <div className="privacy-section">
-            <h2>11. Contato com a FÊNIX CRED</h2>
+            <h2>12. Contato com a FÊNIX CRED</h2>
             <p>
               Caso precise de suporte ou tenha dúvidas, pedidos ou sugestões em relação a esta Política ou a questões de privacidade, 
               a FÊNIX CRED está à disposição. Basta contatar a central de atendimento ou o encarregado de proteção de dados, pelo e-mail:
@@ -295,7 +341,7 @@ function PrivacyPolicy() {
               <tbody>
                 <tr>
                   <td>1.0</td>
-                  <td>___ de ________</td>
+                  <td>Março de 2026</td>
                   <td>Versão inicial da Política de Privacidade da FÊNIX CRED</td>
                 </tr>
               </tbody>
