@@ -80,6 +80,12 @@ function Hero() {
                 </svg>
               </a>
             </div>
+
+            {/* Informações de taxas — obrigatório Meta Ads serviços financeiros */}
+            <div className="hero-rates">
+              <p>Taxas a partir de <strong>1,49% a.m.</strong> | CET a partir de <strong>29,90% a.a.</strong></p>
+              <p className="hero-rates-disclaimer">Condições sujeitas a análise de crédito. A Fenix Cred atua como correspondente bancário.</p>
+            </div>
           </div>
 
           {/* Coluna Direita - Imagem */}

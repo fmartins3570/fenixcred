@@ -5,13 +5,13 @@ import { sendServerEvent } from '../../utils/metaCAPI'
 import './LeadPopup.css'
 
 export const PURPOSES = [
-  { id: 'dividas', icon: '💳', label: 'Quitar dívidas' },
-  { id: 'contas', icon: '📄', label: 'Pagar contas em atraso' },
+  { id: 'organizar', icon: '📊', label: 'Organizar as finanças' },
   { id: 'veiculo', icon: '🚗', label: 'Comprar veículo' },
   { id: 'reforma', icon: '🏠', label: 'Reforma da casa' },
-  { id: 'saude', icon: '🏥', label: 'Emergência / Saúde' },
   { id: 'viagem', icon: '✈️', label: 'Fazer uma viagem' },
   { id: 'negocio', icon: '💼', label: 'Investir no negócio' },
+  { id: 'educacao', icon: '📚', label: 'Educação e cursos' },
+  { id: 'projeto', icon: '🎯', label: 'Realizar um projeto' },
   { id: 'outro', icon: '📌', label: 'Outro motivo' },
 ]
 

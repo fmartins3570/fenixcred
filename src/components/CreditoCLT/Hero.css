@@ -264,6 +264,42 @@
   }
 }
 
+/* Informações de taxas — compliance Meta Ads */
+.hero-clt-rates {
+  padding: 0.75rem 1rem;
+  border-left: 3px solid rgba(253, 177, 71, 0.4);
+  background: rgba(253, 177, 71, 0.04);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 1rem;
+}
+
+.hero-clt-rates p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+}
+
+.hero-clt-rates strong {
+  color: #fdb147;
+  font-weight: 700;
+}
+
+.hero-clt-rates-disclaimer {
+  font-size: 0.75rem !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  margin-top: 0.25rem !important;
+}
+
+@media (max-width: 1024px) {
+  .hero-clt-rates {
+    text-align: center;
+    border-left: none;
+    border-top: 2px solid rgba(253, 177, 71, 0.3);
+    border-radius: 0 0 8px 8px;
+  }
+}
+
 /* Trust Badges */
 .hero-clt-trust {
   display: flex;

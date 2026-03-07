@@ -19,21 +19,24 @@ function Services() {
       title: 'Consignado para o CLT',
       description: 'Crédito consignado para trabalhadores com carteira assinada. Desconto direto na folha de pagamento, taxas justas e aprovação rápida. Atendemos todo Brasil.',
       icon: '📋',
-      linkText: 'Simular crédito consignado CLT'
+      linkText: 'Simular crédito consignado CLT',
+      rate: 'A partir de 1,49% a.m.'
     },
     {
       id: 2,
       title: 'Antecipação do FGTS',
       description: 'Antecipe seu FGTS de forma simples e segura. Liberação rápida, sem burocracia e com as melhores condições do mercado. Atendemos todo Brasil.',
       icon: '💰',
-      linkText: 'Antecipar FGTS agora'
+      linkText: 'Antecipar FGTS agora',
+      rate: 'A partir de 1,29% a.m.'
     },
     {
       id: 3,
       title: 'Crédito Consignado',
       description: 'Crédito consignado com as melhores taxas do mercado. Desconto direto na folha, aprovação em até 24h e condições que cabem no seu bolso.',
       icon: '💳',
-      linkText: 'Simular crédito consignado'
+      linkText: 'Simular crédito consignado',
+      rate: 'A partir de 1,49% a.m.'
     }
   ]
 
@@ -57,14 +60,20 @@ function Services() {
               <div className="service-icon" aria-label={`Ícone de ${service.title} – ${service.title} em São Paulo`}>{service.icon}</div>
               <h3 className="service-title">{service.title}</h3>
               <p className="service-description">{service.description}</p>
+              <p className="service-rate">{service.rate}</p>
               <a href="#contato" className="service-link" onClick={() => trackEvent('ViewContent', { content_name: service.title })}>
                 {service.linkText} →
               </a>
             </div>
           ))}
         </div>
+
+        {/* Disclaimer de taxas — compliance Meta Ads */}
+        <p className="services-disclaimer">
+          * Taxas e condições sujeitas a análise de crédito pela instituição financeira parceira. CET a partir de 29,90% a.a. A Fenix Cred atua como correspondente bancário nos termos da Resolução nº 3.954/2011 do Banco Central do Brasil.
+        </p>
       </div>
-      
+
       {/* Links Internos - Conteúdo Relacionado */}
       <RelatedContent currentSection="servicos" maxLinks={5} />
     </section>

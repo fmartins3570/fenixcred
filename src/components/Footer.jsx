@@ -1,6 +1,7 @@
 import "./Footer.css";
 import Logo from "./Logo";
 import { trackEvent, trackCustomEvent } from '../utils/metaPixel';
+import logoFM from '../assets/logo_fm_consultoria.webp';
 
 /**
  * Componente Footer - Rodapé do site
@@ -177,6 +178,15 @@ function Footer() {
           </div>
         </div>
 
+        {/* CNPJ e Razão Social — obrigatório para anúncios de serviços financeiros */}
+        <div className="footer-cnpj">
+          <p>
+            <strong>H.I INTERMEDIACAO FINANCEIRA LTDA - ME</strong>
+          </p>
+          <p>CNPJ: 52.069.594/0001-90</p>
+          <p>Av. do Oratório, 4098 - Jardim Guairaca - CEP 03220-200 - São Paulo - SP</p>
+        </div>
+
         {/* Copyright e Avisos Legais */}
         <div className="footer-bottom">
           <p className="copyright">
@@ -197,12 +207,29 @@ function Footer() {
               relativas ao produto a ser contrato, de forma completa e
               transparente.
             </p>
-            <p className="company-info">
-              H.I INTERMEDIACAO FINANCEIRA LTDA - ME - CNPJ 52.069.594/0001-90 |
-              Endereço: Av. do Oratório, 4098 - Jardim Guairaca - CEP 03220-200
-              - São Paulo - SP
-            </p>
           </div>
+        </div>
+
+        {/* Crédito de desenvolvimento */}
+        <div className="footer-credit">
+          <span className="footer-credit-text">Desenvolvido por</span>
+          <a
+            href="https://martinsfelipe.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-credit-link"
+            aria-label="Site da FM Consultoria"
+          >
+            <img
+              src={logoFM}
+              alt="FM Consultoria"
+              className="footer-credit-logo"
+              width="32"
+              height="32"
+              loading="lazy"
+            />
+            <span>FM Consultoria</span>
+          </a>
         </div>
       </div>
 

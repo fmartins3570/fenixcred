@@ -100,7 +100,7 @@ export default function FinalCTA() {
               <span className="final-cta-title-highlight">Hoje Mesmo</span>
             </h2>
             <p className="final-cta-description">
-              Atendimento rápido, taxas justas e aprovação em minutos.
+              Atendimento ágil, taxas justas e resposta em minutos.
               Preencha o formulário ou fale diretamente no WhatsApp!
             </p>
           </div>

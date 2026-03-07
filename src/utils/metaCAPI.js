@@ -6,6 +6,7 @@
  */
 
 import { getMetaCookies } from './metaPixel'
+import { hasConsented } from './cookieConsent'
 
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbwCTd-uGRPNFW7fXDq73huWHkOGW_11-3qyyum8YxH6xl8VzWju1tZCso6hDleFKZvf/exec'
@@ -21,6 +22,8 @@ const APPS_SCRIPT_URL =
  * @param {Object} customData - Dados customizados { value, currency }
  */
 export function sendServerEvent(eventName, eventId, userData = {}, customData = {}) {
+  if (!hasConsented()) return
+
   const { fbc, fbp } = getMetaCookies()
 
   const params = new URLSearchParams({
