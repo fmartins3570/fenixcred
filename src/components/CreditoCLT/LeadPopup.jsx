@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useLeadData } from '../../hooks/credito-clt/useLeadData'
-import { trackEvent, trackCustomEvent } from '../../utils/metaPixel'
+import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import './LeadPopup.css'
 
 export const PURPOSES = [
@@ -81,7 +82,13 @@ export default function LeadPopup() {
   const handleStep1Submit = (e) => {
     e.preventDefault()
     if (!validateStep1()) return
-    trackEvent('Lead', { content_name: 'LeadPopup Step1', value: 0, currency: 'BRL' })
+    const eventId = generateEventId()
+    trackEvent('Lead', { content_name: 'LeadPopup Step1', value: 0, currency: 'BRL' }, eventId)
+    sendServerEvent('Lead', eventId, {
+      name: name.trim(),
+      phone: phone.replace(/\D/g, ''),
+      page: window.location.pathname,
+    }, { value: 0, currency: 'BRL' })
     setStep(2)
   }
 
@@ -92,7 +99,8 @@ export default function LeadPopup() {
   }
 
   const finishCapture = (selectedPurposes) => {
-    trackEvent('CompleteRegistration', { content_name: 'LeadPopup Complete', status: true })
+    const eventId = generateEventId()
+    trackEvent('CompleteRegistration', { content_name: 'LeadPopup Complete', status: true }, eventId)
     const leadData = {
       name: name.trim(),
       phone: phone.replace(/\D/g, ''),
@@ -103,15 +111,12 @@ export default function LeadPopup() {
     sessionStorage.setItem(SESSION_KEY, '1')
     setOpen(false)
 
-    // Envia para Google Sheets via imagem (bypass CORS)
-    const params = new URLSearchParams({
+    sendServerEvent('CompleteRegistration', eventId, {
       name: leadData.name,
       phone: leadData.phone,
       purposes: selectedPurposes.join(', '),
       page: window.location.pathname,
-    })
-    const img = new Image()
-    img.src = `https://script.google.com/macros/s/AKfycbwCTd-uGRPNFW7fXDq73huWHkOGW_11-3qyyum8YxH6xl8VzWju1tZCso6hDleFKZvf/exec?${params}`
+    }, { value: 0, currency: 'BRL' })
   }
 
   if (!open) return null
