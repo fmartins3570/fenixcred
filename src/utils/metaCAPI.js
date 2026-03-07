@@ -11,6 +11,16 @@ import { hasConsented } from './cookieConsent'
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbwCTd-uGRPNFW7fXDq73huWHkOGW_11-3qyyum8YxH6xl8VzWju1tZCso6hDleFKZvf/exec'
 
+// Cache do IP — captura uma vez e reutiliza
+let cachedIP = ''
+function getClientIP() {
+  if (cachedIP) return Promise.resolve(cachedIP)
+  return fetch('https://api.ipify.org?format=text')
+    .then((r) => r.text())
+    .then((ip) => { cachedIP = ip; return ip })
+    .catch(() => '')
+}
+
 /**
  * Envia evento para o Google Apps Script que:
  * 1. Salva na planilha Google Sheets
@@ -26,25 +36,29 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
 
   const { fbc, fbp } = getMetaCookies()
 
-  const params = new URLSearchParams({
-    event_name: eventName,
-    event_id: eventId,
-    event_source_url: window.location.href,
-    fbc,
-    fbp,
-    ...(userData.name && { name: userData.name }),
-    ...(userData.phone && { phone: userData.phone }),
-    ...(userData.purposes && { purposes: userData.purposes }),
-    ...(userData.page && { page: userData.page }),
-    ...(customData.value != null && { value: String(customData.value) }),
-    ...(customData.currency && { currency: customData.currency }),
+  getClientIP().then((ip) => {
+    const params = new URLSearchParams({
+      event_name: eventName,
+      event_id: eventId,
+      event_source_url: window.location.href,
+      fbc,
+      fbp,
+      client_user_agent: navigator.userAgent,
+      ...(ip && { client_ip_address: ip }),
+      ...(userData.name && { name: userData.name }),
+      ...(userData.phone && { phone: userData.phone }),
+      ...(userData.purposes && { purposes: userData.purposes }),
+      ...(userData.page && { page: userData.page }),
+      ...(customData.value != null && { value: String(customData.value) }),
+      ...(customData.currency && { currency: customData.currency }),
+    })
+
+    const url = `${APPS_SCRIPT_URL}?${params}`
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url)
+    } else {
+      new Image().src = url
+    }
   })
-
-  const url = `${APPS_SCRIPT_URL}?${params}`
-
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(url)
-  } else {
-    new Image().src = url
-  }
 }
