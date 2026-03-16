@@ -41,6 +41,7 @@ const TrabalheConosco = lazy(() => import("./components/TrabalheConosco"));
 const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
 const ReviewsSection = lazy(() => import("./components/ReviewsSection"));
 const CreditoCLT = lazy(() => import("./components/CreditoCLT"));
+const SimulacaoCLT = lazy(() => import("./components/SimulacaoCLT"));
 const DataDeletion = lazy(() => import("./components/DataDeletion"));
 
 function App() {
@@ -54,6 +55,12 @@ function App() {
 
   useEffect(() => {
     const pathname = window.location.pathname;
+
+    // Verifica o pathname para simulação consignado CLT (questionário interativo)
+    if (pathname === "/simulacao-consignado-clt" || pathname === "/simulacao-consignado-clt/") {
+      setCurrentPage("simulacao-clt");
+      return;
+    }
 
     // Verifica o pathname para landing page CLT personalizada (com popup + greeting)
     if (pathname === "/page-credito-clt-personalizado" || pathname === "/page-credito-clt-personalizado/") {
@@ -90,6 +97,11 @@ function App() {
     // Escuta mudanças no pathname e hash
     const handleLocationChange = () => {
       const newPathname = window.location.pathname;
+      if (newPathname === "/simulacao-consignado-clt" || newPathname === "/simulacao-consignado-clt/") {
+        setCurrentPage("simulacao-clt");
+        return;
+      }
+
       if (newPathname === "/page-credito-clt-personalizado" || newPathname === "/page-credito-clt-personalizado/") {
         setCurrentPage("credito-clt-personalizado");
         return;
@@ -125,6 +137,25 @@ function App() {
       window.removeEventListener("popstate", handleLocationChange);
     };
   }, []);
+
+  // Landing page Simulação CLT (questionário interativo de pré-qualificação)
+  if (currentPage === "simulacao-clt") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <SimulacaoCLT />
+        </Suspense>
+      </div>
+    );
+  }
 
   // Landing page CLT personalizada (com popup de captura + greeting)
   if (currentPage === "credito-clt-personalizado") {

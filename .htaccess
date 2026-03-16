@@ -167,6 +167,7 @@ CustomLog /dev/null combined env=dontlog
 
 <IfModule mod_rewrite.c>
     # Redirecionar rotas do SPA diretamente para o index.html
+    RewriteRule ^simulacao-consignado-clt/?$ /dist/index.html [L]
     RewriteRule ^page-credito-clt-personalizado/?$ /dist/index.html [L]
     RewriteRule ^page-credito-clt/?$ /dist/index.html [L]
     RewriteRule ^politica-privacidade/?$ /dist/index.html [L]

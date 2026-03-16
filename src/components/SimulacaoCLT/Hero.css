@@ -1,0 +1,247 @@
+/* Hero - Simulação CLT */
+
+.sim-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 1.5rem 80px;
+  overflow: hidden;
+}
+
+.sim-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 30%, rgba(253, 177, 71, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 30% 80%, rgba(37, 211, 102, 0.03) 0%, transparent 50%),
+    linear-gradient(175deg, #050528 0%, #030318 60%, #050528 100%);
+}
+
+.sim-hero-glow-1 {
+  position: absolute;
+  top: 10%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: rgba(253, 177, 71, 0.035);
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: simFloat 10s ease-in-out infinite;
+}
+
+.sim-hero-glow-2 {
+  position: absolute;
+  bottom: 5%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: rgba(37, 211, 102, 0.025);
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: simFloat 12s ease-in-out infinite reverse;
+}
+
+.sim-hero-container {
+  position: relative;
+  z-index: 10;
+  max-width: 720px;
+  margin: 0 auto;
+  animation: simFadeInUp 0.8s ease-out;
+}
+
+/* Badge */
+.sim-hero-badge {
+  display: inline-block;
+  padding: 0.45rem 1.4rem;
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.18) 0%, rgba(253, 177, 71, 0.06) 100%);
+  border: 1px solid rgba(253, 177, 71, 0.3);
+  color: #FDB147;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 9999px;
+  margin-bottom: 2rem;
+}
+
+/* Title */
+.sim-hero-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.03em;
+}
+
+.sim-hero-highlight {
+  color: #FDB147;
+  position: relative;
+}
+
+.sim-hero-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(253, 177, 71, 0.3);
+  border-radius: 2px;
+}
+
+@media (min-width: 640px) {
+  .sim-hero-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sim-hero-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* Subtitle */
+.sim-hero-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2.5rem;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .sim-hero-subtitle {
+    font-size: 1.15rem;
+  }
+}
+
+/* Benefits Grid */
+.sim-hero-benefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+}
+
+.sim-benefit-card {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.sim-benefit-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(253, 177, 71, 0.2);
+  transform: translateY(-1px);
+}
+
+.sim-benefit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: rgba(253, 177, 71, 0.1);
+  border-radius: 8px;
+  color: #FDB147;
+}
+
+.sim-benefit-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: left;
+}
+
+@media (max-width: 420px) {
+  .sim-hero-benefits {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+}
+
+/* CTA Button */
+.sim-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1.1rem 2.5rem !important;
+  background: linear-gradient(135deg, #FDB147 0%, #e89a2e 100%);
+  color: #050528;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 20px rgba(253, 177, 71, 0.35),
+    0 0 0 0 rgba(253, 177, 71, 0);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.sim-hero-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  background-size: 200% 100%;
+  animation: simShimmer 3s infinite;
+  border-radius: inherit;
+}
+
+.sim-hero-cta:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow:
+    0 8px 35px rgba(253, 177, 71, 0.45),
+    0 0 0 4px rgba(253, 177, 71, 0.12);
+}
+
+.sim-hero-cta:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.sim-hero-cta svg {
+  position: relative;
+  z-index: 1;
+}
+
+/* Trust items */
+.sim-hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  animation: simFadeInUp 0.8s ease-out 0.3s both;
+}
+
+.sim-hero-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 500;
+}
+
+.sim-hero-trust-item svg {
+  color: #FDB147;
+  opacity: 0.7;
+}
