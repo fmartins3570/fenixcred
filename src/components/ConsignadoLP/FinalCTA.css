@@ -1,0 +1,196 @@
+/* Final CTA Section - ConsignadoLP */
+
+.final-cta-consignado {
+  position: relative;
+  padding: 5rem 0;
+  background: linear-gradient(180deg, #050528 0%, #030318 50%, #050528 100%);
+  overflow: hidden;
+}
+
+.final-cta-consignado::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.2), transparent);
+}
+
+.final-cta-consignado-decoration-1 {
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(74, 222, 128, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.final-cta-consignado-decoration-2 {
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(37, 211, 102, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.final-cta-consignado-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+/* Title */
+
+.final-cta-consignado-title {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.final-cta-consignado-highlight {
+  color: #4ade80;
+}
+
+@media (min-width: 768px) {
+  .final-cta-consignado-title {
+    font-size: 2.75rem;
+  }
+}
+
+/* Description */
+
+.final-cta-consignado-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 auto 2.5rem;
+  max-width: 38rem;
+}
+
+/* WhatsApp Button */
+
+.final-cta-consignado-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: #ffffff;
+  border: none;
+  padding: 1.25rem 2.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 56px;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.final-cta-consignado-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  background-size: 200% 100%;
+  animation: consignado-shimmer 3s infinite;
+  border-radius: inherit;
+}
+
+.final-cta-consignado-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.45);
+}
+
+.final-cta-consignado-btn:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
+@keyframes consignado-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Contact Info */
+
+.final-cta-consignado-contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Trust / Rating */
+
+.final-cta-consignado-trust {
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.final-cta-consignado-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-content: center;
+}
+
+.final-cta-consignado-rating .rating-star {
+  color: #fbbf24;
+  width: 16px;
+  height: 16px;
+}
+
+.final-cta-consignado-rating span {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+  margin-left: 0.25rem;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .final-cta-consignado {
+    padding: 3.5rem 0;
+  }
+
+  .final-cta-consignado-title {
+    font-size: 1.65rem;
+  }
+
+  .final-cta-consignado-description {
+    font-size: 1rem;
+  }
+
+  .final-cta-consignado-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 1.1rem 1.5rem;
+  }
+
+  .final-cta-consignado-contact {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

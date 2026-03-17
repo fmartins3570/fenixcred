@@ -5,6 +5,10 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  appType: 'spa',
+  server: {
+    host: '::',
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -36,6 +40,9 @@ export default defineConfig({
           }
           if (id.includes("components/PrivacyPolicy")) {
             return "privacy";
+          }
+          if (id.includes("components/ConsignadoLP")) {
+            return "consignado-lp";
           }
           if (id.includes("components/SimulacaoCLT")) {
             return "simulacao-clt";

@@ -43,6 +43,7 @@ const ReviewsSection = lazy(() => import("./components/ReviewsSection"));
 const CreditoCLT = lazy(() => import("./components/CreditoCLT"));
 const SimulacaoCLT = lazy(() => import("./components/SimulacaoCLT"));
 const DataDeletion = lazy(() => import("./components/DataDeletion"));
+const ConsignadoLP = lazy(() => import("./components/ConsignadoLP"));
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -55,6 +56,20 @@ function App() {
 
   useEffect(() => {
     const pathname = window.location.pathname;
+
+    // Landing pages por angulo — ConsignadoLP
+    if (pathname === "/consignado-negativado" || pathname === "/consignado-negativado/") {
+      setCurrentPage("consignado-negativado");
+      return;
+    }
+    if (pathname === "/consignado-rapido" || pathname === "/consignado-rapido/") {
+      setCurrentPage("consignado-rapido");
+      return;
+    }
+    if (pathname === "/consignado-clt" || pathname === "/consignado-clt/") {
+      setCurrentPage("consignado-clt");
+      return;
+    }
 
     // Verifica o pathname para simulação consignado CLT (questionário interativo)
     if (pathname === "/simulacao-consignado-clt" || pathname === "/simulacao-consignado-clt/") {
@@ -97,6 +112,20 @@ function App() {
     // Escuta mudanças no pathname e hash
     const handleLocationChange = () => {
       const newPathname = window.location.pathname;
+      // Landing pages por angulo — ConsignadoLP
+      if (newPathname === "/consignado-negativado" || newPathname === "/consignado-negativado/") {
+        setCurrentPage("consignado-negativado");
+        return;
+      }
+      if (newPathname === "/consignado-rapido" || newPathname === "/consignado-rapido/") {
+        setCurrentPage("consignado-rapido");
+        return;
+      }
+      if (newPathname === "/consignado-clt" || newPathname === "/consignado-clt/") {
+        setCurrentPage("consignado-clt");
+        return;
+      }
+
       if (newPathname === "/simulacao-consignado-clt" || newPathname === "/simulacao-consignado-clt/") {
         setCurrentPage("simulacao-clt");
         return;
@@ -137,6 +166,30 @@ function App() {
       window.removeEventListener("popstate", handleLocationChange);
     };
   }, []);
+
+  // Landing pages por angulo — ConsignadoLP
+  if (currentPage === "consignado-negativado" || currentPage === "consignado-rapido" || currentPage === "consignado-clt") {
+    const angleMap = {
+      "consignado-negativado": "negativado",
+      "consignado-rapido": "velocidade",
+      "consignado-clt": "geral",
+    };
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <ConsignadoLP angle={angleMap[currentPage]} />
+        </Suspense>
+      </div>
+    );
+  }
 
   // Landing page Simulação CLT (questionário interativo de pré-qualificação)
   if (currentPage === "simulacao-clt") {

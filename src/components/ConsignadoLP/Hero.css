@@ -1,0 +1,278 @@
+/* Hero Section - ConsignadoLP */
+
+.hero-consignado {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: #0a0a0a;
+  overflow: hidden;
+  padding: 8rem 1.5rem 4rem;
+}
+
+/* Dark gradient background */
+.hero-consignado-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 65% 35%, rgba(74, 222, 128, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 20% 75%, rgba(74, 222, 128, 0.025) 0%, transparent 55%),
+    linear-gradient(160deg, #0a0a0a 0%, #050520 50%, #0a0a0a 100%);
+}
+
+/* Decorative gradient circles */
+.hero-consignado-decoration-1 {
+  position: absolute;
+  top: 80px;
+  right: -60px;
+  width: 420px;
+  height: 420px;
+  background: rgba(74, 222, 128, 0.04);
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: float 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hero-consignado-decoration-2 {
+  position: absolute;
+  bottom: 60px;
+  left: -80px;
+  width: 520px;
+  height: 520px;
+  background: rgba(74, 222, 128, 0.022);
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: float 12s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+
+/* Container */
+.hero-consignado-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Grid layout: single column on mobile, 55/45 on desktop */
+.hero-consignado-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-consignado-grid {
+    grid-template-columns: 55fr 45fr;
+    gap: 3rem;
+  }
+}
+
+/* Content column */
+.hero-consignado-content {
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@media (min-width: 1024px) {
+  .hero-consignado-content {
+    text-align: left;
+  }
+}
+
+/* Badge */
+.hero-consignado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.2rem;
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.14) 0%, rgba(74, 222, 128, 0.05) 100%);
+  border: 1px solid rgba(74, 222, 128, 0.28);
+  color: #4ade80;
+  font-weight: 600;
+  font-size: 0.83rem;
+  border-radius: 9999px;
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.01em;
+}
+
+/* Title */
+.hero-consignado-title {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .hero-consignado-title {
+    font-size: 2.4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-consignado-title {
+    font-size: 2.75rem;
+  }
+}
+
+/* Subheadline */
+.hero-consignado-subheadline {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.75rem;
+  max-width: 34rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-consignado-subheadline strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .hero-consignado-subheadline {
+    font-size: 1.1rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Rates info block — compliance Meta Ads */
+.hero-consignado-rates {
+  padding: 0.7rem 1rem;
+  border-left: 3px solid rgba(74, 222, 128, 0.35);
+  background: rgba(74, 222, 128, 0.04);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 1.5rem;
+}
+
+.hero-consignado-rates p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.5;
+}
+
+.hero-consignado-rates strong {
+  color: #4ade80;
+  font-weight: 700;
+}
+
+.hero-consignado-rates-disclaimer {
+  font-size: 0.73rem !important;
+  color: rgba(255, 255, 255, 0.42) !important;
+  margin-top: 0.25rem !important;
+}
+
+@media (max-width: 1023px) {
+  .hero-consignado-rates {
+    text-align: center;
+    border-left: none;
+    border-top: 2px solid rgba(74, 222, 128, 0.28);
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+/* Trust badges */
+.hero-consignado-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+@media (min-width: 1024px) {
+  .hero-consignado-trust {
+    justify-content: flex-start;
+  }
+}
+
+.trust-badge-lp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.trust-badge-lp:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+.trust-badge-lp-icon {
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.trust-badge-lp-text {
+  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+/* Simulator column */
+.hero-consignado-simulator {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .hero-consignado-simulator {
+    position: sticky;
+    top: 8rem;
+    align-self: start;
+  }
+}
+
+/* ── Mobile overrides ── */
+@media (max-width: 768px) {
+  .hero-consignado {
+    min-height: auto;
+    padding: 6rem 1.25rem 3rem;
+  }
+
+  .hero-consignado-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-consignado-simulator {
+    position: static;
+    width: 100%;
+  }
+}
+
+/* Shared keyframes (match CreditoCLT patterns) */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
