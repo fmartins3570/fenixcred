@@ -37,6 +37,9 @@ export default defineConfig({
           if (id.includes("components/PrivacyPolicy")) {
             return "privacy";
           }
+          if (id.includes("components/ConsignadoLP")) {
+            return "consignado-lp";
+          }
           // Outros node_modules em chunk separado
           if (id.includes("node_modules")) {
             return "vendor";

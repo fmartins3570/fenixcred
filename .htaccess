@@ -171,6 +171,9 @@ CustomLog /dev/null combined env=dontlog
     RewriteRule ^page-credito-clt/?$ /dist/index.html [L]
     RewriteRule ^politica-privacidade/?$ /dist/index.html [L]
     RewriteRule ^exclusao-de-dados/?$ /dist/index.html [L]
+    RewriteRule ^consignado-negativado/?$ /dist/index.html [L]
+    RewriteRule ^consignado-rapido/?$ /dist/index.html [L]
+    RewriteRule ^consignado-clt/?$ /dist/index.html [L]
 
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
     RewriteCond %{REQUEST_FILENAME} !-f
