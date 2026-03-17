@@ -1,0 +1,159 @@
+/* FAQ - Simulação CLT */
+
+.sim-faq {
+  position: relative;
+  padding: 80px 1.5rem 100px;
+  background: linear-gradient(180deg, #050528 0%, #030318 50%, #050528 100%);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.sim-faq--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sim-faq-container {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.sim-faq-title {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .sim-faq-title {
+    font-size: 2.25rem;
+  }
+}
+
+.sim-faq-subtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 3rem;
+}
+
+/* List */
+.sim-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Item */
+.sim-faq-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.sim-faq-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.sim-faq-item--open {
+  background: rgba(253, 177, 71, 0.04);
+  border-color: rgba(253, 177, 71, 0.15);
+}
+
+/* Question button */
+.sim-faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.15rem 1.25rem !important;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  gap: 1rem;
+  transition: color 0.2s;
+  min-height: auto !important;
+  min-width: auto !important;
+}
+
+.sim-faq-question:focus {
+  outline: none !important;
+}
+
+.sim-faq-question:hover {
+  color: #FDB147;
+}
+
+.sim-faq-question-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.sim-faq-chevron {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sim-faq-item--open .sim-faq-chevron {
+  transform: rotate(180deg);
+  color: #FDB147;
+}
+
+/* Answer */
+.sim-faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sim-faq-item--open .sim-faq-answer {
+  grid-template-rows: 1fr;
+}
+
+.sim-faq-answer-text {
+  overflow: hidden;
+  padding: 0 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+  transition: padding 0.35s ease;
+}
+
+.sim-faq-item--open .sim-faq-answer-text {
+  padding: 0 1.25rem 1.15rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .sim-faq {
+    padding: 60px 1rem 80px;
+  }
+
+  .sim-faq-question {
+    padding: 1rem !important;
+  }
+
+  .sim-faq-question-text {
+    font-size: 0.88rem;
+  }
+
+  .sim-faq-answer-text {
+    font-size: 0.85rem;
+    padding: 0 1rem;
+  }
+
+  .sim-faq-item--open .sim-faq-answer-text {
+    padding: 0 1rem 1rem;
+  }
+}

@@ -44,6 +44,9 @@ export default defineConfig({
           if (id.includes("components/ConsignadoLP")) {
             return "consignado-lp";
           }
+          if (id.includes("components/SimulacaoCLT")) {
+            return "simulacao-clt";
+          }
           // Outros node_modules em chunk separado
           if (id.includes("node_modules")) {
             return "vendor";
