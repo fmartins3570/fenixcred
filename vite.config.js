@@ -41,6 +41,13 @@ export default defineConfig({
           if (id.includes("components/PrivacyPolicy")) {
             return "privacy";
           }
+          // Tracking utils — shared entre ConsignadoLP e SimulacaoCLT
+          if (
+            (id.includes("utils/metaCAPI") || id.includes("utils/metaPixel") || id.includes("utils/cookieConsent")) &&
+            !id.includes("node_modules")
+          ) {
+            return "vendor";
+          }
           if (id.includes("components/ConsignadoLP")) {
             return "consignado-lp";
           }
@@ -53,9 +60,12 @@ export default defineConfig({
           }
         },
       },
-      // Tree-shaking agressivo para remover código não usado
+      // Tree-shaking — manter side effects para módulos de tracking
       treeshake: {
-        moduleSideEffects: false,
+        moduleSideEffects: (id) => {
+          if (id.includes('metaCAPI') || id.includes('metaPixel') || id.includes('cookieConsent')) return true;
+          return false;
+        },
         propertyReadSideEffects: false,
         tryCatchDeoptimization: false,
       },
