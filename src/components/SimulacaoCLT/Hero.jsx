@@ -50,11 +50,6 @@ export default function Hero() {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-
-    // Meta Pixel: InitiateCheckout
-    if (typeof window.fbq === 'function') {
-      window.fbq('track', 'InitiateCheckout')
-    }
   }
 
   return (
