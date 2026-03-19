@@ -1,5 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
+import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import './Questionnaire.css'
 
 const QUESTIONS = [
@@ -85,10 +87,9 @@ export default function Questionnaire() {
     setAnswers({})
     setValue('')
 
-    // Meta Pixel: InitiateCheckout
-    if (typeof window.fbq === 'function') {
-      window.fbq('track', 'InitiateCheckout')
-    }
+    const eventId = generateEventId()
+    trackEvent('InitiateCheckout', { content_name: 'Quiz Simulação CLT' }, eventId)
+    sendServerEvent('InitiateCheckout', eventId)
   }, [])
 
   const handleAnswer = useCallback((questionId, answerValue) => {
@@ -117,10 +118,10 @@ export default function Questionnaire() {
       setAnimDir('right')
       setScreen('approved')
 
-      // Meta Pixel: Lead
-      if (typeof window.fbq === 'function') {
-        window.fbq('track', 'Lead')
-      }
+      // Meta Pixel + CAPI: Lead (evento de otimização da campanha)
+      const eventId = generateEventId()
+      trackEvent('Lead', { content_name: 'Quiz Simulação CLT - Pré-aprovado' }, eventId)
+      sendServerEvent('Lead', eventId, {}, { content_name: 'quiz_pre_aprovado' })
     }
   }, [answers, questionIndex])
 
@@ -160,13 +161,18 @@ export default function Questionnaire() {
       `Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
     )
 
-    // Meta Pixel: CompleteRegistration
-    if (typeof window.fbq === 'function') {
-      window.fbq('track', 'CompleteRegistration', {
-        value: parseFloat((value || '0').replace(/\D/g, '')) / 100,
-        currency: 'BRL',
-      })
-    }
+    // Meta Pixel + CAPI: CompleteRegistration
+    const parsedValue = parseFloat((value || '0').replace(/\D/g, '')) / 100
+    const eventId = generateEventId()
+    trackEvent('CompleteRegistration', {
+      value: parsedValue,
+      currency: 'BRL',
+      content_name: 'Quiz Simulação CLT - WhatsApp',
+    }, eventId)
+    sendServerEvent('CompleteRegistration', eventId, {}, {
+      value: parsedValue,
+      currency: 'BRL',
+    })
 
     window.open(
       `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
