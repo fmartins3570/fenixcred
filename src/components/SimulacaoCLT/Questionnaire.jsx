@@ -118,10 +118,18 @@ export default function Questionnaire() {
       setAnimDir('right')
       setScreen('approved')
 
-      // Meta Pixel + CAPI: Lead (evento de otimização da campanha)
+      // Meta Pixel + CAPI: Lead com valor para otimização por valor
       const eventId = generateEventId()
-      trackEvent('Lead', { content_name: 'Quiz Simulação CLT - Pré-aprovado' }, eventId)
-      sendServerEvent('Lead', eventId, {}, { content_name: 'quiz_pre_aprovado' })
+      trackEvent('Lead', {
+        content_name: 'Quiz Simulação CLT - Pré-aprovado',
+        value: 1,
+        currency: 'BRL',
+      }, eventId)
+      sendServerEvent('Lead', eventId, {}, {
+        value: 1,
+        currency: 'BRL',
+        content_name: 'quiz_pre_aprovado',
+      })
     }
   }, [answers, questionIndex])
 
