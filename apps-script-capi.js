@@ -28,6 +28,7 @@ function doGet(e) {
 function sendToConversionsAPI(p) {
   var ud = {};
 
+  // Telefone (SHA-256, com código do país)
   if (p.phone) {
     var ph = p.phone.replace(/\D/g, '');
     if (ph.length <= 11) {
@@ -36,6 +37,7 @@ function sendToConversionsAPI(p) {
     ud.ph = [sha256(ph)];
   }
 
+  // Nome e sobrenome (SHA-256, lowercase)
   if (p.name) {
     var parts = p.name.toLowerCase().trim().split(/\s+/);
     ud.fn = [sha256(parts[0])];
@@ -44,8 +46,26 @@ function sendToConversionsAPI(p) {
     }
   }
 
+  // Email (SHA-256, lowercase)
+  if (p.email) {
+    ud.em = [sha256(p.email.toLowerCase().trim())];
+  }
+
+  // Cidade (SHA-256, lowercase, sem acentos)
+  if (p.city) {
+    ud.ct = [sha256(p.city.toLowerCase().trim())];
+  }
+
+  // Cookies do browser para matching
   if (p.fbc) ud.fbc = p.fbc;
   if (p.fbp) ud.fbp = p.fbp;
+
+  // External ID para cross-device matching
+  if (p.external_id) ud.external_id = [p.external_id];
+
+  // IP e User Agent para advanced matching
+  if (p.client_ip_address) ud.client_ip_address = p.client_ip_address;
+  if (p.client_user_agent) ud.client_user_agent = p.client_user_agent;
 
   var ev = {
     event_name: p.event_name,
@@ -56,13 +76,17 @@ function sendToConversionsAPI(p) {
     user_data: ud
   };
 
-  if (p.value || p.currency) {
+  // Custom data (value, currency, content_name)
+  if (p.value || p.currency || p.content_name) {
     ev.custom_data = {};
     if (p.value) {
       ev.custom_data.value = parseFloat(p.value);
     }
     if (p.currency) {
       ev.custom_data.currency = p.currency;
+    }
+    if (p.content_name) {
+      ev.custom_data.content_name = p.content_name;
     }
   }
 
