@@ -1,10 +1,10 @@
 var PIXEL_ID = '2877752735949899';
-var ACCESS_TOKEN = 'EAAMkte04lIcBQ7Ig1Cf0f8Nb1chHWWZCI4sRUfjDZCe5zfuod5RfZCAs2pBtXjZAvUNUF0sB0IOxx6aZC8ceI43NUuyZAXHnc3qzrX1ZCNSt7kiZAEn9QTOlA6Eqy6sHavB5r7hvRvcx84Uj9RZChG6aJtbr43LNPV8iGVT04yL19k5gvGZBwgulowFQc0xlPhUgZDZD';
+
+var ACCESS_TOKEN = 'EAAcb0l7GRyEBQ1dEd08ZBX6qjH6tg6tlBW5mdZCU2QdnPHz2YpJwaDSjuXuZAis7m9WTxkKsekeLhGSa0MdJGkHT3rKwhZBDmCZCg7nmzymLgeTTjxat5sbL7wPjVZCi5GFz2x6z0ZCtI4GD3ZBSPYhZA8IU2yGc2ZCmZBA5xuttNtecWNBzoqjKGbnopIvecBW9QZDZD';
 
 function doGet(e) {
   var p = e.parameter;
-  var sheet = SpreadsheetApp.getActiveSpreadsheet();
-  sheet = sheet.getActiveSheet();
+  var sheet = SpreadsheetApp.openById('1_zuhGf1IRplOWnyZl3UMVbxFW155KOCbo4zZg1l_Jys').getActiveSheet();
 
   sheet.appendRow([
     new Date(),
@@ -14,7 +14,8 @@ function doGet(e) {
     p.page || p.event_source_url || '',
     p.event_name || 'legacy',
     p.event_id || '',
-    p.value || ''
+    p.value || '',
+    p.city || ''
   ]);
 
   if (p.event_name) {
@@ -28,7 +29,6 @@ function doGet(e) {
 function sendToConversionsAPI(p) {
   var ud = {};
 
-  // Telefone (SHA-256, com código do país)
   if (p.phone) {
     var ph = p.phone.replace(/\D/g, '');
     if (ph.length <= 11) {
@@ -37,7 +37,6 @@ function sendToConversionsAPI(p) {
     ud.ph = [sha256(ph)];
   }
 
-  // Nome e sobrenome (SHA-256, lowercase)
   if (p.name) {
     var parts = p.name.toLowerCase().trim().split(/\s+/);
     ud.fn = [sha256(parts[0])];
@@ -46,26 +45,20 @@ function sendToConversionsAPI(p) {
     }
   }
 
-  // Email (SHA-256, lowercase)
   if (p.email) {
     ud.em = [sha256(p.email.toLowerCase().trim())];
   }
 
-  // Cidade (SHA-256, lowercase, sem acentos)
   if (p.city) {
-    ud.ct = [sha256(p.city.toLowerCase().trim())];
+    var ct = p.city.toLowerCase().trim().replace(/\s+/g, '');
+    ud.ct = [sha256(ct)];
   }
 
-  // Cookies do browser para matching
   if (p.fbc) ud.fbc = p.fbc;
   if (p.fbp) ud.fbp = p.fbp;
-
-  // External ID para cross-device matching
-  if (p.external_id) ud.external_id = [p.external_id];
-
-  // IP e User Agent para advanced matching
-  if (p.client_ip_address) ud.client_ip_address = p.client_ip_address;
   if (p.client_user_agent) ud.client_user_agent = p.client_user_agent;
+  if (p.client_ip_address) ud.client_ip_address = p.client_ip_address;
+  if (p.external_id) ud.external_id = [sha256(p.external_id)];
 
   var ev = {
     event_name: p.event_name,
@@ -76,7 +69,6 @@ function sendToConversionsAPI(p) {
     user_data: ud
   };
 
-  // Custom data (value, currency, content_name)
   if (p.value || p.currency || p.content_name) {
     ev.custom_data = {};
     if (p.value) {
@@ -95,8 +87,7 @@ function sendToConversionsAPI(p) {
     access_token: ACCESS_TOKEN
   };
 
-  var url = 'https://graph.facebook.com/v21.0/'
-    + PIXEL_ID + '/events';
+  var url = 'https://graph.facebook.com/v21.0/' + PIXEL_ID + '/events';
 
   var opts = {
     method: 'post',
