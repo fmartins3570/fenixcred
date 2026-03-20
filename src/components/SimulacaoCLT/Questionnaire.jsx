@@ -161,6 +161,11 @@ export default function Questionnaire() {
       `Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
     )
 
+    // Meta Pixel + CAPI: Contact (para conversão personalizada "Contato WhatsApp")
+    const contactEventId = generateEventId()
+    trackEvent('Contact', { content_name: 'Quiz Simulação CLT - WhatsApp', content_category: 'whatsapp' }, contactEventId)
+    sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulação CLT' })
+
     // Meta Pixel + CAPI: CompleteRegistration
     const parsedValue = parseFloat((value || '0').replace(/\D/g, '')) / 100
     const eventId = generateEventId()
