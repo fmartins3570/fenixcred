@@ -83,12 +83,12 @@ export default function LeadPopup() {
     e.preventDefault()
     if (!validateStep1()) return
     const eventId = generateEventId()
-    trackEvent('Lead', { content_name: 'LeadPopup Step1', value: 0, currency: 'BRL' }, eventId)
+    trackEvent('Lead', { content_name: 'LeadPopup Step1', value: 1, currency: 'BRL' }, eventId)
     sendServerEvent('Lead', eventId, {
       name: name.trim(),
       phone: phone.replace(/\D/g, ''),
       page: window.location.pathname,
-    }, { value: 0, currency: 'BRL' })
+    }, { value: 1, currency: 'BRL' })
     setStep(2)
   }
 
