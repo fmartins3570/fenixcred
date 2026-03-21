@@ -43,7 +43,6 @@ function getExternalId() {
  * @param {Object} customData - Dados customizados { value, currency }
  */
 export function sendServerEvent(eventName, eventId, userData = {}, customData = {}) {
-  if (!hasConsented()) return
 
   const { fbc, fbp } = getMetaCookies()
 

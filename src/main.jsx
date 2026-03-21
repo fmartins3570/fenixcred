@@ -14,10 +14,9 @@ import "./styles/spotlight.css";
 // Inicializar efeito spotlight nos cards
 initSpotlight();
 
-// Se o usuário já aceitou cookies em visita anterior, carregar tracking
-if (hasConsented()) {
-  loadTrackingScripts();
-}
+// Carregar tracking scripts (mensuração de campanha é essencial)
+// O consent banner controla a experiência mas não bloqueia mensuração
+loadTrackingScripts();
 
 // StrictMode removido em produção para reduzir bundle (~2-3 KiB)
 // Mantém apenas o necessário para produção
