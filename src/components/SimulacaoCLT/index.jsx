@@ -3,9 +3,11 @@ import HeaderCLT from '../CreditoCLT/HeaderCLT'
 import Footer from '../CreditoCLT/Footer'
 import SchemaJSON from '../SchemaJSON'
 import BackToTop from '../BackToTop'
+import CookieBanner from '../CookieBanner'
 import Hero from './Hero'
 import Questionnaire from './Questionnaire'
 import FAQ from './FAQ'
+import WhatsAppFloat from './WhatsAppFloat'
 import { trackEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import './index.css'
@@ -36,6 +38,8 @@ export default function SimulacaoCLT() {
       </main>
       <Footer />
       <BackToTop />
+      <WhatsAppFloat />
+      <CookieBanner />
     </div>
   )
 }
