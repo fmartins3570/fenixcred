@@ -1,6 +1,7 @@
 import "./Footer.css";
 import Logo from "./Logo";
-import { trackEvent, trackCustomEvent } from '../utils/metaPixel';
+import { trackEvent, trackCustomEvent, generateEventId } from '../utils/metaPixel';
+import { sendServerEvent } from '../utils/metaCAPI';
 import logoFM from '../assets/logo_fm_consultoria.webp';
 
 /**
@@ -10,7 +11,9 @@ import logoFM from '../assets/logo_fm_consultoria.webp';
  */
 function Footer() {
   const openWhatsApp = () => {
-    trackEvent('Contact', { content_name: 'Footer WhatsApp Float', content_category: 'whatsapp' })
+    const eventId = generateEventId()
+    trackEvent('Contact', { content_name: 'Footer WhatsApp Float', content_category: 'whatsapp' }, eventId)
+    sendServerEvent('Contact', eventId, { page: 'Footer Float' })
     window.open(
       "https://api.whatsapp.com/send?phone=5511917082143&text=Ol%C3%A1%2C%20gostaria%20de%20simular%20o%20cr%C3%A9dito%20para%20o%20CLT.",
       "_blank"
