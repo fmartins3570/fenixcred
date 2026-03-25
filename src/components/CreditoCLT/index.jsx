@@ -13,6 +13,7 @@ import CookieBanner from "../CookieBanner";
 import LeadPopup from "./LeadPopup";
 import { trackEvent, generateEventId } from "../../utils/metaPixel";
 import { sendServerEvent } from "../../utils/metaCAPI";
+import { tagMessage } from "../../utils/utmParams";
 import "./index.css";
 
 /**
@@ -55,7 +56,7 @@ function WhatsAppFloatingButton() {
     trackEvent('Contact', { content_name: 'WhatsApp Float CLT', content_category: 'whatsapp' }, eventId)
     sendServerEvent('Contact', eventId, { page: 'CreditoCLT Float' })
     const message = encodeURIComponent(
-      "Olá! Gostaria de simular um crédito consignado CLT.",
+      tagMessage("Olá! Gostaria de simular um crédito consignado CLT."),
     );
     window.open(
       `https://wa.me/5511917082143?text=${message}`,

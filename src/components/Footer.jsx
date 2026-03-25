@@ -2,6 +2,7 @@ import "./Footer.css";
 import Logo from "./Logo";
 import { trackEvent, trackCustomEvent, generateEventId } from '../utils/metaPixel';
 import { sendServerEvent } from '../utils/metaCAPI';
+import { tagMessage } from '../utils/utmParams';
 import logoFM from '../assets/logo_fm_consultoria.webp';
 
 /**
@@ -14,8 +15,9 @@ function Footer() {
     const eventId = generateEventId()
     trackEvent('Contact', { content_name: 'Footer WhatsApp Float', content_category: 'whatsapp' }, eventId)
     sendServerEvent('Contact', eventId, { page: 'Footer Float' })
+    const msg = encodeURIComponent(tagMessage('Olá, gostaria de simular o crédito para o CLT.'))
     window.open(
-      "https://api.whatsapp.com/send?phone=5511917082143&text=Ol%C3%A1%2C%20gostaria%20de%20simular%20o%20cr%C3%A9dito%20para%20o%20CLT.",
+      `https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`,
       "_blank"
     );
   };

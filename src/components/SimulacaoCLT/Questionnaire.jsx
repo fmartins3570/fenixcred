@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
+import { tagMessage } from '../../utils/utmParams'
 import './Questionnaire.css'
 
 const QUESTIONS = [
@@ -168,12 +169,8 @@ export default function Questionnaire() {
     else profileParts.push('Primeira vez fazendo consignado CLT')
     if (answers.q5 === true) profileParts.push('Tenho margem disponível')
 
-    // Ler tag do utm_content para identificar criativo de origem
-    const utmContent = new URLSearchParams(window.location.search).get('utm_content') || ''
-    const tagPrefix = utmContent ? `(${utmContent}) ` : ''
-
     const message = encodeURIComponent(
-      `${tagPrefix}Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
+      tagMessage(`Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`)
     )
 
     // Meta Pixel + CAPI: Contact (para conversão personalizada "Contato WhatsApp")

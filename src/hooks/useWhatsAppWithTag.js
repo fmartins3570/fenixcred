@@ -1,6 +1,7 @@
 import { SHARED } from '../utils/consignado-lp/angles'
 import { trackEvent, generateEventId } from '../utils/metaPixel'
 import { sendServerEvent } from '../utils/metaCAPI'
+import { tagMessage } from '../utils/utmParams'
 
 /**
  * Hook for opening WhatsApp with a tracking tag prefix.
@@ -21,7 +22,7 @@ export function useWhatsAppWithTag(tag) {
     message = 'Olá! Gostaria de simular um consignado CLT.',
     trackingName = `WhatsApp ${tag}`
   ) => {
-    const taggedMessage = `(${tag})${message}`
+    const taggedMessage = tagMessage(`(${tag})${message}`)
     const eventId = generateEventId()
 
     trackEvent('Contact', {
@@ -72,7 +73,7 @@ export function useWhatsAppWithTag(tag) {
       currency: 'BRL',
     })
 
-    const taggedMessage = `(${tag})${message}`
+    const taggedMessage = tagMessage(`(${tag})${message}`)
     const encoded = encodeURIComponent(taggedMessage)
     window.open(
       `https://wa.me/${phoneNumber}?text=${encoded}`,

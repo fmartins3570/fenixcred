@@ -2,6 +2,7 @@ import { useWhatsApp } from '../../hooks/credito-clt/useWhatsApp'
 import { useLeadData } from '../../hooks/credito-clt/useLeadData'
 import { PURPOSES } from './LeadPopup'
 import { trackEvent } from '../../utils/metaPixel'
+import { tagMessage } from '../../utils/utmParams'
 import './Hero.css'
 
 import modeloImage400w from '../../assets/modelo_fenix_cred-400wp2 copy.webp'
@@ -88,7 +89,7 @@ export default function Hero({ personalized = false }) {
       : ''
 
     const message = encodeURIComponent(
-      `Olá! Meu nome é ${leadData.name}.${purposeText}\nGostaria de simular um crédito consignado CLT.`
+      tagMessage(`Olá! Meu nome é ${leadData.name}.${purposeText}\nGostaria de simular um crédito consignado CLT.`)
     )
 
     window.open(

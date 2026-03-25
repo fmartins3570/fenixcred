@@ -3,6 +3,7 @@ import './Header.css'
 import Logo from './Logo'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { trackEvent } from '../utils/metaPixel'
+import { tagMessage } from '../utils/utmParams'
 
 /**
  * Componente Header - Cabeçalho fixo no topo
@@ -24,7 +25,8 @@ function Header() {
   // Função para abrir WhatsApp
   const openWhatsApp = () => {
     trackEvent('Contact', { content_name: 'Header WhatsApp', content_category: 'whatsapp' })
-    window.open('https://api.whatsapp.com/send?phone=5511917082143&text=Ol%C3%A1%2C%20gostaria%20de%20simular%20o%20cr%C3%A9dito%20para%20o%20CLT.', '_blank')
+    const msg = encodeURIComponent(tagMessage('Olá, gostaria de simular o crédito para o CLT.'))
+    window.open(`https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`, '_blank')
   }
 
   return (
