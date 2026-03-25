@@ -118,6 +118,9 @@ export default function Questionnaire() {
       setAnimDir('right')
       setScreen('approved')
 
+      // Mostrar botão flutuante de WhatsApp
+      window.dispatchEvent(new Event('quiz-completed'))
+
       // Meta Pixel + CAPI: Lead com valor para otimização por valor
       const eventId = generateEventId()
       trackEvent('Lead', {
@@ -165,8 +168,12 @@ export default function Questionnaire() {
     else profileParts.push('Primeira vez fazendo consignado CLT')
     if (answers.q5 === true) profileParts.push('Tenho margem disponível')
 
+    // Ler tag do utm_content para identificar criativo de origem
+    const utmContent = new URLSearchParams(window.location.search).get('utm_content') || ''
+    const tagPrefix = utmContent ? `(${utmContent}) ` : ''
+
     const message = encodeURIComponent(
-      `Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
+      `${tagPrefix}Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
     )
 
     // Meta Pixel + CAPI: Contact (para conversão personalizada "Contato WhatsApp")

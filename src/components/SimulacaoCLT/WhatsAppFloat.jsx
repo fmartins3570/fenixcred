@@ -1,14 +1,32 @@
+import { useState, useEffect } from 'react'
 import { trackEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import './WhatsAppFloat.css'
 
+/**
+ * Botão flutuante de WhatsApp — só aparece após o quiz ser completado.
+ * Escuta o evento customizado 'quiz-completed' disparado pelo Questionnaire.
+ */
 export default function WhatsAppFloat() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const show = () => setVisible(true)
+    window.addEventListener('quiz-completed', show)
+    return () => window.removeEventListener('quiz-completed', show)
+  }, [])
+
   const handleClick = () => {
     const eventId = generateEventId()
     trackEvent('Contact', { content_name: 'WhatsApp Float Simulação CLT', content_category: 'whatsapp' }, eventId)
     sendServerEvent('Contact', eventId, { page: 'Simulação CLT Float' })
+
+    // Ler tag do utm_content para identificar criativo de origem
+    const utmContent = new URLSearchParams(window.location.search).get('utm_content') || ''
+    const tagPrefix = utmContent ? `(${utmContent}) ` : ''
+
     const message = encodeURIComponent(
-      'Olá! Gostaria de simular um crédito consignado CLT.'
+      `${tagPrefix}Olá! Gostaria de simular um crédito consignado CLT.`
     )
     window.open(
       `https://wa.me/5511917082143?text=${message}`,
@@ -16,6 +34,8 @@ export default function WhatsAppFloat() {
       'noopener,noreferrer'
     )
   }
+
+  if (!visible) return null
 
   return (
     <button
