@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
-import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 import './Questionnaire.css'
@@ -98,6 +98,29 @@ export default function Questionnaire() {
     setAnswers(newAnswers)
 
     const question = QUESTIONS[questionIndex]
+    const isRejection =
+      (question.rejectOnFalse === true && answerValue === false) ||
+      (question.rejectOnFalse === 'margin' && answerValue === false)
+    const answerLabel = question.options.find((o) => o.value === answerValue)?.label || String(answerValue)
+
+    // GA4: evento customizado para cada resposta do quiz
+    if (window.gtag) {
+      window.gtag('event', 'quiz_answer', {
+        question_id: questionId,
+        question_text: question.text,
+        answer: answerLabel,
+        step: questionIndex + 1,
+        qualified: !isRejection,
+      })
+    }
+
+    // Meta Pixel: evento customizado para cada resposta
+    trackCustomEvent('QuizAnswer', {
+      question_id: questionId,
+      answer: answerLabel,
+      step: questionIndex + 1,
+      qualified: !isRejection,
+    })
 
     // Check rejection
     if (question.rejectOnFalse === true && answerValue === false) {
