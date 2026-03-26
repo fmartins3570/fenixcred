@@ -55,10 +55,32 @@ export function getUtmTag() {
 }
 
 /**
- * Prepende a tag UTM a uma mensagem (se houver).
- * Ex: "(f-gv) Ola! Gostaria de simular..."
+ * Retorna o valor do cookie _fbc (Facebook Click ID) se disponível.
+ * Formato: fb.1.{timestamp}.{fbclid}
+ */
+function getFbc() {
+  try {
+    const cookies = document.cookie.split('; ')
+    const fbcCookie = cookies.find((c) => c.startsWith('_fbc='))
+    if (fbcCookie) return decodeURIComponent(fbcCookie.split('=')[1])
+
+    // Se não tem cookie, tenta gerar a partir do fbclid na URL
+    const params = new URLSearchParams(window.location.search)
+    const fbclid = params.get('fbclid')
+    if (fbclid) return `fb.1.${Date.now()}.${fbclid}`
+  } catch {}
+  return ''
+}
+
+/**
+ * Prepende a tag UTM e anexa o fbc (Facebook Click ID) a uma mensagem.
+ * O fbc permite que o VendeAI vincule a conversão ao clique no anúncio.
+ * Ex: "(f-gv) Ola! Gostaria de simular...\n[fbc:fb.1.xxx.xxx]"
  */
 export function tagMessage(message) {
   const tag = getUtmTag()
-  return tag ? `(${tag}) ${message}` : message
+  const fbc = getFbc()
+  let result = tag ? `(${tag}) ${message}` : message
+  if (fbc) result += `\n[fbc:${fbc}]`
+  return result
 }

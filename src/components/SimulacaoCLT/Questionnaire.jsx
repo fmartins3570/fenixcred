@@ -149,11 +149,11 @@ export default function Questionnaire() {
       const eventId = generateEventId()
       trackEvent('Lead', {
         content_name: 'Quiz Simulação CLT - Pré-aprovado',
-        value: 1,
+        value: 100,
         currency: 'BRL',
       }, eventId)
       sendServerEvent('Lead', eventId, {}, {
-        value: 1,
+        value: 100,
         currency: 'BRL',
         content_name: 'quiz_pre_aprovado',
       })

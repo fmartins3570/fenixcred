@@ -4,7 +4,7 @@
   <!-- Página Principal -->
   <url>
     <loc>https://fenixcredbr.com.br/</loc>
-    <lastmod>2026-03-20T11:20:02.776Z</lastmod>
+    <lastmod>2026-03-25T12:12:31.261Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -16,7 +16,7 @@
   <!-- Seção Home/Início -->
   <url>
     <loc>https://fenixcredbr.com.br/#inicio</loc>
-    <lastmod>2026-03-20T11:20:02.776Z</lastmod>
+    <lastmod>2026-03-25T12:12:31.261Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -24,7 +24,7 @@
   <!-- Seção Sobre Nós -->
   <url>
     <loc>https://fenixcredbr.com.br/#sobre</loc>
-    <lastmod>2026-03-20T11:20:02.755Z</lastmod>
+    <lastmod>2026-01-16T15:08:49.164Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -32,7 +32,7 @@
   <!-- Seção Serviços -->
   <url>
     <loc>https://fenixcredbr.com.br/#servicos</loc>
-    <lastmod>2026-03-20T11:20:02.780Z</lastmod>
+    <lastmod>2026-03-16T18:01:55.711Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -40,7 +40,7 @@
   <!-- Seção Avaliações/Depoimentos -->
   <url>
     <loc>https://fenixcredbr.com.br/#depoimentos</loc>
-    <lastmod>2026-03-20T11:20:02.779Z</lastmod>
+    <lastmod>2026-03-06T18:43:10.825Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
@@ -48,7 +48,7 @@
   <!-- Seção Parceiros -->
   <url>
     <loc>https://fenixcredbr.com.br/#parceiros</loc>
-    <lastmod>2026-03-20T11:20:02.777Z</lastmod>
+    <lastmod>2026-03-06T18:43:03.675Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -56,7 +56,7 @@
   <!-- Seção FAQ -->
   <url>
     <loc>https://fenixcredbr.com.br/#faq</loc>
-    <lastmod>2026-03-20T11:20:02.774Z</lastmod>
+    <lastmod>2026-03-16T18:01:55.707Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -64,7 +64,7 @@
   <!-- Seção Trabalhe Conosco -->
   <url>
     <loc>https://fenixcredbr.com.br/#trabalhe-conosco</loc>
-    <lastmod>2026-03-20T11:20:02.784Z</lastmod>
+    <lastmod>2026-03-25T12:12:31.261Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
@@ -72,7 +72,7 @@
   <!-- Política de Privacidade -->
   <url>
     <loc>https://fenixcredbr.com.br/#politica-privacidade</loc>
-    <lastmod>2026-03-20T11:20:02.778Z</lastmod>
+    <lastmod>2026-03-16T18:01:55.710Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.50</priority>
   </url>

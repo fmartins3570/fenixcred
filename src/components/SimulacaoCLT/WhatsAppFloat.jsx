@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { trackEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
+import { tagMessage } from '../../utils/utmParams'
 import './WhatsAppFloat.css'
 
 /**
@@ -21,12 +22,8 @@ export default function WhatsAppFloat() {
     trackEvent('Contact', { content_name: 'WhatsApp Float Simulação CLT', content_category: 'whatsapp' }, eventId)
     sendServerEvent('Contact', eventId, { page: 'Simulação CLT Float' })
 
-    // Ler tag do utm_content para identificar criativo de origem
-    const utmContent = new URLSearchParams(window.location.search).get('utm_content') || ''
-    const tagPrefix = utmContent ? `(${utmContent}) ` : ''
-
     const message = encodeURIComponent(
-      `${tagPrefix}Olá! Gostaria de simular um crédito consignado CLT.`
+      tagMessage('Olá! Gostaria de simular um crédito consignado CLT.')
     )
     window.open(
       `https://wa.me/5511917082143?text=${message}`,
