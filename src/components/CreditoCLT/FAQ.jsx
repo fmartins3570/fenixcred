@@ -74,7 +74,7 @@ export default function FAQ() {
               onClick={(e) => {
                 e.preventDefault()
                 trackEvent('Contact', { content_name: 'FAQ CLT WhatsApp', content_category: 'whatsapp' })
-                const msg = encodeURIComponent(tagMessage('Olá! Tenho algumas dúvidas sobre o crédito consignado CLT.'))
+                const msg = encodeURIComponent(tagMessage('(clt-faq) Olá! Tenho algumas dúvidas sobre o crédito consignado CLT.'))
                 window.open(`https://wa.me/5511917082143?text=${msg}`, '_blank', 'noopener,noreferrer')
               }}
             >

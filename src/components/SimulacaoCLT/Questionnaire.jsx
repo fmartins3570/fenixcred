@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
-import { tagMessage } from '../../utils/utmParams'
+import { tagMessage, getUtmTag } from '../../utils/utmParams'
 import './Questionnaire.css'
 
 const QUESTIONS = [
@@ -192,9 +192,10 @@ export default function Questionnaire() {
     else profileParts.push('Primeira vez fazendo consignado CLT')
     if (answers.q5 === true) profileParts.push('Tenho margem disponível')
 
-    const message = encodeURIComponent(
-      tagMessage(`Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`)
-    )
+    // Always prepend (sim) so quiz leads are identifiable even without UTM params.
+    // tagMessage adds utm_content + fbc on top if available: "(utm_content) (sim) msg [fbc:...]"
+    const baseMsg = `(sim) Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
+    const message = encodeURIComponent(tagMessage(baseMsg))
 
     // Meta Pixel + CAPI: Contact (para conversão personalizada "Contato WhatsApp")
     const contactEventId = generateEventId()

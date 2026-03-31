@@ -89,7 +89,7 @@ export default function Hero({ personalized = false }) {
       : ''
 
     const message = encodeURIComponent(
-      tagMessage(`Olá! Meu nome é ${leadData.name}.${purposeText}\nGostaria de simular um crédito consignado CLT.`)
+      tagMessage(`(clt-hero) Olá! Meu nome é ${leadData.name}.${purposeText}\nGostaria de simular um crédito consignado CLT.`)
     )
 
     window.open(

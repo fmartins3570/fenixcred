@@ -15,7 +15,7 @@ function Footer() {
     const eventId = generateEventId()
     trackEvent('Contact', { content_name: 'Footer WhatsApp Float', content_category: 'whatsapp' }, eventId)
     sendServerEvent('Contact', eventId, { page: 'Footer Float' })
-    const msg = encodeURIComponent(tagMessage('Olá, gostaria de simular o crédito para o CLT.'))
+    const msg = encodeURIComponent(tagMessage('(footer) Olá, gostaria de simular o crédito para o CLT.'))
     window.open(
       `https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`,
       "_blank"

@@ -24,7 +24,7 @@ import modeloImage1050wp2 from "../assets/modelo_fenix_cred-1050wp2.webp";
 function Hero() {
   const openWhatsApp = () => {
     trackEvent('Contact', { content_name: 'Hero WhatsApp', content_category: 'whatsapp' })
-    const msg = encodeURIComponent(tagMessage('Olá, gostaria de simular o crédito para o CLT.'))
+    const msg = encodeURIComponent(tagMessage('(home) Olá, gostaria de simular o crédito para o CLT.'))
     window.open(
       `https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`,
       "_blank"

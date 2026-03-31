@@ -56,7 +56,7 @@ function WhatsAppFloatingButton() {
     trackEvent('Contact', { content_name: 'WhatsApp Float CLT', content_category: 'whatsapp' }, eventId)
     sendServerEvent('Contact', eventId, { page: 'CreditoCLT Float' })
     const message = encodeURIComponent(
-      tagMessage("Olá! Gostaria de simular um crédito consignado CLT."),
+      tagMessage("(clt) Olá! Gostaria de simular um crédito consignado CLT."),
     );
     window.open(
       `https://wa.me/5511917082143?text=${message}`,

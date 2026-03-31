@@ -23,7 +23,7 @@ export default function WhatsAppFloat() {
     sendServerEvent('Contact', eventId, { page: 'Simulação CLT Float' })
 
     const message = encodeURIComponent(
-      tagMessage('Olá! Gostaria de simular um crédito consignado CLT.')
+      tagMessage('(sim-float) Olá! Gostaria de simular um crédito consignado CLT.')
     )
     window.open(
       `https://wa.me/5511917082143?text=${message}`,

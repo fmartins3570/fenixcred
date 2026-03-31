@@ -8,7 +8,7 @@ import { tagMessage } from '../../utils/utmParams'
 export function useWhatsApp() {
   const phoneNumber = WHATSAPP_NUMBER
 
-  const openWhatsApp = (message = 'Olá, gostaria de simular um crédito CLT', trackingName = 'WhatsApp CLT') => {
+  const openWhatsApp = (message = '(clt) Olá, gostaria de simular um crédito CLT', trackingName = 'WhatsApp CLT') => {
     trackEvent('Contact', { content_name: trackingName, content_category: 'whatsapp' })
     const encodedMessage = encodeURIComponent(tagMessage(message))
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
