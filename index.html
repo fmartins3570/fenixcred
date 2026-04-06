@@ -277,6 +277,9 @@
         transition: all 0.3s;
         border-radius: 2px;
       }
+      .nav-mobile {
+        display: none;
+      }
       @media (min-width: 1024px) {
         .nav-desktop {
           display: flex;
@@ -479,31 +482,22 @@
     <script>
       /* Tornar CSS não-crítico não-bloqueante usando técnica de print media */
       (function () {
-        // Função para tornar links de CSS não-bloqueantes
         function makeCSSNonBlocking() {
-          // Aguardar um pouco para que o Vite injete os links de CSS
           setTimeout(function () {
             var links = document.querySelectorAll('link[rel="stylesheet"]');
             links.forEach(function (link) {
-              // Se o CSS foi injetado pelo Vite (não é inline)
               if (link.href && !link.href.startsWith('data:')) {
-                // Usar técnica de print media para carregar sem bloquear
+                // Skip stylesheets that are already loaded
+                if (link.sheet) return;
                 link.media = 'print';
                 link.onload = function () {
                   this.media = 'all';
                 };
-                // Fallback para browsers antigos
-                if (!('onload' in link)) {
-                  setTimeout(function () {
-                    link.media = 'all';
-                  }, 0);
-                }
               }
             });
           }, 0);
         }
 
-        // Executar após DOM estar pronto
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", makeCSSNonBlocking);
         } else {
