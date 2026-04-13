@@ -63,7 +63,7 @@ export default defineConfig({
       // Tree-shaking — manter side effects para módulos de tracking
       treeshake: {
         moduleSideEffects: (id) => {
-          if (id.includes('metaCAPI') || id.includes('metaPixel') || id.includes('cookieConsent')) return true;
+          if (id.includes('metaCAPI') || id.includes('metaPixel') || id.includes('cookieConsent') || id.includes('utmParams')) return true;
           return false;
         },
         propertyReadSideEffects: false,
