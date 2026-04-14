@@ -1,30 +1,49 @@
 /**
- * Google Analytics Utility - Versão Minimalista
- * 
- * O Google Analytics já está carregado no index.html
- * Esta função apenas garante que está inicializado corretamente
+ * Google Analytics Utility
+ *
+ * Mirrors Meta Pixel events to GA4 recommended event names.
+ * GA4 script is loaded in index.html after cookie consent.
  */
+
+// Meta Pixel event name → GA4 recommended event name
+const EVENT_MAP = {
+  Lead: 'generate_lead',
+  Contact: 'contact',
+  CompleteRegistration: 'sign_up',
+  ViewContent: 'view_item',
+  InitiateCheckout: 'begin_checkout',
+  Purchase: 'purchase',
+}
 
 /**
- * Inicializa o Google Analytics (se ainda não foi inicializado)
- * O script já está no index.html, esta função apenas verifica
+ * Send an event to GA4 using the equivalent recommended event name.
+ * Called automatically from metaPixel.trackEvent — no need to call directly.
+ *
+ * @param {string} metaEventName - Meta Pixel event name (e.g. 'Lead')
+ * @param {object} params - Event parameters (forwarded as-is)
  */
-export const initGA = () => {
-  // Se gtag já existe, não precisa fazer nada
-  if (window.gtag && window.dataLayer) {
-    return;
-  }
+export const trackGA4Event = (metaEventName, params = {}) => {
+  if (typeof window === 'undefined' || !window.gtag) return
 
-  // Garantir que dataLayer existe
-  if (!window.dataLayer) {
-    window.dataLayer = window.dataLayer || [];
-  }
+  const ga4Name = EVENT_MAP[metaEventName] || metaEventName.toLowerCase()
 
-  // Se gtag não existe, definir (fallback caso script não tenha carregado)
-  if (!window.gtag) {
-    window.gtag = function() {
-      window.dataLayer.push(arguments);
-    };
-    window.gtag('js', new Date());
-  }
-};
+  window.gtag('event', ga4Name, {
+    ...params,
+    event_source: 'website',
+  })
+}
+
+/**
+ * Send a custom event to GA4 (for events not in the standard mapping).
+ *
+ * @param {string} eventName - Custom event name
+ * @param {object} params - Event parameters
+ */
+export const trackGA4CustomEvent = (eventName, params = {}) => {
+  if (typeof window === 'undefined' || !window.gtag) return
+
+  window.gtag('event', eventName.toLowerCase(), {
+    ...params,
+    event_source: 'website',
+  })
+}
