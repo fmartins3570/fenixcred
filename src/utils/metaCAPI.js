@@ -6,7 +6,6 @@
  */
 
 import { getMetaCookies } from './metaPixel'
-import { hasConsented } from './cookieConsent'
 
 const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbwCTd-uGRPNFW7fXDq73huWHkOGW_11-3qyyum8YxH6xl8VzWju1tZCso6hDleFKZvf/exec'
@@ -67,8 +66,10 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
 
     const url = `${APPS_SCRIPT_URL}?${params}`
 
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(url)
+    // Use GET (not sendBeacon which sends POST) so Apps Script doGet() handles it.
+    // keepalive ensures the request survives page navigation (like sendBeacon).
+    if (typeof fetch !== 'undefined') {
+      fetch(url, { method: 'GET', mode: 'no-cors', keepalive: true }).catch(() => {})
     } else {
       new Image().src = url
     }
