@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './Header.css'
 import Logo from './Logo'
 import { useActiveSection } from '../hooks/useActiveSection'
-import { trackEvent } from '../utils/metaPixel'
+import { trackEvent, generateEventId } from '../utils/metaPixel'
+import { sendServerEvent } from '../utils/metaCAPI'
 import { tagMessage } from '../utils/utmParams'
 
 /**
@@ -24,7 +25,9 @@ function Header() {
 
   // Função para abrir WhatsApp
   const openWhatsApp = () => {
-    trackEvent('Contact', { content_name: 'Header WhatsApp', content_category: 'whatsapp' })
+    const eventId = generateEventId()
+    trackEvent('Contact', { content_name: 'Header WhatsApp', content_category: 'whatsapp' }, eventId)
+    sendServerEvent('Contact', eventId, { page: 'Header' })
     const msg = encodeURIComponent(tagMessage('(nav) Olá, gostaria de simular o crédito para o CLT.'))
     window.open(`https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`, '_blank')
   }

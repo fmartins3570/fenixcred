@@ -8,7 +8,7 @@
 import { getMetaCookies } from './metaPixel'
 
 const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbwCTd-uGRPNFW7fXDq73huWHkOGW_11-3qyyum8YxH6xl8VzWju1tZCso6hDleFKZvf/exec'
+  'https://script.google.com/macros/s/AKfycbyuYC4ZdGBohpfJM1Zr0JFHA3WTg-_95Z4sC9EQ9JOEEzYdcRnfNMLfASBoOr3rq-Cl/exec'
 
 // Cache do IP — captura uma vez e reutiliza
 let cachedIP = ''
@@ -54,10 +54,12 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
       fbp,
       client_user_agent: navigator.userAgent,
       external_id: getExternalId(),
+      country: 'br',
       ...(ip && { client_ip_address: ip }),
       ...(userData.name && { name: userData.name }),
       ...(userData.phone && { phone: userData.phone }),
       ...(userData.city && { city: userData.city }),
+      ...(userData.state && { state: userData.state }),
       ...(userData.purposes && { purposes: userData.purposes }),
       ...(userData.page && { page: userData.page }),
       ...(customData.value != null && { value: String(customData.value) }),

@@ -1,5 +1,6 @@
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
-import { trackEvent } from '../../utils/metaPixel'
+import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 
 /**
@@ -9,7 +10,9 @@ export function useWhatsApp() {
   const phoneNumber = WHATSAPP_NUMBER
 
   const openWhatsApp = (message = '(clt) Olá, gostaria de simular um crédito CLT', trackingName = 'WhatsApp CLT') => {
-    trackEvent('Contact', { content_name: trackingName, content_category: 'whatsapp' })
+    const eventId = generateEventId()
+    trackEvent('Contact', { content_name: trackingName, content_category: 'whatsapp' }, eventId)
+    sendServerEvent('Contact', eventId, { page: trackingName })
     const encodedMessage = encodeURIComponent(tagMessage(message))
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
     window.open(url, '_blank', 'noopener,noreferrer')

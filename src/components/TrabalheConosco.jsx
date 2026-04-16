@@ -1,5 +1,6 @@
 import './TrabalheConosco.css'
-import { trackEvent } from '../utils/metaPixel'
+import { trackEvent, generateEventId } from '../utils/metaPixel'
+import { sendServerEvent } from '../utils/metaCAPI'
 import { tagMessage } from '../utils/utmParams'
 
 /**
@@ -7,7 +8,9 @@ import { tagMessage } from '../utils/utmParams'
  */
 function TrabalheConosco() {
   const openWhatsApp = () => {
-    trackEvent('Contact', { content_name: 'Trabalhe Conosco WhatsApp', content_category: 'whatsapp' })
+    const eventId = generateEventId()
+    trackEvent('Contact', { content_name: 'Trabalhe Conosco WhatsApp', content_category: 'whatsapp' }, eventId)
+    sendServerEvent('Contact', eventId, { page: 'Trabalhe Conosco' })
     const msg = encodeURIComponent(tagMessage('(trab) Olá, gostaria de simular o crédito para o CLT.'))
     window.open(`https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`, '_blank')
   }

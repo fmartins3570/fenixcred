@@ -1,7 +1,8 @@
 import { useWhatsApp } from '../../hooks/credito-clt/useWhatsApp'
 import { useLeadData } from '../../hooks/credito-clt/useLeadData'
 import { PURPOSES } from './LeadPopup'
-import { trackEvent } from '../../utils/metaPixel'
+import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 import './Hero.css'
 
@@ -79,7 +80,9 @@ export default function Hero({ personalized = false }) {
   const otherPurposes = (leadData?.purposes || []).slice(1)
 
   const handlePersonalizedWhatsApp = () => {
-    trackEvent('Contact', { content_name: 'Hero CLT Personalizado WhatsApp', content_category: 'whatsapp' })
+    const eventId = generateEventId()
+    trackEvent('Contact', { content_name: 'Hero CLT Personalizado WhatsApp', content_category: 'whatsapp' }, eventId)
+    sendServerEvent('Contact', eventId, { page: 'Hero CLT Personalizado' })
     const selectedLabels = PURPOSES
       .filter((p) => (leadData?.purposes || []).includes(p.id))
       .map((p) => p.label)

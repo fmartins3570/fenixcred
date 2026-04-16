@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { faqs } from '../../utils/credito-clt/constants'
-import { trackEvent, trackCustomEvent } from '../../utils/metaPixel'
+import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 import './FAQ.css'
 
@@ -73,7 +74,9 @@ export default function FAQ() {
               className="faq-whatsapp-link"
               onClick={(e) => {
                 e.preventDefault()
-                trackEvent('Contact', { content_name: 'FAQ CLT WhatsApp', content_category: 'whatsapp' })
+                const eventId = generateEventId()
+                trackEvent('Contact', { content_name: 'FAQ CLT WhatsApp', content_category: 'whatsapp' }, eventId)
+                sendServerEvent('Contact', eventId, { page: 'FAQ CLT' })
                 const msg = encodeURIComponent(tagMessage('(clt-faq) Olá! Tenho algumas dúvidas sobre o crédito consignado CLT.'))
                 window.open(`https://wa.me/5511917082143?text=${msg}`, '_blank', 'noopener,noreferrer')
               }}

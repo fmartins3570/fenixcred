@@ -157,7 +157,11 @@ function Footer() {
                   <a
                     href="tel:+5511917082143"
                     aria-label="Ligar para (11) 91708-2143"
-                    onClick={() => trackEvent('Contact', { content_name: 'Footer Telefone', content_category: 'phone' })}
+                    onClick={() => {
+                      const eventId = generateEventId()
+                      trackEvent('Contact', { content_name: 'Footer Telefone', content_category: 'phone' }, eventId)
+                      sendServerEvent('Contact', eventId, { page: 'Footer Telefone' })
+                    }}
                   >
                     (11) 91708-2143
                   </a>
@@ -168,7 +172,11 @@ function Footer() {
                   <a
                     href="mailto:contato@fenixcredbr.com.br"
                     aria-label="Enviar email para contato@fenixcredbr.com.br"
-                    onClick={() => trackEvent('Contact', { content_name: 'Footer Email', content_category: 'email' })}
+                    onClick={() => {
+                      const eventId = generateEventId()
+                      trackEvent('Contact', { content_name: 'Footer Email', content_category: 'email' }, eventId)
+                      sendServerEvent('Contact', eventId, { page: 'Footer Email' })
+                    }}
                   >
                     contato@fenixcredbr.com.br
                   </a>
