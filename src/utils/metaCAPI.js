@@ -1,24 +1,15 @@
 /**
  * Meta Conversions API (CAPI) - FenixCred
  *
- * Envia eventos server-side via Google Apps Script para deduplicação
- * com o Meta Pixel browser-side.
+ * Envia eventos server-side via CAPI Server (VPS) para deduplicação
+ * com o Meta Pixel browser-side. O servidor faz SHA-256 hashing,
+ * captura IP real via X-Forwarded-For e retry com backoff.
  */
 
 import { getMetaCookies } from './metaPixel'
 
-const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbyuYC4ZdGBohpfJM1Zr0JFHA3WTg-_95Z4sC9EQ9JOEEzYdcRnfNMLfASBoOr3rq-Cl/exec'
-
-// Cache do IP — captura uma vez e reutiliza
-let cachedIP = ''
-function getClientIP() {
-  if (cachedIP) return Promise.resolve(cachedIP)
-  return fetch('https://api.ipify.org?format=text')
-    .then((r) => r.text())
-    .then((ip) => { cachedIP = ip; return ip })
-    .catch(() => '')
-}
+const CAPI_URL = 'https://painel.martinsfelipe.com/api/capi/meta'
+const CLIENT_ID = 'fenixcred'
 
 // External ID — identificação única do visitante persistida no localStorage
 function getExternalId() {
@@ -32,48 +23,46 @@ function getExternalId() {
 }
 
 /**
- * Envia evento para o Google Apps Script que:
- * 1. Salva na planilha Google Sheets
- * 2. Encaminha para a Conversions API do Meta (com hashing SHA-256 server-side)
+ * Envia evento para o CAPI Server que:
+ * 1. Valida e enriquece os dados (IP real, hashing SHA-256)
+ * 2. Encaminha para a Conversions API do Meta (graph.facebook.com/v22.0)
  *
  * @param {string} eventName - Nome do evento (Lead, CompleteRegistration, Contact)
  * @param {string} eventId - UUID compartilhado com o pixel browser para deduplicação
- * @param {Object} userData - Dados do usuário { name, phone, purposes }
+ * @param {Object} userData - Dados do usuário { name, phone, city, state, purposes, page }
  * @param {Object} customData - Dados customizados { value, currency }
  */
 export function sendServerEvent(eventName, eventId, userData = {}, customData = {}) {
-
   const { fbc, fbp } = getMetaCookies()
 
-  getClientIP().then((ip) => {
-    const params = new URLSearchParams({
-      event_name: eventName,
-      event_id: eventId,
-      event_source_url: window.location.href,
+  const payload = {
+    client_id: CLIENT_ID,
+    event_name: eventName,
+    event_id: eventId,
+    event_source_url: window.location.href,
+    user_data: {
       fbc,
       fbp,
-      client_user_agent: navigator.userAgent,
       external_id: getExternalId(),
+      client_user_agent: navigator.userAgent,
       country: 'br',
-      ...(ip && { client_ip_address: ip }),
       ...(userData.name && { name: userData.name }),
       ...(userData.phone && { phone: userData.phone }),
       ...(userData.city && { city: userData.city }),
       ...(userData.state && { state: userData.state }),
+    },
+    custom_data: {
       ...(userData.purposes && { purposes: userData.purposes }),
       ...(userData.page && { page: userData.page }),
-      ...(customData.value != null && { value: String(customData.value) }),
+      ...(customData.value != null && { value: customData.value }),
       ...(customData.currency && { currency: customData.currency }),
-    })
+    },
+  }
 
-    const url = `${APPS_SCRIPT_URL}?${params}`
-
-    // Use GET (not sendBeacon which sends POST) so Apps Script doGet() handles it.
-    // keepalive ensures the request survives page navigation (like sendBeacon).
-    if (typeof fetch !== 'undefined') {
-      fetch(url, { method: 'GET', mode: 'no-cors', keepalive: true }).catch(() => {})
-    } else {
-      new Image().src = url
-    }
-  })
+  fetch(CAPI_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  }).catch(() => {})
 }
