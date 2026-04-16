@@ -27,6 +27,9 @@ jobs:
           VITE_FENIX_PLACE_ID: ${{ secrets.VITE_FENIX_PLACE_ID }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
 
+      - name: Copy .htaccess to dist
+        run: cp .htaccess dist/.htaccess
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
