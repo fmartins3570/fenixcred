@@ -44,6 +44,8 @@ const CreditoCLT = lazy(() => import("./components/CreditoCLT"));
 const SimulacaoCLT = lazy(() => import("./components/SimulacaoCLT"));
 const DataDeletion = lazy(() => import("./components/DataDeletion"));
 const ConsignadoLP = lazy(() => import("./components/ConsignadoLP"));
+// Global exit-intent email capture — rendered on every marketing route
+const EmailCapturePopup = lazy(() => import("./components/EmailCapturePopup"));
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -187,6 +189,9 @@ function App() {
         >
           <ConsignadoLP angle={angleMap[currentPage]} />
         </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
       </div>
     );
   }
@@ -205,6 +210,9 @@ function App() {
           }
         >
           <SimulacaoCLT />
+        </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
         </Suspense>
       </div>
     );
@@ -225,6 +233,9 @@ function App() {
         >
           <CreditoCLT personalized />
         </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
       </div>
     );
   }
@@ -243,6 +254,9 @@ function App() {
           }
         >
           <CreditoCLT />
+        </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
         </Suspense>
       </div>
     );
@@ -308,6 +322,9 @@ function App() {
           </Suspense>
         </main>
         <Footer />
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
       </div>
     );
   }
@@ -368,6 +385,9 @@ function App() {
       <Footer />
       <BackToTop />
       <CookieBanner />
+      <Suspense fallback={null}>
+        <EmailCapturePopup />
+      </Suspense>
     </div>
   );
 }
