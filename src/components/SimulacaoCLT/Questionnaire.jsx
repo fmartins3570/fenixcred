@@ -196,17 +196,22 @@ export default function Questionnaire() {
 
     const parsedValue = parseFloat((value || '0').replace(/\D/g, '')) / 100
 
-    // Meta Pixel + CAPI: Lead — conversão primária com valor desejado
+    // Meta Pixel + CAPI: split returning vs new customers so the algorithm can
+    // build separate Lookalikes and retargeting pools.
+    //   Lead                 → já fez consignado CLT antes (recorrente, intenção alta)
+    //   CompleteRegistration → primeira vez (novo, precisa de mais nurturing)
+    const eventName = returning ? 'Lead' : 'CompleteRegistration'
     const leadEventId = generateEventId()
-    trackEvent('Lead', {
+    trackEvent(eventName, {
       value: parsedValue,
       currency: 'BRL',
       content_name: 'Quiz Simulação CLT - WhatsApp',
+      customer_type: returning ? 'returning' : 'new',
     }, leadEventId)
-    sendServerEvent('Lead', leadEventId, {}, {
+    sendServerEvent(eventName, leadEventId, {}, {
       value: parsedValue,
       currency: 'BRL',
-      content_name: 'quiz_lead',
+      content_name: returning ? 'quiz_lead_returning' : 'quiz_lead_new',
     })
 
     window.open(
