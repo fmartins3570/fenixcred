@@ -326,7 +326,15 @@
 /* Value input */
 .sim-quiz-value-group {
   max-width: 320px;
-  margin: 0 auto 1.75rem;
+  margin: 0 auto 1.25rem;
+}
+
+.sim-quiz-value-hint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
 }
 
 .sim-quiz-value-label {
@@ -467,6 +475,250 @@
   transform: translateY(-1px);
 }
 
+/* ========== SCENARIOS (approved screen) ========== */
+
+.sim-quiz-scenarios-wrap {
+  margin: 0 auto 1.5rem;
+  max-width: 720px;
+}
+
+.sim-quiz-scenarios-intro {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.9rem;
+  text-align: center;
+}
+
+.sim-quiz-scenarios-empty {
+  font-size: 0.9rem;
+  color: #FDB147;
+  background: rgba(253, 177, 71, 0.08);
+  border: 1px solid rgba(253, 177, 71, 0.25);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  margin: 0;
+}
+
+.sim-quiz-scenarios {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  animation: simFadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 768px) {
+  .sim-quiz-scenarios {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.sim-quiz-scenario-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1rem 0.9rem !important;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  font-family: inherit;
+}
+
+.sim-quiz-scenario-card:hover {
+  background: rgba(253, 177, 71, 0.08);
+  border-color: rgba(253, 177, 71, 0.35);
+  transform: translateY(-2px);
+}
+
+.sim-quiz-scenario-card--selected {
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.15) 0%, rgba(253, 177, 71, 0.05) 100%);
+  border-color: #FDB147;
+  box-shadow: 0 6px 24px rgba(253, 177, 71, 0.18);
+}
+
+.sim-quiz-scenario-term {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #FDB147;
+}
+
+.sim-quiz-scenario-installment {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.sim-quiz-scenario-installment small {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 2px;
+}
+
+.sim-quiz-scenario-total {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.sim-quiz-scenario-savings {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #25d366;
+  background: rgba(37, 211, 102, 0.1);
+  border-radius: 9999px;
+  padding: 0.25rem 0.6rem;
+  margin-top: 0.25rem;
+  line-height: 1.3;
+}
+
+/* ========== MARGIN HELPER ========== */
+
+.sim-quiz-margin-helper {
+  max-width: 360px;
+  margin: 0 auto 1.5rem;
+}
+
+.sim-quiz-margin-toggle {
+  background: none;
+  border: none;
+  color: rgba(253, 177, 71, 0.85);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.25s ease;
+  padding: 0.25rem 0.5rem !important;
+}
+
+.sim-quiz-margin-toggle:hover {
+  color: #FDB147;
+}
+
+.sim-quiz-margin-form {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  animation: simFadeInUp 0.3s ease-out;
+}
+
+.sim-quiz-margin-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.sim-quiz-margin-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.sim-quiz-margin-input {
+  flex: 1;
+  padding: 0.65rem 0.85rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.sim-quiz-margin-input:focus {
+  border-color: #FDB147 !important;
+  background: rgba(253, 177, 71, 0.06);
+  outline: none !important;
+}
+
+.sim-quiz-margin-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 400;
+}
+
+.sim-quiz-margin-calc-btn {
+  padding: 0.65rem 1rem !important;
+  background: rgba(253, 177, 71, 0.15);
+  border: 1.5px solid rgba(253, 177, 71, 0.35);
+  border-radius: 10px;
+  color: #FDB147;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.sim-quiz-margin-calc-btn:hover:not(:disabled) {
+  background: rgba(253, 177, 71, 0.25);
+  border-color: #FDB147;
+}
+
+.sim-quiz-margin-calc-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sim-quiz-margin-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: left;
+}
+
+.sim-quiz-margin-result {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: rgba(37, 211, 102, 0.08);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.sim-quiz-margin-result strong {
+  color: #25d366;
+  font-weight: 800;
+}
+
+/* WhatsApp disabled state */
+.sim-quiz-whatsapp-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.15);
+}
+
+.sim-quiz-whatsapp-btn:disabled:hover {
+  transform: none !important;
+}
+
+.sim-quiz-disclaimer {
+  margin: 0.75rem auto 0;
+  max-width: 440px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 480px) {
@@ -485,5 +737,9 @@
 
   .sim-quiz-value-input {
     font-size: 1.25rem;
+  }
+
+  .sim-quiz-scenario-installment {
+    font-size: 1.2rem;
   }
 }

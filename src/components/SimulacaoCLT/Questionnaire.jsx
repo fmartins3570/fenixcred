@@ -1,8 +1,17 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
+import {
+  DEFAULT_MONTHLY_RATE,
+  MIN_LOAN_VALUE,
+  MAX_LOAN_VALUE,
+  buildScenarios,
+  estimateMarginFromSalary,
+  formatBRL,
+  parseBRL,
+} from '../../utils/credito-clt/finance'
 import './Questionnaire.css'
 
 const QUESTIONS = [
@@ -53,16 +62,31 @@ const QUESTIONS = [
   },
 ]
 
+// Debounce delay (ms) for scenario recalculation when user types.
+const SCENARIO_DEBOUNCE_MS = 200
+
 /**
- * Questionário interativo de pré-qualificação
- * Fluxo: 5 perguntas -> pré-aprovação -> input valor -> WhatsApp
+ * Questionário interativo de pré-qualificação.
+ *
+ * Fluxo:
+ *   1. Intro
+ *   2. 5 perguntas de qualificação
+ *   3a. Rejeição (perfil não-CLT, tempo insuficiente, sem margem), OR
+ *   3b. Pré-aprovação → tela de resultado com 3 cenários de parcela
+ *       (24 / 48 / 72 meses @ 1,49% a.m.) → CTA WhatsApp
  */
 export default function Questionnaire() {
-  const [screen, setScreen] = useState('intro') // intro, q0-q4, approved, rejected, rejected-margin
+  const [screen, setScreen] = useState('intro')
   const [questionIndex, setQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState({})
   const [value, setValue] = useState('')
-  const [animDir, setAnimDir] = useState('right') // animation direction
+  // Debounced numeric value used to derive scenarios.
+  const [debouncedValue, setDebouncedValue] = useState(0)
+  const [selectedTerm, setSelectedTerm] = useState(48) // default highlight
+  const [showSalaryHelper, setShowSalaryHelper] = useState(false)
+  const [salaryInput, setSalaryInput] = useState('')
+  const [estimatedMargin, setEstimatedMargin] = useState(0)
+  const [animDir, setAnimDir] = useState('right')
   const sectionRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -81,12 +105,40 @@ export default function Questionnaire() {
     return () => observer.disconnect()
   }, [])
 
+  // Debounce the parsed numeric value so scenarios don't thrash on every keystroke.
+  useEffect(() => {
+    const parsed = parseBRL(value)
+    const timer = setTimeout(() => setDebouncedValue(parsed), SCENARIO_DEBOUNCE_MS)
+    return () => clearTimeout(timer)
+  }, [value])
+
+  // Numeric value (real-time, not debounced) — used for validation messaging.
+  const rawNumericValue = useMemo(() => parseBRL(value), [value])
+
+  const isValueValid = rawNumericValue >= MIN_LOAN_VALUE && rawNumericValue <= MAX_LOAN_VALUE
+
+  // Build scenarios only when debounced value is in a valid range.
+  const scenarios = useMemo(() => {
+    if (debouncedValue < MIN_LOAN_VALUE || debouncedValue > MAX_LOAN_VALUE) return []
+    return buildScenarios(debouncedValue, DEFAULT_MONTHLY_RATE)
+  }, [debouncedValue])
+
+  const selectedScenario = useMemo(
+    () => scenarios.find((s) => s.term === selectedTerm) || scenarios[1] || null,
+    [scenarios, selectedTerm]
+  )
+
   const startQuiz = useCallback(() => {
     setAnimDir('right')
     setScreen('question')
     setQuestionIndex(0)
     setAnswers({})
     setValue('')
+    setDebouncedValue(0)
+    setSelectedTerm(48)
+    setShowSalaryHelper(false)
+    setSalaryInput('')
+    setEstimatedMargin(0)
 
     const eventId = generateEventId()
     trackEvent('InitiateCheckout', { content_name: 'Quiz Simulação CLT' }, eventId)
@@ -103,7 +155,7 @@ export default function Questionnaire() {
       (question.rejectOnFalse === 'margin' && answerValue === false)
     const answerLabel = question.options.find((o) => o.value === answerValue)?.label || String(answerValue)
 
-    // GA4: evento customizado para cada resposta do quiz
+    // GA4: custom quiz_answer event for each step
     if (window.gtag) {
       window.gtag('event', 'quiz_answer', {
         question_id: questionId,
@@ -114,7 +166,7 @@ export default function Questionnaire() {
       })
     }
 
-    // Meta Pixel: evento customizado para cada resposta
+    // Meta Pixel: custom QuizAnswer event
     trackCustomEvent('QuizAnswer', {
       question_id: questionId,
       answer: answerLabel,
@@ -122,7 +174,7 @@ export default function Questionnaire() {
       qualified: !isRejection,
     })
 
-    // Check rejection
+    // Rejection branches
     if (question.rejectOnFalse === true && answerValue === false) {
       setAnimDir('right')
       setScreen('rejected')
@@ -134,7 +186,7 @@ export default function Questionnaire() {
       return
     }
 
-    // Next question or approved
+    // Next question, or approved
     if (questionIndex < QUESTIONS.length - 1) {
       setAnimDir('right')
       setQuestionIndex(questionIndex + 1)
@@ -142,10 +194,11 @@ export default function Questionnaire() {
       setAnimDir('right')
       setScreen('approved')
 
-      // Mostrar botão flutuante de WhatsApp
+      // Surface floating WhatsApp button
       window.dispatchEvent(new Event('quiz-completed'))
 
-      // Custom event — sinal de qualificação (não é Lead ainda: sem contato nem valor)
+      // Custom qualification signal (not Lead yet — no value/contact).
+      // Fired here so the "scenarios" screen is when QuizQualified becomes true.
       trackCustomEvent('QuizQualified', {
         content_name: 'Quiz Simulação CLT - Pré-aprovado',
       })
@@ -158,10 +211,16 @@ export default function Questionnaire() {
     setQuestionIndex(0)
     setAnswers({})
     setValue('')
+    setDebouncedValue(0)
+    setSelectedTerm(48)
+    setShowSalaryHelper(false)
+    setSalaryInput('')
+    setEstimatedMargin(0)
   }, [])
 
-  const formatCurrency = useCallback((raw) => {
-    const digits = raw.replace(/\D/g, '')
+  // Mask BRL while typing.
+  const formatCurrencyFromDigits = useCallback((raw) => {
+    const digits = String(raw).replace(/\D/g, '')
     if (!digits) return ''
     const number = parseInt(digits, 10) / 100
     return number.toLocaleString('pt-BR', {
@@ -171,30 +230,53 @@ export default function Questionnaire() {
   }, [])
 
   const handleValueChange = useCallback((e) => {
-    const formatted = formatCurrency(e.target.value)
-    setValue(formatted)
-  }, [formatCurrency])
+    setValue(formatCurrencyFromDigits(e.target.value))
+  }, [formatCurrencyFromDigits])
+
+  const handleSalaryChange = useCallback((e) => {
+    setSalaryInput(formatCurrencyFromDigits(e.target.value))
+  }, [formatCurrencyFromDigits])
+
+  const handleCalculateMargin = useCallback(() => {
+    const salary = parseBRL(salaryInput)
+    const margin = estimateMarginFromSalary(salary)
+    setEstimatedMargin(margin)
+  }, [salaryInput])
+
+  const handleSelectTerm = useCallback((term) => {
+    setSelectedTerm(term)
+  }, [])
 
   const handleWhatsApp = useCallback(() => {
     const returning = answers.q4 === 'yes'
-    const valueText = value || 'a definir'
+    const parsedValue = rawNumericValue
+    const hasValidScenario = isValueValid && selectedScenario
+
+    // Build the WhatsApp message. When we have a full scenario picked,
+    // include term + installment so VendeAI sees a warm, specific lead.
+    const valueText = parsedValue > 0 ? formatBRL(parsedValue) : 'a definir'
 
     const profileParts = []
     if (returning) profileParts.push('Já fiz consignado CLT antes')
     else profileParts.push('Primeira vez fazendo consignado CLT')
     if (answers.q5 === true) profileParts.push('Tenho margem disponível')
+    if (estimatedMargin > 0) {
+      profileParts.push(`Margem estimada: ${formatBRL(estimatedMargin)}`)
+    }
 
-    // Always prepend (sim) so quiz leads are identifiable even without UTM params.
-    // tagMessage adds utm_content + fbc on top if available: "(utm_content) (sim) msg [fbc:...]"
-    const baseMsg = `(sim) Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
+    let baseMsg
+    if (hasValidScenario) {
+      baseMsg = `(sim) Olá, fiz a pré-simulação e escolhi ${formatBRL(parsedValue)} em ${selectedScenario.term} meses (parcela de ${formatBRL(selectedScenario.installment)}). Pode me ajudar?\n\n${profileParts.join('\n')}`
+    } else {
+      baseMsg = `(sim) Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
+    }
+
     const message = encodeURIComponent(tagMessage(baseMsg))
 
-    // Meta Pixel + CAPI: Contact (para conversão personalizada "Contato WhatsApp")
+    // Meta Pixel + CAPI: Contact (used by "Contato WhatsApp" custom conversion)
     const contactEventId = generateEventId()
     trackEvent('Contact', { content_name: 'Quiz Simulação CLT - WhatsApp', content_category: 'whatsapp' }, contactEventId)
     sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulação CLT' })
-
-    const parsedValue = parseFloat((value || '0').replace(/\D/g, '')) / 100
 
     // Meta Pixel + CAPI: split returning vs new customers so the algorithm can
     // build separate Lookalikes and retargeting pools.
@@ -219,7 +301,7 @@ export default function Questionnaire() {
       '_blank',
       'noopener,noreferrer'
     )
-  }, [answers, value])
+  }, [answers, rawNumericValue, isValueValid, selectedScenario, estimatedMargin])
 
   const progress = screen === 'question'
     ? ((questionIndex + 1) / QUESTIONS.length) * 100
@@ -331,7 +413,7 @@ export default function Questionnaire() {
           </div>
         )}
 
-        {/* Approved Screen */}
+        {/* Approved Screen — scenarios + WhatsApp */}
         {screen === 'approved' && (
           <div className="sim-quiz-screen sim-quiz-approved" key="approved">
             <div className="sim-quiz-approved-icon">
@@ -345,7 +427,8 @@ export default function Questionnaire() {
               Você foi pré-aprovado!
             </h3>
             <p className="sim-quiz-approved-text">
-              Tudo certo! Você atende aos requisitos para a simulação do empréstimo consignado CLT.
+              Simule abaixo o valor e o prazo ideal para você.
+              Taxa a partir de <strong>1,49% ao mês</strong>.
             </p>
 
             <div className="sim-quiz-value-group">
@@ -361,23 +444,138 @@ export default function Questionnaire() {
                 value={value}
                 onChange={handleValueChange}
                 autoFocus
+                aria-describedby="sim-valor-help"
               />
+              <span id="sim-valor-help" className="sim-quiz-value-hint">
+                Entre {formatBRL(MIN_LOAN_VALUE)} e {formatBRL(MAX_LOAN_VALUE)}
+              </span>
+            </div>
+
+            {/* Scenario cards — live region for a11y */}
+            <div
+              className="sim-quiz-scenarios-wrap"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {rawNumericValue > 0 && !isValueValid && (
+                <p className="sim-quiz-scenarios-empty">
+                  {rawNumericValue < MIN_LOAN_VALUE
+                    ? `Valor mínimo: ${formatBRL(MIN_LOAN_VALUE)}.`
+                    : `Valor máximo: ${formatBRL(MAX_LOAN_VALUE)}.`}
+                </p>
+              )}
+
+              {isValueValid && scenarios.length > 0 && (
+                <>
+                  <p className="sim-quiz-scenarios-intro">
+                    Escolha o prazo que cabe no seu bolso:
+                  </p>
+                  <div className="sim-quiz-scenarios" role="radiogroup" aria-label="Opções de prazo">
+                    {scenarios.map((s) => {
+                      const isSelected = s.term === selectedTerm
+                      return (
+                        <button
+                          key={s.term}
+                          type="button"
+                          role="radio"
+                          aria-checked={isSelected}
+                          className={`sim-quiz-scenario-card ${isSelected ? 'sim-quiz-scenario-card--selected' : ''}`}
+                          onClick={() => handleSelectTerm(s.term)}
+                        >
+                          <span className="sim-quiz-scenario-term">
+                            {s.term}x
+                          </span>
+                          <span className="sim-quiz-scenario-installment">
+                            {formatBRL(s.installment)}
+                            <small>/mês</small>
+                          </span>
+                          <span className="sim-quiz-scenario-total">
+                            Total: {formatBRL(s.total)}
+                          </span>
+                          {s.savingsVsPersonal > 0 && (
+                            <span className="sim-quiz-scenario-savings">
+                              Economia de {formatBRL(s.savingsVsPersonal)} vs crédito pessoal
+                            </span>
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Optional: margin-from-salary helper */}
+            <div className="sim-quiz-margin-helper">
+              {!showSalaryHelper && estimatedMargin === 0 && (
+                <button
+                  type="button"
+                  className="sim-quiz-margin-toggle"
+                  onClick={() => setShowSalaryHelper(true)}
+                >
+                  Não sabe sua margem? Calcular pelo salário
+                </button>
+              )}
+
+              {showSalaryHelper && estimatedMargin === 0 && (
+                <div className="sim-quiz-margin-form">
+                  <label htmlFor="sim-salario" className="sim-quiz-margin-label">
+                    Informe seu salário bruto
+                  </label>
+                  <div className="sim-quiz-margin-row">
+                    <input
+                      id="sim-salario"
+                      type="text"
+                      inputMode="numeric"
+                      className="sim-quiz-margin-input"
+                      placeholder="R$ 0,00"
+                      value={salaryInput}
+                      onChange={handleSalaryChange}
+                    />
+                    <button
+                      type="button"
+                      className="sim-quiz-margin-calc-btn"
+                      onClick={handleCalculateMargin}
+                      disabled={!salaryInput}
+                    >
+                      Calcular
+                    </button>
+                  </div>
+                  <span className="sim-quiz-margin-hint">
+                    Usamos 35% do salário bruto (limite legal CLT).
+                  </span>
+                </div>
+              )}
+
+              {estimatedMargin > 0 && (
+                <p className="sim-quiz-margin-result" aria-live="polite">
+                  Margem estimada: <strong>{formatBRL(estimatedMargin)}/mês</strong>
+                </p>
+              )}
             </div>
 
             <button
               className="sim-quiz-whatsapp-btn"
               onClick={handleWhatsApp}
-              aria-label="Continuar pelo WhatsApp"
+              aria-label="Falar com consultor no WhatsApp"
+              disabled={!isValueValid}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
               </svg>
-              Continuar no WhatsApp
+              Falar com consultor no WhatsApp
             </button>
 
             <span className="sim-quiz-approved-note">
-              Você será atendido por um consultor especializado
+              {isValueValid
+                ? 'Você será atendido por um consultor especializado'
+                : 'Informe um valor entre R$ 1.000 e R$ 50.000 para ver as parcelas'}
             </span>
+
+            <p className="sim-quiz-disclaimer">
+              * Simulação estimada com taxa referencial de 1,49% a.m.
+              (Tabela Price). Taxa final sujeita a análise de crédito.
+            </p>
           </div>
         )}
 
