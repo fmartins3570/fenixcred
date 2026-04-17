@@ -471,7 +471,26 @@
         n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
         t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
         document,'script','https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '2877752735949899');
+
+        var advancedMatching = { country: 'br' };
+        try {
+          var raw = localStorage.getItem('fenix_lead_data');
+          if (raw) {
+            var lead = JSON.parse(raw);
+            if (lead && lead.phone) {
+              var digits = String(lead.phone).replace(/\D/g, '');
+              if (digits && !digits.startsWith('55')) digits = '55' + digits;
+              if (digits) advancedMatching.ph = digits;
+            }
+            if (lead && lead.name) {
+              var parts = String(lead.name).trim().toLowerCase().split(/\s+/);
+              if (parts[0]) advancedMatching.fn = parts[0];
+              if (parts.length > 1) advancedMatching.ln = parts.slice(1).join(' ');
+            }
+          }
+        } catch (e) { /* localStorage unavailable or corrupted — skip advanced matching */ }
+
+        fbq('init', '2877752735949899', advancedMatching);
         fbq('track', 'PageView');
       };
     </script>

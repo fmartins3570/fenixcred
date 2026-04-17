@@ -4,9 +4,8 @@
     <!-- ⚡ OBRIGATÓRIO: charset DEVE ser a PRIMEIRA meta tag (WCAG e segurança) -->
     <meta charset="UTF-8" />
     
-    <!-- CSP - Content Security Policy (segurança XSS) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://maps.gstatic.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://maps.gstatic.com https://www.facebook.com https://script.google.com https://api.ipify.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;" />
-    
+    <!-- CSP definido via .htaccess HTTP header (fonte única de verdade) -->
+
     <!-- HSTS - HTTP Strict Transport Security (força HTTPS) -->
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload" />
     
@@ -62,8 +61,8 @@
     <link rel="dns-prefetch" href="https://maps.googleapis.com" />
     <!-- Preload de recursos críticos (adicionado automaticamente) -->
     <link rel="preload" as="style" href="/assets/index-BCIJ7H46.css" />
-    <link rel="preload" as="script" href="/assets/index-CVRIcm1F.js" />
-    <link rel="preload" as="script" href="/assets/react-vendor-MyntcLmp.js" />
+    <link rel="preload" as="script" href="/assets/index-BJgyU5AN.js" />
+    <link rel="preload" as="script" href="/assets/react-vendor-Op1YXV87.js" />
     <link rel="preload" as="image" href="/assets/modelo_fenix_cred-525w-D0Sp9iYG.webp" type="image/webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/assets/modelo_fenix_cred-400w-DSNl4w5Z.webp" type="image/webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/assets/logo-fenix-cred-299w-TiKoL6JW.webp" type="image/webp" />
@@ -283,6 +282,9 @@
         transition: all 0.3s;
         border-radius: 2px;
       }
+      .nav-mobile {
+        display: none;
+      }
       @media (min-width: 1024px) {
         .nav-desktop {
           display: flex;
@@ -475,7 +477,26 @@
         n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
         t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
         document,'script','https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '2877752735949899');
+
+        var advancedMatching = { country: 'br' };
+        try {
+          var raw = localStorage.getItem('fenix_lead_data');
+          if (raw) {
+            var lead = JSON.parse(raw);
+            if (lead && lead.phone) {
+              var digits = String(lead.phone).replace(/\D/g, '');
+              if (digits && !digits.startsWith('55')) digits = '55' + digits;
+              if (digits) advancedMatching.ph = digits;
+            }
+            if (lead && lead.name) {
+              var parts = String(lead.name).trim().toLowerCase().split(/\s+/);
+              if (parts[0]) advancedMatching.fn = parts[0];
+              if (parts.length > 1) advancedMatching.ln = parts.slice(1).join(' ');
+            }
+          }
+        } catch (e) { /* localStorage unavailable or corrupted — skip advanced matching */ }
+
+        fbq('init', '2877752735949899', advancedMatching);
         fbq('track', 'PageView');
       };
     </script>
@@ -485,31 +506,22 @@
     <script>
       /* Tornar CSS não-crítico não-bloqueante usando técnica de print media */
       (function () {
-        // Função para tornar links de CSS não-bloqueantes
         function makeCSSNonBlocking() {
-          // Aguardar um pouco para que o Vite injete os links de CSS
           setTimeout(function () {
             var links = document.querySelectorAll('link[rel="stylesheet"]');
             links.forEach(function (link) {
-              // Se o CSS foi injetado pelo Vite (não é inline)
               if (link.href && !link.href.startsWith('data:')) {
-                // Usar técnica de print media para carregar sem bloquear
+                // Skip stylesheets that are already loaded
+                if (link.sheet) return;
                 link.media = 'print';
                 link.onload = function () {
                   this.media = 'all';
                 };
-                // Fallback para browsers antigos
-                if (!('onload' in link)) {
-                  setTimeout(function () {
-                    link.media = 'all';
-                  }, 0);
-                }
               }
             });
           }, 0);
         }
 
-        // Executar após DOM estar pronto
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", makeCSSNonBlocking);
         } else {
@@ -517,12 +529,12 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-CVRIcm1F.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-Dhsh2Gda.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-vendor-MyntcLmp.js">
-    <link rel="modulepreload" crossorigin href="/assets/reviews-BJkZVc_K.js">
-    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-_FPCLaJn.js">
-    <link rel="modulepreload" crossorigin href="/assets/faq-DOBYAYMy.js">
+    <script type="module" crossorigin src="/assets/index-CPt3eXkR.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-CqcxUO88.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-Op1YXV87.js">
+    <link rel="modulepreload" crossorigin href="/assets/reviews-C9Cw9g8X.js">
+    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-hH42w_Na.js">
+    <link rel="modulepreload" crossorigin href="/assets/faq-BdaKRRjN.js">
     <link rel="stylesheet" crossorigin href="/assets/reviews-BkENODAt.css">
     <link rel="stylesheet" crossorigin href="/assets/consignado-lp-C01eTXWB.css">
     <link rel="stylesheet" crossorigin href="/assets/faq-DVqLwSmM.css">
