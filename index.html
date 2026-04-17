@@ -491,7 +491,13 @@
         } catch (e) { /* localStorage unavailable or corrupted — skip advanced matching */ }
 
         fbq('init', '2877752735949899', advancedMatching);
-        fbq('track', 'PageView');
+        // Share one event_id with the CAPI PageView dispatched from React so
+        // Meta deduplicates the pair — browser + server count as a single view.
+        window.__fenixPageViewEventId =
+          (crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : Date.now() + '-' + Math.random().toString(36).slice(2);
+        fbq('track', 'PageView', {}, { eventID: window.__fenixPageViewEventId });
       };
     </script>
     <!-- End Meta Pixel -->
