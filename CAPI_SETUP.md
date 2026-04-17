@@ -3,13 +3,14 @@
 ## Arquitetura
 
 ```
-Browser (Pixel fbq)                    Google Apps Script (doGet)
+Browser (Pixel fbq)                    CAPI Server (VPS)
   |                                          |
   +-- fbq('track','Lead',{},{eventID}) --+   |
   |                                      |   |
-  +-- fetch GET (sendServerEvent) -------+---> Salva na planilha
+  +-- fetch POST JSON (sendServerEvent) -+---> Valida + SHA-256 hashing
+  |                                      +---> Captura IP real (X-Forwarded-For)
   |                                      +---> POST graph.facebook.com/v22.0 CAPI
-  |                                            (SHA-256 hashed user data)
+  |                                            (retry com backoff)
   |
 VendeAI (webhook POST)                Google Apps Script (doPost)
   |                                          |
@@ -22,17 +23,28 @@ Deduplicacao: Meta deduplica eventos com mesmo `event_id` + `event_name` dentro 
 
 ## Configuracao
 
+### CAPI Server (VPS) — Eventos Browser
+
 | Item | Valor |
 |------|-------|
 | **Pixel ID** | `2877752735949899` |
 | **Graph API** | v22.0 |
+| **CAPI URL** | `https://painel.martinsfelipe.com/api/capi/meta` |
+| **Client ID** | `fenixcred` |
+| **Metodo** | POST JSON com `keepalive: true` |
+| **Funcionalidades** | SHA-256 hashing, IP via X-Forwarded-For, retry com backoff |
+
+### Google Apps Script — Eventos VendeAI (webhooks)
+
+| Item | Valor |
+|------|-------|
 | **Sheet ID** | `1_zuhGf1IRplOWnyZl3UMVbxFW155KOCbo4zZg1l_Jys` |
 | **Apps Script Project** | `1W8kP1UBeSL8DIxgRT1MxrpSuiKZnjhFWKRGw1BWZPPg4JWeOEw0VR7Kt` |
 | **Deploy URL** | `https://script.google.com/macros/s/AKfycbyuYC4ZdGBohpfJM1Zr0JFHA3WTg-_95Z4sC9EQ9JOEEzYdcRnfNMLfASBoOr3rq-Cl/exec` |
 | **Conta** | fenixcredbr@gmail.com |
-| **Versao atual** | 3 (16/abr/2026) |
+| **Versao atual** | 4 (16/abr/2026) |
 
-## Eventos Browser (site -> Apps Script via GET)
+## Eventos Browser (site -> CAPI Server via POST)
 
 Todos os eventos disparam browser Pixel + CAPI server-side com `event_id` compartilhado.
 
@@ -56,17 +68,35 @@ Todos os eventos disparam browser Pixel + CAPI server-side com `event_id` compar
 
 ## Eventos VendeAI (webhook -> Apps Script via POST)
 
-A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ao contato.
+A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ou stages mudam.
 
-### Mapeamento de tags
+### Mapeamento de tags (VENDEAI_EVENT_MAP)
 
-| Tag VendeAI | Evento CAPI |
-|-------------|-------------|
-| `dados_simulacao_coletados` | `LeadSubmitted` |
-| `ofertado` | `QualifiedLead` |
-| `digitado` | `OrderCreated` |
-| `pago` | `Purchase` |
-| `cancelado` | `OrderCancelled` |
+| Tag VendeAI | Evento CAPI | Volume (~10 dias) |
+|-------------|-------------|-------------------|
+| `ofertado` | `QualifiedLead` | ~92 |
+| `digitado` | `OrderCreated` | ~30 |
+| `pago` | `Purchase` | ~3 |
+| `cancelado` | `OrderCancelled` | raro |
+| `dados_simulacao_coletados` | `LeadSubmitted` | legacy |
+
+### Mapeamento de stages (VENDEAI_STAGE_MAP) — v4
+
+| Stage VendeAI | Evento CAPI | Significado |
+|---------------|-------------|-------------|
+| `send_authorization` | `Lead` | Lead autorizou consulta de credito (sinal mais forte) |
+| `simulation` | `InitiateCheckout` | Lead entrou na simulacao com dados |
+
+**Deduplicacao:** Cache em memoria por `chat_id + stage` — evita disparar o mesmo evento de stage multiplas vezes para o mesmo lead.
+
+### Stages NAO mapeados (apenas log)
+
+| Stage | Descricao |
+|-------|-----------|
+| `clt_lead_qualification` | Bot qualificando lead |
+| `get_cpf` | Bot pedindo CPF |
+| `get_sim_data` | Bot coletando dados de simulacao |
+| `_cross_sell` | Tentativa de cross sell |
 
 ### Fluxo doPost
 
@@ -89,7 +119,7 @@ A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ao contato.
 | `country` | sempre (`br`) | SHA-256 |
 | `fbc` | cookie / lookup | plain |
 | `fbp` | cookie / lookup | plain |
-| `client_ip_address` | ipify.org | plain |
+| `client_ip_address` | server-side (X-Forwarded-For) | plain |
 | `client_user_agent` | navigator.userAgent | plain |
 | `external_id` | localStorage UUID | SHA-256 |
 
@@ -111,20 +141,35 @@ A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ao contato.
 
 ## Como Gerar/Renovar Access Token
 
+### CAPI Server (VPS)
+
 1. Acesse https://business.facebook.com/events_manager
 2. Selecione o Pixel **2877752735949899**
 3. Aba **Settings** > secao "Conversions API" > **Generate access token**
-4. Abra o Apps Script: https://script.google.com/home/projects/1W8kP1UBeSL8DIxgRT1MxrpSuiKZnjhFWKRGw1BWZPPg4JWeOEw0VR7Kt/edit
-5. Substitua o valor de `ACCESS_TOKEN` pelo novo token
-6. **Deploy** > **Gerenciar implantacoes** > Editar > **Nova versao** > **Implantar**
+4. Atualize o token na configuracao do CAPI Server (VPS)
+
+### Apps Script (VendeAI webhooks)
+
+1. Gere o token conforme acima
+2. Abra o Apps Script: https://script.google.com/home/projects/1W8kP1UBeSL8DIxgRT1MxrpSuiKZnjhFWKRGw1BWZPPg4JWeOEw0VR7Kt/edit
+3. Substitua o valor de `ACCESS_TOKEN` pelo novo token
+4. **Deploy** > **Gerenciar implantacoes** > Editar > **Nova versao** > **Implantar**
 
 ## Verificacao
 
+### Eventos Browser (CAPI Server)
+
 1. Abra o site e clique em qualquer CTA WhatsApp
 2. **Browser Console**: confirme `fbq('track', 'Contact', {...}, {eventID: '...'})` 
-3. **Apps Script Logs** (Execucoes): confirme eventos com `event_name` e `event_id`
+3. **Network tab**: confirme POST para `painel.martinsfelipe.com/api/capi/meta` com status 200
 4. **Meta Events Manager > Test Events**: verifique eventos browser + server com match de deduplicacao (mesmo `event_id`)
-5. **Planilha**: verifique que fbc/fbp estao sendo registrados nas colunas J/K
+
+### Eventos VendeAI (Apps Script)
+
+1. **Apps Script Logs** (Execucoes): confirme eventos com `event_name` e `event_id`
+2. **Planilha webhook_log**: verifique logs de tags/stages recebidos
+3. **Planilha principal**: verifique que fbc/fbp estao sendo registrados nas colunas J/K
+4. **Meta Events Manager**: verifique eventos Lead (send_authorization) e InitiateCheckout (simulation)
 
 ## Custom Conversions (Events Manager)
 
