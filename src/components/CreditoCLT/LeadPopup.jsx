@@ -4,18 +4,19 @@ import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaP
 import { sendServerEvent } from '../../utils/metaCAPI'
 import './LeadPopup.css'
 
+// Reduced from 8 to 5 options to lower decision paralysis on step 2.
+// IDs are preserved so analytics history and Hero.jsx lookups keep working.
 export const PURPOSES = [
   { id: 'organizar', icon: '📊', label: 'Organizar as finanças' },
-  { id: 'veiculo', icon: '🚗', label: 'Comprar veículo' },
   { id: 'reforma', icon: '🏠', label: 'Reforma da casa' },
+  { id: 'veiculo', icon: '🚗', label: 'Comprar veículo' },
   { id: 'viagem', icon: '✈️', label: 'Fazer uma viagem' },
-  { id: 'negocio', icon: '💼', label: 'Investir no negócio' },
-  { id: 'educacao', icon: '📚', label: 'Educação e cursos' },
-  { id: 'projeto', icon: '🎯', label: 'Realizar um projeto' },
   { id: 'outro', icon: '📌', label: 'Outro motivo' },
 ]
 
 const SESSION_KEY = 'fenix_lead_popup_shown'
+const SCROLL_THRESHOLD = 0.4 // 40% of the page scrolled
+const TIME_THRESHOLD_MS = 8000 // 8 seconds on page
 
 function formatPhone(value) {
   const digits = value.replace(/\D/g, '').slice(0, 11)
@@ -34,16 +35,46 @@ export default function LeadPopup() {
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
+    // Skip if lead already captured or popup already shown this session.
     if (isCaptured || sessionStorage.getItem(SESSION_KEY)) return
-    const timer = setTimeout(() => {
+
+    let fired = false
+
+    const trigger = () => {
+      if (fired) return
       // Defer popup if user already engaged with the PreQualForm on the Hero.
       // The micro-form covers the same capture intent with less friction,
       // so it takes priority. Passive visitors (no interaction) still get the popup.
       if (sessionStorage.getItem('fenix_prequal_engaged')) return
+      fired = true
+      // Mark as shown for this session so navigating away and back doesn't re-trigger.
+      sessionStorage.setItem(SESSION_KEY, '1')
+      cleanup()
       setOpen(true)
       trackCustomEvent('LeadPopupView', {})
-    }, 500)
-    return () => clearTimeout(timer)
+    }
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0
+      const docHeight =
+        (document.documentElement.scrollHeight || document.body.scrollHeight) -
+        window.innerHeight
+      if (docHeight <= 0) return
+      const progress = scrollTop / docHeight
+      if (progress >= SCROLL_THRESHOLD) trigger()
+    }
+
+    // First-wins race: whichever of scroll-40% or 8s happens first calls trigger();
+    // the `fired` guard + cleanup() ensures the loser is a no-op.
+    const timer = setTimeout(trigger, TIME_THRESHOLD_MS)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    function cleanup() {
+      clearTimeout(timer)
+      window.removeEventListener('scroll', handleScroll)
+    }
+
+    return cleanup
   }, [isCaptured])
 
   const dismissPopup = useCallback(() => {
