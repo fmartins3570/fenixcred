@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
-import { tagMessage, getUtmTag } from '../../utils/utmParams'
+import { tagMessage } from '../../utils/utmParams'
 import './Questionnaire.css'
 
 const QUESTIONS = [
@@ -145,17 +145,9 @@ export default function Questionnaire() {
       // Mostrar botão flutuante de WhatsApp
       window.dispatchEvent(new Event('quiz-completed'))
 
-      // Meta Pixel + CAPI: Lead com valor para otimização por valor
-      const eventId = generateEventId()
-      trackEvent('Lead', {
+      // Custom event — sinal de qualificação (não é Lead ainda: sem contato nem valor)
+      trackCustomEvent('QuizQualified', {
         content_name: 'Quiz Simulação CLT - Pré-aprovado',
-        value: 100,
-        currency: 'BRL',
-      }, eventId)
-      sendServerEvent('Lead', eventId, {}, {
-        value: 100,
-        currency: 'BRL',
-        content_name: 'quiz_pre_aprovado',
       })
     }
   }, [answers, questionIndex])
@@ -202,17 +194,19 @@ export default function Questionnaire() {
     trackEvent('Contact', { content_name: 'Quiz Simulação CLT - WhatsApp', content_category: 'whatsapp' }, contactEventId)
     sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulação CLT' })
 
-    // Meta Pixel + CAPI: CompleteRegistration
     const parsedValue = parseFloat((value || '0').replace(/\D/g, '')) / 100
-    const eventId = generateEventId()
-    trackEvent('CompleteRegistration', {
+
+    // Meta Pixel + CAPI: Lead — conversão primária com valor desejado
+    const leadEventId = generateEventId()
+    trackEvent('Lead', {
       value: parsedValue,
       currency: 'BRL',
       content_name: 'Quiz Simulação CLT - WhatsApp',
-    }, eventId)
-    sendServerEvent('CompleteRegistration', eventId, {}, {
+    }, leadEventId)
+    sendServerEvent('Lead', leadEventId, {}, {
       value: parsedValue,
       currency: 'BRL',
+      content_name: 'quiz_lead',
     })
 
     window.open(
