@@ -136,8 +136,7 @@ O roteamento e feito manualmente em `App.jsx` via `window.location.pathname` (se
 - **Meta Pixel:** 2877752735949899 (Browser + CAPI via VPS server)
 - **Google Analytics 4:** G-T91KB49251
 - **Google Maps API:** Place ID via env var `VITE_FENIX_PLACE_ID`
-- **CAPI Server (VPS):** Eventos browser via POST JSON para painel.martinsfelipe.com/api/capi/meta (SHA-256 hashing, IP server-side, retry com backoff)
-- **Google Apps Script (VendeAI):** Webhooks de tags/stages do VendeAI -> Meta CAPI (doPost)
+- **CAPI Server (VPS):** Eventos browser (/api/capi/meta) e VendeAI webhooks (/api/capi/vendeai) via painel.martinsfelipe.com. SHA-256 hashing, IP server-side, retry com backoff, SQLite para phone->fbc/fbp lookup
 - **Cookie Consent:** Controla carregamento condicional de Pixel + GA4 (LGPD compliance)
 
 ## Paleta de Cores (CSS custom properties em :root)
@@ -174,7 +173,7 @@ O roteamento e feito manualmente em `App.jsx` via `window.location.pathname` (se
 - **Sem TypeScript:** projeto iniciou em JS puro, migracacao planejada mas nao priorizada
 - **Sem framework CSS:** CSS puro para controle total de performance e tamanho de bundle
 - **Sem react-router:** Roteamento manual por pathname para bundle menor e controle total
-- **CAPI via VPS server:** Eventos browser vao para CAPI Server dedicado (POST JSON, SHA-256 server-side, IP via X-Forwarded-For). VendeAI webhooks ainda via Apps Script
+- **CAPI via VPS server:** Eventos browser e VendeAI webhooks vao para CAPI Server dedicado (POST JSON, SHA-256 server-side, IP via X-Forwarded-For, SQLite para lookup phone->fbc/fbp)
 - **Cookie consent controla Pixel + GA4:** Scripts sao stubs ate consentimento (LGPD)
 - **Critical CSS inline:** Evita render-blocking CSS para Header e Hero
 - **CSP (Content Security Policy):** Definido via .htaccess (single source of truth)

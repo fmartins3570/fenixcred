@@ -9,13 +9,16 @@ Browser (Pixel fbq)                    CAPI Server (VPS)
   |                                      |   |
   +-- fetch POST JSON (sendServerEvent) -+---> Valida + SHA-256 hashing
   |                                      +---> Captura IP real (X-Forwarded-For)
+  |                                      +---> Salva phone->fbc/fbp em SQLite
   |                                      +---> POST graph.facebook.com/v22.0 CAPI
   |                                            (retry com backoff)
   |
-VendeAI (webhook POST)                Google Apps Script (doPost)
+VendeAI (webhook POST)                CAPI Server (VPS)
   |                                          |
-  +-- POST JSON (tags, contact) ---------+--> Log em webhook_log sheet
-                                         +--> Lookup fbc/fbp por telefone
+  +-- POST JSON (tags, contact) ---------+--> Valida payload (Zod)
+                                         +--> Mapeia tags/stages -> eventos CAPI
+                                         +--> Lookup fbc/fbp por phone (SQLite)
+                                         +--> Dedup por chat_id+tag/stage (48h)
                                          +--> POST graph.facebook.com/v22.0 CAPI
 ```
 
@@ -34,15 +37,24 @@ Deduplicacao: Meta deduplica eventos com mesmo `event_id` + `event_name` dentro 
 | **Metodo** | POST JSON com `keepalive: true` |
 | **Funcionalidades** | SHA-256 hashing, IP via X-Forwarded-For, retry com backoff |
 
-### Google Apps Script — Eventos VendeAI (webhooks)
+### CAPI Server (VPS) — Eventos VendeAI (webhooks)
 
 | Item | Valor |
 |------|-------|
-| **Sheet ID** | `1_zuhGf1IRplOWnyZl3UMVbxFW155KOCbo4zZg1l_Jys` |
+| **Webhook URL** | `https://painel.martinsfelipe.com/api/capi/vendeai` |
+| **Metodo** | POST JSON |
+| **Auth** | Bearer token (opcional, configuravel em clients.json) |
+| **Storage** | SQLite (`data/leads.db`) para phone->fbc/fbp lookup |
+| **Dedup** | In-memory por chat_id+tag/stage, TTL 48h |
+
+### Google Apps Script (legado — desativado apos migracao)
+
+| Item | Valor |
+|------|-------|
 | **Apps Script Project** | `1W8kP1UBeSL8DIxgRT1MxrpSuiKZnjhFWKRGw1BWZPPg4JWeOEw0VR7Kt` |
 | **Deploy URL** | `https://script.google.com/macros/s/AKfycbyuYC4ZdGBohpfJM1Zr0JFHA3WTg-_95Z4sC9EQ9JOEEzYdcRnfNMLfASBoOr3rq-Cl/exec` |
 | **Conta** | fenixcredbr@gmail.com |
-| **Versao atual** | 4 (16/abr/2026) |
+| **Ultima versao** | 4 (16/abr/2026) |
 
 ## Eventos Browser (site -> CAPI Server via POST)
 
@@ -66,9 +78,9 @@ Todos os eventos disparam browser Pixel + CAPI server-side com `event_id` compar
 | CustomizeProduct | ConsignadoLP Simulator |
 | QuizAnswer | Questionnaire |
 
-## Eventos VendeAI (webhook -> Apps Script via POST)
+## Eventos VendeAI (webhook -> CAPI Server via POST)
 
-A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ou stages mudam.
+A VendeAI envia webhooks POST com JSON para `/api/capi/vendeai` quando tags sao aplicadas ou stages mudam.
 
 ### Mapeamento de tags (VENDEAI_EVENT_MAP)
 
@@ -98,13 +110,16 @@ A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ou stages mudam
 | `get_sim_data` | Bot coletando dados de simulacao |
 | `_cross_sell` | Tentativa de cross sell |
 
-### Fluxo doPost
+### Fluxo do webhook
 
-1. Recebe JSON com `event`, `chat_summary` (contact, session, tags)
-2. Log no sheet `webhook_log` (timestamp, event, phone, product, stage, tags, campaign)
-3. Mapeia tags para eventos CAPI via `VENDEAI_EVENT_MAP`
-4. Busca `fbc`/`fbp` na planilha principal por telefone (lookup reverso)
-5. Envia cada evento mapeado para a CAPI com `event_id` unico (UUID)
+1. Recebe JSON com `event`, `chat_id`, `chat_summary` (contact, session, tags, stage)
+2. Valida payload via Zod schema
+3. Mapeia tags para eventos CAPI via TAG_MAP
+4. Mapeia stages para eventos CAPI via STAGE_MAP
+5. Dedup por `chat_id + tag/stage` (in-memory, 48h TTL)
+6. Busca `fbc`/`fbp` no SQLite por telefone normalizado
+7. Envia cada evento mapeado para a CAPI via `sendToMeta()` com retry
+8. Loga em `events.jsonl` (structured JSON)
 
 ## user_data enviado para CAPI
 
@@ -148,12 +163,9 @@ A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ou stages mudam
 3. Aba **Settings** > secao "Conversions API" > **Generate access token**
 4. Atualize o token na configuracao do CAPI Server (VPS)
 
-### Apps Script (VendeAI webhooks)
+### Nota
 
-1. Gere o token conforme acima
-2. Abra o Apps Script: https://script.google.com/home/projects/1W8kP1UBeSL8DIxgRT1MxrpSuiKZnjhFWKRGw1BWZPPg4JWeOEw0VR7Kt/edit
-3. Substitua o valor de `ACCESS_TOKEN` pelo novo token
-4. **Deploy** > **Gerenciar implantacoes** > Editar > **Nova versao** > **Implantar**
+O CAPI Server usa o mesmo token para eventos browser e VendeAI webhooks (configurado em `clients.json` no VPS). Um unico update resolve ambos.
 
 ## Verificacao
 
@@ -164,12 +176,12 @@ A VendeAI envia webhooks POST com JSON quando tags sao aplicadas ou stages mudam
 3. **Network tab**: confirme POST para `painel.martinsfelipe.com/api/capi/meta` com status 200
 4. **Meta Events Manager > Test Events**: verifique eventos browser + server com match de deduplicacao (mesmo `event_id`)
 
-### Eventos VendeAI (Apps Script)
+### Eventos VendeAI (CAPI Server)
 
-1. **Apps Script Logs** (Execucoes): confirme eventos com `event_name` e `event_id`
-2. **Planilha webhook_log**: verifique logs de tags/stages recebidos
-3. **Planilha principal**: verifique que fbc/fbp estao sendo registrados nas colunas J/K
-4. **Meta Events Manager**: verifique eventos Lead (send_authorization) e InitiateCheckout (simulation)
+1. **VPS Logs**: `journalctl -u capi-server -f` ou `/var/log/capi-server/events.jsonl`
+2. **SQLite**: `sqlite3 /opt/capi-server/data/leads.db "SELECT COUNT(*) FROM leads;"`
+3. **Meta Events Manager**: verifique eventos Lead (send_authorization) e InitiateCheckout (simulation)
+4. **Teste manual**: `curl -X POST https://painel.martinsfelipe.com/api/capi/vendeai -H 'Content-Type: application/json' -d '{"event":"test","chat_id":"test-1","chat_summary":{"tags":["ofertado"],"details":{"contact":{"phone":"11999887766"}}}}'`
 
 ## Custom Conversions (Events Manager)
 
