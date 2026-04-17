@@ -52,6 +52,7 @@ function getComponentModDate(sectionId) {
     'faq': 'FAQ.jsx',
     'trabalhe-conosco': 'TrabalheConosco.jsx',
     'politica-privacidade': 'PrivacyPolicy.jsx',
+    'antecipacao-fgts': 'ConsignadoLP/index.jsx',
   };
 
   const componentFile = componentMap[sectionId];
@@ -131,6 +132,13 @@ function generateSitemap() {
       changefreq: 'yearly',
       priority: '0.50',
       description: 'Política de Privacidade'
+    },
+    {
+      loc: `${baseUrl}/antecipacao-fgts`,
+      sectionId: 'antecipacao-fgts',
+      changefreq: 'weekly',
+      priority: '0.90',
+      description: 'Landing Page - Antecipação FGTS'
     }
   ];
 

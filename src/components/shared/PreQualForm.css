@@ -1,0 +1,388 @@
+/* ─────────────────────────────────────────────────────────
+   PreQualForm — 3-step pre-qualification micro-form
+   Mobile-first. Two color variants:
+     .prequal-form--yellow  → CLT pages (CreditoCLT)
+     .prequal-form--light   → ConsignadoLP pages (green accent)
+   ───────────────────────────────────────────────────────── */
+
+.prequal-form {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto 1.75rem;
+  padding: 1.5rem 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--text-white, #ffffff);
+}
+
+@media (min-width: 640px) {
+  .prequal-form {
+    padding: 1.75rem 1.5rem;
+  }
+}
+
+/* ─── Variant: yellow (CLT) ─── */
+.prequal-form--yellow {
+  border-color: rgba(253, 177, 71, 0.25);
+  background: linear-gradient(
+    180deg,
+    rgba(253, 177, 71, 0.08) 0%,
+    rgba(253, 177, 71, 0.02) 100%
+  );
+}
+
+.prequal-form--yellow .prequal-form__title {
+  color: #fdb147;
+}
+
+.prequal-form--yellow .prequal-form__progress-bar {
+  background: linear-gradient(90deg, #fdb147, #fdc567);
+}
+
+.prequal-form--yellow .prequal-form__option.is-selected,
+.prequal-form--yellow .prequal-form__amount.is-selected {
+  border-color: rgba(253, 177, 71, 0.6);
+  background: rgba(253, 177, 71, 0.15);
+  color: #fdb147;
+}
+
+/* ─── Variant: light / green (ConsignadoLP) ─── */
+.prequal-form--light {
+  border-color: rgba(74, 222, 128, 0.22);
+  background: linear-gradient(
+    180deg,
+    rgba(74, 222, 128, 0.06) 0%,
+    rgba(74, 222, 128, 0.015) 100%
+  );
+}
+
+.prequal-form--light .prequal-form__title {
+  color: #4ade80;
+}
+
+.prequal-form--light .prequal-form__progress-bar {
+  background: linear-gradient(90deg, #4ade80, #86efac);
+}
+
+.prequal-form--light .prequal-form__option.is-selected,
+.prequal-form--light .prequal-form__amount.is-selected {
+  border-color: rgba(74, 222, 128, 0.55);
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+/* ─── Head ─── */
+.prequal-form__head {
+  margin-bottom: 1.1rem;
+}
+
+.prequal-form__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.35rem;
+}
+
+@media (min-width: 640px) {
+  .prequal-form__title {
+    font-size: 1.15rem;
+  }
+}
+
+.prequal-form__subtitle {
+  margin: 0 0 0.8rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.45;
+}
+
+.prequal-form__progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.prequal-form__progress-bar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.35s ease-out;
+  border-radius: 999px;
+}
+
+/* ─── Body ─── */
+.prequal-form__body {
+  animation: prequalFadeIn 0.3s ease-out;
+}
+
+.prequal-form__body--rejected {
+  text-align: center;
+}
+
+.prequal-form__icon {
+  display: inline-flex;
+  color: #fbbf24;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.prequal-form__reject-msg {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.prequal-form__reject-msg strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.prequal-form__step {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prequal-form__label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.85rem;
+}
+
+/* ─── Options (Sim/Não) ─── */
+.prequal-form__options {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.prequal-form__options--two {
+  grid-template-columns: 1fr 1fr;
+}
+
+.prequal-form__options--three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.prequal-form__option {
+  appearance: none;
+  min-height: 48px;
+  padding: 0.7rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.65rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.prequal-form__option:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.prequal-form__option:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.prequal-form__option.is-selected {
+  font-weight: 700;
+}
+
+/* ─── Amounts grid ─── */
+.prequal-form__amounts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 400px) {
+  .prequal-form__amounts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.prequal-form__amount {
+  appearance: none;
+  min-height: 46px;
+  padding: 0.65rem 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.6rem;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.prequal-form__amount:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.prequal-form__amount:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.prequal-form__amount.is-selected {
+  font-weight: 700;
+}
+
+/* ─── Hint text ─── */
+.prequal-form__hint {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.45;
+  padding: 0.55rem 0.7rem;
+  background: rgba(255, 255, 255, 0.035);
+  border-left: 3px solid rgba(74, 222, 128, 0.45);
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+.prequal-form--yellow .prequal-form__hint {
+  border-left-color: rgba(253, 177, 71, 0.5);
+}
+
+/* ─── Back link ─── */
+.prequal-form__back {
+  appearance: none;
+  background: transparent;
+  border: none;
+  margin-top: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 0.35rem 0.2rem;
+  font-family: inherit;
+}
+
+.prequal-form__back:hover {
+  color: #ffffff;
+}
+
+.prequal-form__back:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Buttons ─── */
+.prequal-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+@media (min-width: 420px) {
+  .prequal-form__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.prequal-form__btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.8rem 1.25rem;
+  border-radius: 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  font-family: inherit;
+  border: 1.5px solid transparent;
+}
+
+.prequal-form__btn--primary {
+  width: 100%;
+  background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.28);
+}
+
+.prequal-form__btn--primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(37, 211, 102, 0.4);
+}
+
+.prequal-form__btn--primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.prequal-form__btn--primary:focus-visible {
+  outline: 3px solid #25d366;
+  outline-offset: 3px;
+}
+
+.prequal-form__btn--secondary {
+  background: rgba(253, 177, 71, 0.14);
+  color: #fdb147;
+  border-color: rgba(253, 177, 71, 0.4);
+}
+
+.prequal-form__btn--secondary:hover {
+  background: rgba(253, 177, 71, 0.22);
+}
+
+.prequal-form__btn--ghost {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.prequal-form__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.prequal-form__wa-icon {
+  flex-shrink: 0;
+}
+
+/* ─── Animations ─── */
+@keyframes prequalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prequal-form__body,
+  .prequal-form__progress-bar,
+  .prequal-form__btn--primary {
+    animation: none !important;
+    transition: none !important;
+  }
+}

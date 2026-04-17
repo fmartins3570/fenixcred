@@ -36,6 +36,10 @@ export default function LeadPopup() {
   useEffect(() => {
     if (isCaptured || sessionStorage.getItem(SESSION_KEY)) return
     const timer = setTimeout(() => {
+      // Defer popup if user already engaged with the PreQualForm on the Hero.
+      // The micro-form covers the same capture intent with less friction,
+      // so it takes priority. Passive visitors (no interaction) still get the popup.
+      if (sessionStorage.getItem('fenix_prequal_engaged')) return
       setOpen(true)
       trackCustomEvent('LeadPopupView', {})
     }, 500)

@@ -93,6 +93,55 @@ export const ANGLES = {
     ],
     faqs: faqs,
   },
+
+  // FGTS anticipation angle — different product (not installment-based)
+  // Uses `mode: 'antecipado'` to toggle Simulator behavior (no term, net amount)
+  fgts: {
+    tag: 'fgts',
+    mode: 'antecipado',
+    product: 'antecipacao-fgts',
+    seo: {
+      title: 'Antecipação FGTS em 24h | Até R$30.000 Sem Consulta SPC — Fênix Cred',
+      description: 'Antecipe seu FGTS com a Fênix Cred. Libere até R$30.000 em 24h, sem consulta SPC/Serasa e direto de banco autorizado pela Caixa. Simule grátis.',
+    },
+    hero: {
+      badge: '💸 Antecipação FGTS autorizada pela Caixa',
+      headline: 'Libere até R$30.000 do seu FGTS em 24h',
+      subheadline: 'Sem consulta SPC, sem análise de crédito, dinheiro direto na conta.',
+      ctaText: 'Simular FGTS Agora',
+    },
+    trustBadges: [
+      { icon: 'shield', text: 'Sem consulta SPC/Serasa' },
+      { icon: 'clock', text: 'Resposta em até 24h' },
+      { icon: 'check', text: 'Direto do banco autorizado pela Caixa' },
+    ],
+    faqs: [
+      {
+        question: 'Qual o limite de antecipação do FGTS?',
+        answer: 'O limite depende do saldo disponível na sua conta vinculada do FGTS e do valor liberado pelo saque-aniversário. Em geral, nossos parceiros antecipam de R$500 até R$30.000, respeitando o saldo e a adesão ativa ao saque-aniversário.',
+      },
+      {
+        question: 'Preciso estar empregado para antecipar?',
+        answer: 'Não. A antecipação do FGTS funciona com saldo disponível na sua conta vinculada, independentemente de vínculo empregatício atual. Mesmo desempregado, se você tem saldo e aderiu ao saque-aniversário, pode antecipar.',
+      },
+      {
+        question: 'Preciso ter aderido ao saque-aniversário?',
+        answer: 'Sim. A antecipação só é possível para quem aderiu à modalidade saque-aniversário do FGTS pelo app da Caixa ou Internet Banking. A adesão é gratuita e pode ser feita a qualquer momento.',
+      },
+      {
+        question: 'Em quanto tempo o dinheiro cai na conta?',
+        answer: 'Após aprovação e assinatura digital do contrato, o valor é liberado em até 24 horas úteis diretamente na sua conta bancária. Todo o processo é feito de forma online e sem burocracia.',
+      },
+      {
+        question: 'Qual a taxa de juros da antecipação?',
+        answer: 'As taxas da antecipação FGTS variam conforme o banco parceiro e o valor contratado, normalmente partindo de 1,29% ao mês. O CET completo é informado antes da contratação para total transparência.',
+      },
+      {
+        question: 'Posso antecipar se já tiver outro empréstimo FGTS?',
+        answer: 'Depende do saldo ainda disponível no seu FGTS e das regras do banco parceiro. Se houver saldo não comprometido e saques-aniversário futuros elegíveis, é possível contratar uma nova antecipação ou portabilidade. Simule conosco para verificar.',
+      },
+    ],
+  },
 }
 
 // Shared data (same for all angles)

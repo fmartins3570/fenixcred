@@ -1,15 +1,37 @@
 import { useState, useCallback } from 'react'
-import { SIMULATOR_CONFIG, calculateInstallment, formatCurrency } from '../../utils/consignado-lp/simulator-config'
+import {
+  SIMULATOR_CONFIG,
+  FGTS_SIMULATOR_CONFIG,
+  calculateInstallment,
+  calculateFgtsNet,
+  formatCurrency,
+} from '../../utils/consignado-lp/simulator-config'
 import { trackCustomEvent } from '../../utils/metaPixel'
 import './Simulator.css'
 
-export default function Simulator({ tag, onSimulate }) {
-  const { minValue, maxValue, step, defaultValue, terms, defaultTerm } = SIMULATOR_CONFIG
+/**
+ * Credit simulator for ConsignadoLP landing pages.
+ * Supports two modes:
+ *  - 'parcelado' (default): consignado CLT flow with term selection + monthly installment
+ *  - 'antecipado': FGTS anticipation flow with no term, shows net amount after fees
+ *
+ * @param {Object} props
+ * @param {string} props.tag - Tracking tag (e.g. 'neg', 'vel', 'ger', 'fgts')
+ * @param {Function} props.onSimulate - Called with (value, term, installmentOrNet)
+ * @param {'parcelado'|'antecipado'} [props.mode='parcelado']
+ */
+export default function Simulator({ tag, onSimulate, mode = 'parcelado' }) {
+  const isFgts = mode === 'antecipado'
+  const config = isFgts ? FGTS_SIMULATOR_CONFIG : SIMULATOR_CONFIG
 
-  const [value, setValue] = useState(defaultValue)
-  const [term, setTerm] = useState(defaultTerm)
+  const [value, setValue] = useState(config.defaultValue)
+  // Only used in parcelado mode
+  const [term, setTerm] = useState(isFgts ? null : SIMULATOR_CONFIG.defaultTerm)
 
-  const installment = calculateInstallment(value, term)
+  // Result value: installment for parcelado, net amount for antecipado
+  const result = isFgts
+    ? calculateFgtsNet(value)
+    : calculateInstallment(value, term)
 
   const handleValueChange = useCallback((e) => {
     setValue(Number(e.target.value))
@@ -27,63 +49,72 @@ export default function Simulator({ tag, onSimulate }) {
   }, [])
 
   const handleSimulate = () => {
-    onSimulate(value, term, installment)
+    onSimulate(value, term, result)
   }
 
-  const fillPercent = ((value - minValue) / (maxValue - minValue)) * 100
+  const fillPercent = ((value - config.minValue) / (config.maxValue - config.minValue)) * 100
 
   return (
     <div className="simulator">
       <div className="simulator-card">
-        <h3 className="simulator-title">Simule seu crédito</h3>
+        <h3 className="simulator-title">
+          {isFgts ? 'Simule sua antecipação' : 'Simule seu crédito'}
+        </h3>
 
         <div className="simulator-value-display">
-          <span className="simulator-value-label">Valor desejado</span>
+          <span className="simulator-value-label">
+            {isFgts ? 'Valor desejado (FGTS)' : 'Valor desejado'}
+          </span>
           <span className="simulator-value-amount">{formatCurrency(value)}</span>
         </div>
 
         <div className="simulator-slider-wrapper">
           <input
             type="range"
-            min={minValue}
-            max={maxValue}
-            step={step}
+            min={config.minValue}
+            max={config.maxValue}
+            step={config.step}
             value={value}
             onChange={handleValueChange}
             onMouseUp={handleValueChangeEnd}
             onTouchEnd={handleValueChangeEnd}
             className="simulator-slider"
             style={{ '--fill-percent': `${fillPercent}%` }}
-            aria-label="Valor do empréstimo"
+            aria-label={isFgts ? 'Valor da antecipação FGTS' : 'Valor do empréstimo'}
           />
           <div className="simulator-slider-labels">
-            <span>{formatCurrency(minValue)}</span>
-            <span>{formatCurrency(maxValue)}</span>
+            <span>{formatCurrency(config.minValue)}</span>
+            <span>{formatCurrency(config.maxValue)}</span>
           </div>
         </div>
 
-        <div className="simulator-terms">
-          <span className="simulator-terms-label">Prazo em meses</span>
-          <div className="simulator-terms-grid">
-            {terms.map((t) => (
-              <button
-                key={t}
-                type="button"
-                className={`simulator-term-btn ${t === term ? 'active' : ''}`}
-                onClick={() => handleTermChange(t)}
-                aria-pressed={t === term}
-              >
-                {t}x
-              </button>
-            ))}
+        {/* Term selection — only for parcelado (consignado) mode */}
+        {!isFgts && (
+          <div className="simulator-terms">
+            <span className="simulator-terms-label">Prazo em meses</span>
+            <div className="simulator-terms-grid">
+              {SIMULATOR_CONFIG.terms.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  className={`simulator-term-btn ${t === term ? 'active' : ''}`}
+                  onClick={() => handleTermChange(t)}
+                  aria-pressed={t === term}
+                >
+                  {t}x
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="simulator-result">
-          <span className="simulator-result-label">Parcela estimada</span>
+          <span className="simulator-result-label">
+            {isFgts ? 'Valor líquido após antecipação' : 'Parcela estimada'}
+          </span>
           <span className="simulator-result-value">
-            {formatCurrency(installment)}
-            <span className="simulator-result-period">/mês</span>
+            {formatCurrency(result)}
+            {!isFgts && <span className="simulator-result-period">/mês</span>}
           </span>
         </div>
 
@@ -95,7 +126,7 @@ export default function Simulator({ tag, onSimulate }) {
         </button>
 
         <p className="simulator-disclaimer">
-          Simulação meramente ilustrativa. Valores sujeitos a análise de crédito pela instituição financeira parceira.
+          Simulação meramente ilustrativa. Valores sujeitos a análise da instituição financeira parceira.
         </p>
       </div>
     </div>

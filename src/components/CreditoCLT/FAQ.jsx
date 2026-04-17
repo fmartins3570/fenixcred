@@ -1,11 +1,25 @@
 import { useState } from 'react'
-import { faqs } from '../../utils/credito-clt/constants'
+import { faqs as defaultFaqs } from '../../utils/credito-clt/constants'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 import './FAQ.css'
 
-export default function FAQ() {
+/**
+ * FAQ accordion for CreditoCLT and ConsignadoLP pages.
+ *
+ * @param {Object} [props]
+ * @param {Array<{question: string, answer: string}>} [props.faqs] - Optional override for angle-specific FAQs
+ * @param {string} [props.description] - Custom description under the title
+ * @param {string} [props.topic] - Used in CTA WhatsApp message (e.g. 'crédito consignado CLT', 'antecipação FGTS')
+ * @param {string} [props.ctaTag] - UTM-like tag for the FAQ WhatsApp CTA
+ */
+export default function FAQ({
+  faqs = defaultFaqs,
+  description = 'Encontre respostas para as dúvidas mais comuns sobre o crédito consignado CLT.',
+  topic = 'crédito consignado CLT',
+  ctaTag = 'clt-faq',
+} = {}) {
   const [openIndex, setOpenIndex] = useState(0)
 
   const handleToggle = (index) => {
@@ -25,9 +39,7 @@ export default function FAQ() {
             <h2 className="faq-title">
               Perguntas <span className="faq-title-highlight">Frequentes</span>
             </h2>
-            <p className="faq-description">
-              Encontre respostas para as dúvidas mais comuns sobre o crédito consignado CLT.
-            </p>
+            <p className="faq-description">{description}</p>
           </div>
 
           {/* Accordion */}
@@ -75,9 +87,9 @@ export default function FAQ() {
               onClick={(e) => {
                 e.preventDefault()
                 const eventId = generateEventId()
-                trackEvent('Contact', { content_name: 'FAQ CLT WhatsApp', content_category: 'whatsapp' }, eventId)
-                sendServerEvent('Contact', eventId, { page: 'FAQ CLT' })
-                const msg = encodeURIComponent(tagMessage('(clt-faq) Olá! Tenho algumas dúvidas sobre o crédito consignado CLT.'))
+                trackEvent('Contact', { content_name: `FAQ ${ctaTag} WhatsApp`, content_category: 'whatsapp' }, eventId)
+                sendServerEvent('Contact', eventId, { page: `FAQ ${ctaTag}` })
+                const msg = encodeURIComponent(tagMessage(`(${ctaTag}) Olá! Tenho algumas dúvidas sobre ${topic}.`))
                 window.open(`https://wa.me/5511917082143?text=${msg}`, '_blank', 'noopener,noreferrer')
               }}
             >

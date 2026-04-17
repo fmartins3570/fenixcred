@@ -72,6 +72,10 @@ function App() {
       setCurrentPage("consignado-clt");
       return;
     }
+    if (pathname === "/antecipacao-fgts" || pathname === "/antecipacao-fgts/") {
+      setCurrentPage("antecipacao-fgts");
+      return;
+    }
 
     // Verifica o pathname para simulação consignado CLT (questionário interativo)
     if (pathname === "/simulacao-consignado-clt" || pathname === "/simulacao-consignado-clt/") {
@@ -127,6 +131,10 @@ function App() {
         setCurrentPage("consignado-clt");
         return;
       }
+      if (newPathname === "/antecipacao-fgts" || newPathname === "/antecipacao-fgts/") {
+        setCurrentPage("antecipacao-fgts");
+        return;
+      }
 
       if (newPathname === "/simulacao-consignado-clt" || newPathname === "/simulacao-consignado-clt/") {
         setCurrentPage("simulacao-clt");
@@ -170,11 +178,17 @@ function App() {
   }, []);
 
   // Landing pages por angulo — ConsignadoLP
-  if (currentPage === "consignado-negativado" || currentPage === "consignado-rapido" || currentPage === "consignado-clt") {
+  if (
+    currentPage === "consignado-negativado" ||
+    currentPage === "consignado-rapido" ||
+    currentPage === "consignado-clt" ||
+    currentPage === "antecipacao-fgts"
+  ) {
     const angleMap = {
       "consignado-negativado": "negativado",
       "consignado-rapido": "velocidade",
       "consignado-clt": "geral",
+      "antecipacao-fgts": "fgts",
     };
     return (
       <div className="App">

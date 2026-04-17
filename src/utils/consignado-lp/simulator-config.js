@@ -11,6 +11,16 @@ export const SIMULATOR_CONFIG = {
   defaultTerm: 48,
 }
 
+// FGTS anticipation simulator — no installments, shows net amount after fees
+// Net rate is purely visual/illustrative; real value depends on partner bank
+export const FGTS_SIMULATOR_CONFIG = {
+  minValue: 500,
+  maxValue: 30000,
+  step: 500,
+  defaultValue: 10000,
+  netRate: 0.85, // 85% of gross — illustrative net amount after partner bank fees
+}
+
 /**
  * Calculate monthly installment using Price formula (tabela Price)
  * PMT = PV * [i * (1+i)^n] / [(1+i)^n - 1]
@@ -39,4 +49,15 @@ export function formatCurrency(value) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   })
+}
+
+/**
+ * Calculate net amount for FGTS anticipation (illustrative).
+ * Applies a fixed percentage to simulate post-fee net payout.
+ *
+ * @param {number} grossValue - Requested FGTS anticipation amount
+ * @returns {number} Estimated net amount deposited on user's account
+ */
+export function calculateFgtsNet(grossValue) {
+  return Math.floor(grossValue * FGTS_SIMULATOR_CONFIG.netRate)
 }

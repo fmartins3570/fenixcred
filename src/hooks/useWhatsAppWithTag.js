@@ -82,9 +82,48 @@ export function useWhatsAppWithTag(tag) {
     )
   }
 
+  /**
+   * Open WhatsApp with FGTS anticipation simulator data included in the message.
+   * FGTS is not installment-based, so we send gross + estimated net amount.
+   *
+   * @param {number} value - Gross requested amount
+   * @param {number} netAmount - Estimated net amount after partner bank fees
+   */
+  const openWhatsAppWithFgts = (value, netAmount) => {
+    const formattedValue = value.toLocaleString('pt-BR')
+    const formattedNet = netAmount.toLocaleString('pt-BR')
+
+    const message = `Olá! Gostaria de antecipar meu FGTS.\nValor desejado: R$ ${formattedValue} | Valor líquido estimado: R$ ${formattedNet}`
+
+    const eventId = generateEventId()
+
+    trackEvent('Contact', {
+      content_name: `WhatsApp Simulador ${tag}`,
+      content_category: 'whatsapp',
+      value: value,
+      currency: 'BRL',
+    }, eventId)
+
+    sendServerEvent('Contact', eventId, {
+      page: window.location.pathname,
+    }, {
+      value: value,
+      currency: 'BRL',
+    })
+
+    const taggedMessage = tagMessage(`(${tag})${message}`)
+    const encoded = encodeURIComponent(taggedMessage)
+    window.open(
+      `https://wa.me/${phoneNumber}?text=${encoded}`,
+      '_blank',
+      'noopener,noreferrer'
+    )
+  }
+
   return {
     openWhatsApp,
     openWhatsAppWithSimulator,
+    openWhatsAppWithFgts,
     phoneNumber,
   }
 }

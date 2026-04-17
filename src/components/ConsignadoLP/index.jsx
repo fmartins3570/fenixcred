@@ -16,12 +16,13 @@ import { useWhatsAppWithTag } from '../../hooks/useWhatsAppWithTag'
 import './index.css'
 
 /**
- * Landing Page base for angle-specific consignado CLT campaigns.
- * @param {'negativado'|'velocidade'|'geral'} angle - Which angle to render
+ * Landing Page base for angle-specific consignado CLT (and FGTS) campaigns.
+ * @param {'negativado'|'velocidade'|'geral'|'fgts'} angle - Which angle to render
  */
 export default function ConsignadoLP({ angle }) {
   const angleData = ANGLES[angle]
   const { openWhatsApp } = useWhatsAppWithTag(angleData.tag)
+  const isFgts = angleData.mode === 'antecipado'
 
   // Set SEO meta tags
   useEffect(() => {
@@ -44,23 +45,41 @@ export default function ConsignadoLP({ angle }) {
         <Benefits />
         <HowItWorks />
         <ReviewsSection variant="clt" />
-        <FAQ />
-        <FinalCTA tag={angleData.tag} ctaText={angleData.hero.ctaText} />
+        <FAQ
+          faqs={angleData.faqs}
+          description={
+            isFgts
+              ? 'Encontre respostas para as dúvidas mais comuns sobre antecipação do FGTS.'
+              : undefined
+          }
+          topic={isFgts ? 'antecipação do FGTS' : 'crédito consignado CLT'}
+          ctaTag={isFgts ? 'fgts-faq' : 'clt-faq'}
+        />
+        <FinalCTA
+          tag={angleData.tag}
+          ctaText={angleData.hero.ctaText}
+          mode={angleData.mode}
+        />
       </main>
       <Footer />
       <BackToTop />
-      <WhatsAppFloatingButton tag={angleData.tag} openWhatsApp={openWhatsApp} />
+      <WhatsAppFloatingButton
+        tag={angleData.tag}
+        openWhatsApp={openWhatsApp}
+        message={
+          isFgts
+            ? 'Olá! Gostaria de antecipar meu FGTS.'
+            : 'Olá! Gostaria de simular um crédito consignado CLT.'
+        }
+      />
       <CookieBanner />
     </div>
   )
 }
 
-function WhatsAppFloatingButton({ tag, openWhatsApp }) {
+function WhatsAppFloatingButton({ tag, openWhatsApp, message = 'Olá! Gostaria de simular um crédito consignado CLT.' }) {
   const handleClick = () => {
-    openWhatsApp(
-      'Olá! Gostaria de simular um crédito consignado CLT.',
-      `WhatsApp Float ${tag}`
-    )
+    openWhatsApp(message, `WhatsApp Float ${tag}`)
   }
 
   return (

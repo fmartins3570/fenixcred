@@ -1,6 +1,8 @@
 import { useWhatsApp } from '../../hooks/credito-clt/useWhatsApp'
 import { useLeadData } from '../../hooks/credito-clt/useLeadData'
 import { PURPOSES } from './LeadPopup'
+import PreQualForm from '../shared/PreQualForm'
+import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
@@ -78,6 +80,16 @@ export default function Hero({ personalized = false }) {
   const primaryPurpose = leadData?.purposes?.[0] || 'outro'
   const content = PURPOSE_CONTENT[primaryPurpose] || PURPOSE_CONTENT.outro
   const otherPurposes = (leadData?.purposes || []).slice(1)
+
+  // When user engages with the pre-qual form, suppress the LeadPopup on the
+  // personalized variant (they overlap in intent — see LeadPopup.jsx for read).
+  const handlePreQualStart = () => {
+    try {
+      sessionStorage.setItem('fenix_prequal_engaged', '1')
+    } catch {
+      /* noop — storage disabled */
+    }
+  }
 
   const handlePersonalizedWhatsApp = () => {
     const eventId = generateEventId()
@@ -166,6 +178,15 @@ export default function Hero({ personalized = false }) {
                   <p className="hero-clt-rates-disclaimer">Condições sujeitas a análise de crédito. A Fenix Cred atua como correspondente bancário.</p>
                 </div>
 
+                {/* Pre-qualification micro-form — filters leads before WhatsApp handoff */}
+                <PreQualForm
+                  sourceTag="clt-pers"
+                  whatsAppNumber={WHATSAPP_NUMBER}
+                  variant="yellow"
+                  title={`${firstName}, veja em 20s se você se qualifica`}
+                  onQualifyStart={handlePreQualStart}
+                />
+
                 <div className="hero-clt-trust">
                   <TrustBadge icon="shield" text="Sem consulta SPC/Serasa" />
                   <TrustBadge icon="clock" text="Resposta em minutos" />
@@ -211,6 +232,15 @@ export default function Hero({ personalized = false }) {
                   <p>Taxas a partir de <strong>1,49% a.m.</strong> | CET a partir de <strong>29,90% a.a.</strong></p>
                   <p className="hero-clt-rates-disclaimer">Condições sujeitas a análise de crédito. A Fenix Cred atua como correspondente bancário.</p>
                 </div>
+
+                {/* Pre-qualification micro-form — filters leads before WhatsApp handoff */}
+                <PreQualForm
+                  sourceTag="clt"
+                  whatsAppNumber={WHATSAPP_NUMBER}
+                  variant="yellow"
+                  title="Veja em 20s se você se qualifica"
+                  onQualifyStart={handlePreQualStart}
+                />
 
                 <div className="hero-clt-trust">
                   <TrustBadge icon="clock" text="Resposta em minutos" />

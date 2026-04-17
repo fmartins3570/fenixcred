@@ -1,12 +1,15 @@
 import { useWhatsAppWithTag } from '../../hooks/useWhatsAppWithTag'
 import './FinalCTA.css'
 
-export default function FinalCTA({ tag, ctaText }) {
+export default function FinalCTA({ tag, ctaText, mode }) {
+  const isFgts = mode === 'antecipado'
   const { openWhatsApp } = useWhatsAppWithTag(tag)
 
   const handleClick = () => {
     openWhatsApp(
-      'Olá! Gostaria de simular um consignado CLT.',
+      isFgts
+        ? 'Olá! Gostaria de antecipar meu FGTS.'
+        : 'Olá! Gostaria de simular um consignado CLT.',
       `FinalCTA ${tag}`
     )
   }
@@ -18,11 +21,22 @@ export default function FinalCTA({ tag, ctaText }) {
 
       <div className="final-cta-consignado-container">
         <h2 className="final-cta-consignado-title">
-          Conquiste Seu Crédito{' '}
-          <span className="final-cta-consignado-highlight">Hoje Mesmo</span>
+          {isFgts ? (
+            <>
+              Receba Seu FGTS{' '}
+              <span className="final-cta-consignado-highlight">em 24h</span>
+            </>
+          ) : (
+            <>
+              Conquiste Seu Crédito{' '}
+              <span className="final-cta-consignado-highlight">Hoje Mesmo</span>
+            </>
+          )}
         </h2>
         <p className="final-cta-consignado-description">
-          Atendimento ágil, taxas justas e resposta em minutos.
+          {isFgts
+            ? 'Antecipação sem consulta SPC, direto de banco autorizado pela Caixa.'
+            : 'Atendimento ágil, taxas justas e resposta em minutos.'}
         </p>
 
         <button type="button" className="final-cta-consignado-btn" onClick={handleClick}>

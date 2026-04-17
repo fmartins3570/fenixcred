@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import Simulator from './Simulator'
+import PreQualForm from '../shared/PreQualForm'
 import { useWhatsAppWithTag } from '../../hooks/useWhatsAppWithTag'
+import { SHARED } from '../../utils/consignado-lp/angles'
 import { trackEvent } from '../../utils/metaPixel'
 import './Hero.css'
 
@@ -23,18 +25,24 @@ const ICON_MAP = {
 }
 
 export default function Hero({ angleData, tag }) {
-  const { openWhatsAppWithSimulator } = useWhatsAppWithTag(tag)
-  const { hero, trustBadges } = angleData
+  const { openWhatsAppWithSimulator, openWhatsAppWithFgts } = useWhatsAppWithTag(tag)
+  const { hero, trustBadges, mode } = angleData
+  const isFgts = mode === 'antecipado'
 
   useEffect(() => {
     trackEvent('ViewContent', {
-      content_name: `LP ${tag}`,
-      content_category: 'consignado-clt',
+      content_name: isFgts ? `LP FGTS ${tag}` : `LP ${tag}`,
+      content_category: isFgts ? 'antecipacao-fgts' : 'consignado-clt',
     })
-  }, [tag])
+  }, [tag, isFgts])
 
-  const handleSimulate = (value, term, installment) => {
-    openWhatsAppWithSimulator(value, term, installment)
+  const handleSimulate = (value, term, result) => {
+    if (isFgts) {
+      // In 'antecipado' mode, `result` is the net amount (see Simulator)
+      openWhatsAppWithFgts(value, result)
+    } else {
+      openWhatsAppWithSimulator(value, term, result)
+    }
   }
 
   return (
@@ -51,10 +59,21 @@ export default function Hero({ angleData, tag }) {
             <p className="hero-consignado-subheadline">{hero.subheadline}</p>
 
             <div className="hero-consignado-rates">
-              <p>Taxas a partir de <strong>1,49% a.m.</strong> | CET a partir de <strong>29,90% a.a.</strong></p>
-              <p className="hero-consignado-rates-disclaimer">
-                Condições sujeitas a análise de crédito. A Fenix Cred atua como correspondente bancário.
-              </p>
+              {isFgts ? (
+                <>
+                  <p>Antecipação via <strong>saque-aniversário</strong> | Taxas a partir de <strong>1,29% a.m.</strong></p>
+                  <p className="hero-consignado-rates-disclaimer">
+                    Necessário adesão ao saque-aniversário. Valor liberado por banco parceiro autorizado pela Caixa.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>Taxas a partir de <strong>1,49% a.m.</strong> | CET a partir de <strong>29,90% a.a.</strong></p>
+                  <p className="hero-consignado-rates-disclaimer">
+                    Condições sujeitas a análise de crédito. A Fenix Cred atua como correspondente bancário.
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="hero-consignado-trust">
@@ -68,7 +87,16 @@ export default function Hero({ angleData, tag }) {
           </div>
 
           <div className="hero-consignado-simulator">
-            <Simulator tag={tag} onSimulate={handleSimulate} />
+            {/* Pre-qualification form is CLT-specific (margem consignável) — skip for FGTS */}
+            {!isFgts && (
+              <PreQualForm
+                sourceTag={tag}
+                whatsAppNumber={SHARED.whatsappNumber}
+                variant="light"
+                title="Veja em 20s se você se qualifica"
+              />
+            )}
+            <Simulator tag={tag} onSimulate={handleSimulate} mode={isFgts ? 'antecipado' : 'parcelado'} />
           </div>
         </div>
       </div>
