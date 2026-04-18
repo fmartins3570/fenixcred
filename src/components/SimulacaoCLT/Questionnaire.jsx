@@ -12,12 +12,21 @@ import {
   formatBRL,
   parseBRL,
 } from '../../utils/credito-clt/finance'
+import {
+  MONTHS,
+  YEAR_OPTIONS,
+  calcTenureMonths,
+  tenureBucket,
+  tenurePhrase,
+  leadQuality,
+} from '../../utils/tenure'
 import './Questionnaire.css'
 
 const QUESTIONS = [
   {
     id: 'q1',
     text: 'Você trabalha de carteira assinada?',
+    type: 'boolean',
     options: [
       { label: 'Sim', value: true },
       { label: 'Não', value: false },
@@ -26,16 +35,14 @@ const QUESTIONS = [
   },
   {
     id: 'q2',
-    text: 'Você está empregado há mais de 3 meses?',
-    options: [
-      { label: 'Sim', value: true },
-      { label: 'Não', value: false },
-    ],
-    rejectOnFalse: true,
+    text: 'Quando você entrou na empresa atual?',
+    type: 'tenure',
+    // Tenure does not reject — data is used for routing + retargeting.
   },
   {
     id: 'q3',
     text: 'A empresa onde você trabalha existe há mais de 2 anos?',
+    type: 'boolean',
     options: [
       { label: 'Sim', value: true },
       { label: 'Não', value: false },
@@ -45,6 +52,7 @@ const QUESTIONS = [
   {
     id: 'q4',
     text: 'Você já fez empréstimo consignado CLT antes?',
+    type: 'boolean',
     options: [
       { label: 'Sim, já fiz', value: 'yes' },
       { label: 'Não, nunca fiz', value: 'no' },
@@ -54,6 +62,7 @@ const QUESTIONS = [
   {
     id: 'q5',
     text: 'Você tem margem consignável disponível?',
+    type: 'boolean',
     options: [
       { label: 'Sim, tenho margem', value: true },
       { label: 'Não tenho / Não sei', value: false },
@@ -87,6 +96,9 @@ export default function Questionnaire() {
   const [salaryInput, setSalaryInput] = useState('')
   const [estimatedMargin, setEstimatedMargin] = useState(0)
   const [animDir, setAnimDir] = useState('right')
+  // Tenure (q2) — persisted while navigating between questions
+  const [tenureMonth, setTenureMonth] = useState('')
+  const [tenureYear, setTenureYear] = useState('')
   const sectionRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -139,6 +151,8 @@ export default function Questionnaire() {
     setShowSalaryHelper(false)
     setSalaryInput('')
     setEstimatedMargin(0)
+    setTenureMonth('')
+    setTenureYear('')
 
     const eventId = generateEventId()
     trackEvent('InitiateCheckout', { content_name: 'Quiz Simulação CLT' }, eventId)
@@ -151,9 +165,16 @@ export default function Questionnaire() {
 
     const question = QUESTIONS[questionIndex]
     const isRejection =
-      (question.rejectOnFalse === true && answerValue === false) ||
-      (question.rejectOnFalse === 'margin' && answerValue === false)
-    const answerLabel = question.options.find((o) => o.value === answerValue)?.label || String(answerValue)
+      question.type === 'boolean' &&
+      ((question.rejectOnFalse === true && answerValue === false) ||
+        (question.rejectOnFalse === 'margin' && answerValue === false))
+
+    let answerLabel
+    if (question.type === 'tenure') {
+      answerLabel = `${answerValue.tenureMonths}m (${answerValue.bucket})`
+    } else {
+      answerLabel = question.options.find((o) => o.value === answerValue)?.label || String(answerValue)
+    }
 
     // GA4: custom quiz_answer event for each step
     if (window.gtag) {
@@ -174,16 +195,27 @@ export default function Questionnaire() {
       qualified: !isRejection,
     })
 
-    // Rejection branches
-    if (question.rejectOnFalse === true && answerValue === false) {
-      setAnimDir('right')
-      setScreen('rejected')
-      return
+    // Tenure-specific signal — lets funnel analysis segment by bucket
+    if (question.type === 'tenure') {
+      trackCustomEvent('PreQualTenure', {
+        content_name: 'Quiz Simulação CLT',
+        tenure_months: answerValue.tenureMonths,
+        tenure_bucket: answerValue.bucket,
+      })
     }
-    if (question.rejectOnFalse === 'margin' && answerValue === false) {
-      setAnimDir('right')
-      setScreen('rejected-margin')
-      return
+
+    // Rejection branches (boolean only)
+    if (question.type === 'boolean') {
+      if (question.rejectOnFalse === true && answerValue === false) {
+        setAnimDir('right')
+        setScreen('rejected')
+        return
+      }
+      if (question.rejectOnFalse === 'margin' && answerValue === false) {
+        setAnimDir('right')
+        setScreen('rejected-margin')
+        return
+      }
     }
 
     // Next question, or approved
@@ -204,6 +236,18 @@ export default function Questionnaire() {
       })
     }
   }, [answers, questionIndex])
+
+  const handleTenureContinue = useCallback(() => {
+    if (!tenureMonth || !tenureYear) return
+    const months = calcTenureMonths(tenureMonth, tenureYear)
+    const bucket = tenureBucket(months)
+    handleAnswer('q2', {
+      month: tenureMonth,
+      year: tenureYear,
+      tenureMonths: months,
+      bucket,
+    })
+  }, [tenureMonth, tenureYear, handleAnswer])
 
   const handleReset = useCallback(() => {
     setAnimDir('left')
@@ -252,11 +296,20 @@ export default function Questionnaire() {
     const parsedValue = rawNumericValue
     const hasValidScenario = isValueValid && selectedScenario
 
+    // Tenure data captured in q2
+    const tenureData = answers.q2 || {}
+    const tenureMonths = tenureData.tenureMonths ?? null
+    const bucket = tenureData.bucket || 'unknown'
+    const marginKey = answers.q5 === true ? 'sim' : 'nao'
+    const quality = leadQuality(marginKey, tenureMonths)
+    const phrase = tenurePhrase(tenureMonths)
+
     // Build the WhatsApp message. When we have a full scenario picked,
     // include term + installment so VendeAI sees a warm, specific lead.
     const valueText = parsedValue > 0 ? formatBRL(parsedValue) : 'a definir'
 
     const profileParts = []
+    if (phrase) profileParts.push(`CLT ${phrase} na empresa atual`)
     if (returning) profileParts.push('Já fiz consignado CLT antes')
     else profileParts.push('Primeira vez fazendo consignado CLT')
     if (answers.q5 === true) profileParts.push('Tenho margem disponível')
@@ -264,11 +317,14 @@ export default function Questionnaire() {
       profileParts.push(`Margem estimada: ${formatBRL(estimatedMargin)}`)
     }
 
+    // Enriched lead tag — quiz-prequal-{margin}-{bucket}
+    const leadTag = `quiz-prequal-${marginKey}-${bucket}`
+
     let baseMsg
     if (hasValidScenario) {
-      baseMsg = `(sim) Olá, fiz a pré-simulação e escolhi ${formatBRL(parsedValue)} em ${selectedScenario.term} meses (parcela de ${formatBRL(selectedScenario.installment)}). Pode me ajudar?\n\n${profileParts.join('\n')}`
+      baseMsg = `(${leadTag}) Olá, fiz a pré-simulação e escolhi ${formatBRL(parsedValue)} em ${selectedScenario.term} meses (parcela de ${formatBRL(selectedScenario.installment)}). Pode me ajudar?\n\n${profileParts.join('\n')}`
     } else {
-      baseMsg = `(sim) Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
+      baseMsg = `(${leadTag}) Olá! Fui pré-aprovado na simulação de empréstimo consignado CLT.\n\nValor desejado: ${valueText}\n${profileParts.join('\n')}`
     }
 
     const message = encodeURIComponent(tagMessage(baseMsg))
@@ -278,23 +334,34 @@ export default function Questionnaire() {
     trackEvent('Contact', { content_name: 'Quiz Simulação CLT - WhatsApp', content_category: 'whatsapp' }, contactEventId)
     sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulação CLT' })
 
+    // Enriched payload aligned with PreQualForm so Meta + CAPI audiences share schema
+    const extraData = {
+      value: parsedValue,
+      currency: 'BRL',
+      content_name: 'Quiz Simulação CLT - WhatsApp',
+      customer_type: returning ? 'returning' : 'new',
+      lead_quality: quality,
+      tenure_months: tenureMonths,
+      tenure_bucket: bucket,
+      has_margin: marginKey,
+    }
+
     // Meta Pixel + CAPI: split returning vs new customers so the algorithm can
     // build separate Lookalikes and retargeting pools.
     //   Lead                 → já fez consignado CLT antes (recorrente, intenção alta)
     //   CompleteRegistration → primeira vez (novo, precisa de mais nurturing)
     const eventName = returning ? 'Lead' : 'CompleteRegistration'
     const leadEventId = generateEventId()
-    trackEvent(eventName, {
-      value: parsedValue,
-      currency: 'BRL',
-      content_name: 'Quiz Simulação CLT - WhatsApp',
-      customer_type: returning ? 'returning' : 'new',
-    }, leadEventId)
-    sendServerEvent(eventName, leadEventId, {}, {
-      value: parsedValue,
-      currency: 'BRL',
-      content_name: returning ? 'quiz_lead_returning' : 'quiz_lead_new',
-    })
+    trackEvent(eventName, extraData, leadEventId)
+    sendServerEvent(eventName, leadEventId, {
+      purposes: `quiz:${marginKey}:${bucket}`,
+    }, extraData)
+
+    // Top-tier signal (margem=sim + tenure>=3m) aligned with PreQualForm
+    if (quality === 'top' || quality === 'high') {
+      const qEventId = generateEventId()
+      trackCustomEvent('QuizQualified', extraData, qEventId)
+    }
 
     window.open(
       `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
@@ -388,17 +455,72 @@ export default function Questionnaire() {
               {QUESTIONS[questionIndex].text}
             </h3>
 
-            <div className="sim-quiz-options">
-              {QUESTIONS[questionIndex].options.map((opt) => (
+            {QUESTIONS[questionIndex].type === 'tenure' ? (
+              <div className="sim-quiz-tenure">
+                <div className="sim-quiz-tenure-grid">
+                  <label className="sim-quiz-tenure-field">
+                    <span className="sim-quiz-tenure-label">Mês</span>
+                    <select
+                      className="sim-quiz-tenure-select"
+                      value={tenureMonth}
+                      onChange={(e) => setTenureMonth(e.target.value)}
+                      aria-label="Mês de admissão"
+                    >
+                      <option value="">Selecione</option>
+                      {MONTHS.map((m) => (
+                        <option key={m.value} value={m.value}>{m.label}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="sim-quiz-tenure-field">
+                    <span className="sim-quiz-tenure-label">Ano</span>
+                    <select
+                      className="sim-quiz-tenure-select"
+                      value={tenureYear}
+                      onChange={(e) => setTenureYear(e.target.value)}
+                      aria-label="Ano de admissão"
+                    >
+                      <option value="">Selecione</option>
+                      {YEAR_OPTIONS.map((y) => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                {tenureMonth && tenureYear && (
+                  <p className="sim-quiz-tenure-hint">
+                    {tenurePhrase(calcTenureMonths(tenureMonth, tenureYear))} na empresa atual
+                  </p>
+                )}
+
                 <button
-                  key={String(opt.value)}
-                  className="sim-quiz-option-btn"
-                  onClick={() => handleAnswer(QUESTIONS[questionIndex].id, opt.value)}
+                  type="button"
+                  className="sim-quiz-tenure-btn"
+                  onClick={handleTenureContinue}
+                  disabled={!tenureMonth || !tenureYear}
+                  aria-label="Continuar"
                 >
-                  {opt.label}
+                  Continuar
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                  </svg>
                 </button>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className="sim-quiz-options">
+                {QUESTIONS[questionIndex].options.map((opt) => (
+                  <button
+                    key={String(opt.value)}
+                    className="sim-quiz-option-btn"
+                    onClick={() => handleAnswer(QUESTIONS[questionIndex].id, opt.value)}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Help text for margin question */}
             {QUESTIONS[questionIndex].id === 'q5' && (

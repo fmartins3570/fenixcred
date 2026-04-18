@@ -2,6 +2,14 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
+import {
+  MONTHS,
+  YEAR_OPTIONS,
+  calcTenureMonths,
+  tenureBucket,
+  tenurePhrase,
+  leadQuality,
+} from '../../utils/tenure'
 import './PreQualForm.css'
 
 /**
@@ -32,68 +40,6 @@ const AMOUNT_OPTIONS = [
   { value: 20000, label: 'R$ 20.000' },
   { value: 30000, label: 'R$ 30.000+' },
 ]
-
-const MONTHS = [
-  { value: 1, label: 'Janeiro' },
-  { value: 2, label: 'Fevereiro' },
-  { value: 3, label: 'Março' },
-  { value: 4, label: 'Abril' },
-  { value: 5, label: 'Maio' },
-  { value: 6, label: 'Junho' },
-  { value: 7, label: 'Julho' },
-  { value: 8, label: 'Agosto' },
-  { value: 9, label: 'Setembro' },
-  { value: 10, label: 'Outubro' },
-  { value: 11, label: 'Novembro' },
-  { value: 12, label: 'Dezembro' },
-]
-
-const CURRENT_YEAR = new Date().getFullYear()
-const YEAR_OPTIONS = Array.from({ length: 30 }, (_, i) => CURRENT_YEAR - i)
-
-function calcTenureMonths(month, year) {
-  if (!month || !year) return null
-  const now = new Date()
-  const current = now.getFullYear() * 12 + now.getMonth()
-  const admission = Number(year) * 12 + (Number(month) - 1)
-  return Math.max(0, current - admission)
-}
-
-function tenureBucket(months) {
-  if (months == null) return 'unknown'
-  if (months < 3) return 't0-2m'
-  if (months < 6) return 't3-5m'
-  if (months < 12) return 't6-11m'
-  if (months < 24) return 't12-23m'
-  return 't24m+'
-}
-
-function tenurePhrase(months) {
-  if (months == null) return ''
-  if (months === 0) return 'há menos de 1 mês'
-  if (months === 1) return 'há 1 mês'
-  if (months < 12) return `há ${months} meses`
-  const years = Math.floor(months / 12)
-  const rest = months % 12
-  if (years === 1 && rest === 0) return 'há 1 ano'
-  if (rest === 0) return `há ${years} anos`
-  if (years === 1) return `há 1 ano e ${rest} ${rest === 1 ? 'mês' : 'meses'}`
-  return `há ${years} anos e ${rest} ${rest === 1 ? 'mês' : 'meses'}`
-}
-
-function leadQuality(margin, months) {
-  const hasTenureData = months != null
-  if (margin === 'sim') {
-    if (hasTenureData && months >= 6) return 'top'
-    if (hasTenureData && months >= 3) return 'high'
-    return 'mid-new'
-  }
-  if (margin === 'naosei') {
-    if (hasTenureData && months >= 6) return 'mid'
-    return 'mid-new'
-  }
-  return 'low'
-}
 
 function buildWhatsAppMessage({ clt, margin, amount, tenureMonths }) {
   if (clt !== 'sim') return ''
