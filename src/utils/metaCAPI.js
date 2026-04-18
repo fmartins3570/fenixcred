@@ -54,8 +54,7 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
     custom_data: {
       ...(userData.purposes && { purposes: userData.purposes }),
       ...(userData.page && { page: userData.page }),
-      ...(customData.value != null && { value: customData.value }),
-      ...(customData.currency && { currency: customData.currency }),
+      ...customData,
     },
   }
 

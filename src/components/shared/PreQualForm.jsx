@@ -5,27 +5,24 @@ import { tagMessage } from '../../utils/utmParams'
 import './PreQualForm.css'
 
 /**
- * Pre-qualification micro-form — 3 steps (CLT / Margin / Amount)
+ * Pre-qualification micro-form — 4 steps (CLT / Tenure / Margin / Amount)
  *
  * Filters leads BEFORE the WhatsApp handoff so VendeAI receives a pre-qualified
- * audience with a lead-quality tag. Replaces blind "Simular" handoffs on CLT LPs.
+ * audience with lead-quality + tenure-bucket tags. Tenure (CLT admission month/year)
+ * lets the bot route to the correct bank cascade on the first try — most banks have
+ * a minimum-tenure rule (Facta ≥ 3m, Pan ≥ 6m, Mercantil ≥ 12m).
  *
  * Steps:
- *   1. clt: 'sim' | 'nao'           (rejects 'nao' with an FGTS fallback)
- *   2. margin: 'sim' | 'nao' | 'naosei' (none rejects; tag varies)
- *   3. amount: predefined brackets
+ *   1. clt:     'sim' | 'nao'                          (rejects 'nao' with FGTS fallback)
+ *   2. tenure:  { month, year } → tenure_months number (routing signal; no rejection)
+ *   3. margin:  'sim' | 'nao' | 'naosei'               (main quality signal)
+ *   4. amount:  predefined brackets
  *
- * Tracking:
- *   - ViewContent fires when the form first becomes visible (IntersectionObserver).
- *   - Lead (+ QuizQualified for top-tier) fires when user clicks the WhatsApp CTA.
- *   - GA4 mirror is automatic via trackEvent / trackCustomEvent.
- *
- * @param {string} sourceTag   - Base UTM-like tag for VendeAI (e.g. 'neg', 'vel', 'ger', 'clt')
- * @param {string} whatsAppNumber - International WhatsApp number (no '+'), e.g. '5511917082143'
- * @param {string} variant     - 'light' (default, uses page palette) | 'yellow' (CLT pages)
- * @param {string} [title]     - Optional card title override
- * @param {function} [onQualifyStart] - Called once when user interacts for the first time
- *                                     (used by CreditoCLT personalized to defer LeadPopup)
+ * @param {string} sourceTag        - Base UTM-like tag for VendeAI (neg/vel/ger/clt)
+ * @param {string} whatsAppNumber   - International WhatsApp number, e.g. '5511917082143'
+ * @param {string} variant          - 'light' | 'yellow'
+ * @param {string} [title]          - Optional card title override
+ * @param {function} [onQualifyStart] - Called once on first interaction (used by LeadPopup defer)
  */
 const AMOUNT_OPTIONS = [
   { value: 1000, label: 'R$ 1.000' },
@@ -36,23 +33,84 @@ const AMOUNT_OPTIONS = [
   { value: 30000, label: 'R$ 30.000+' },
 ]
 
-function buildWhatsAppMessage({ clt, margin, amount }) {
-  const formatted = amount.toLocaleString('pt-BR')
-  if (clt !== 'sim') return ''
-  if (margin === 'sim') {
-    return `Olá, sou CLT ativo com margem, preciso de R$ ${formatted}.`
-  }
-  if (margin === 'nao') {
-    return `Olá, sou CLT mas não tenho certeza da margem, preciso de R$ ${formatted}.`
-  }
-  // naosei
-  return `Olá, sou CLT e preciso verificar minha margem, quero R$ ${formatted}.`
+const MONTHS = [
+  { value: 1, label: 'Janeiro' },
+  { value: 2, label: 'Fevereiro' },
+  { value: 3, label: 'Março' },
+  { value: 4, label: 'Abril' },
+  { value: 5, label: 'Maio' },
+  { value: 6, label: 'Junho' },
+  { value: 7, label: 'Julho' },
+  { value: 8, label: 'Agosto' },
+  { value: 9, label: 'Setembro' },
+  { value: 10, label: 'Outubro' },
+  { value: 11, label: 'Novembro' },
+  { value: 12, label: 'Dezembro' },
+]
+
+const CURRENT_YEAR = new Date().getFullYear()
+const YEAR_OPTIONS = Array.from({ length: 30 }, (_, i) => CURRENT_YEAR - i)
+
+function calcTenureMonths(month, year) {
+  if (!month || !year) return null
+  const now = new Date()
+  const current = now.getFullYear() * 12 + now.getMonth()
+  const admission = Number(year) * 12 + (Number(month) - 1)
+  return Math.max(0, current - admission)
 }
 
-function buildLeadTag(sourceTag, margin) {
-  // Lead-quality suffix — lets CAPI/VendeAI filter traffic by qualification
-  // ex: neg-prequal-sim, clt-prequal-naosei
-  return `${sourceTag}-prequal-${margin}`
+function tenureBucket(months) {
+  if (months == null) return 'unknown'
+  if (months < 3) return 't0-2m'
+  if (months < 6) return 't3-5m'
+  if (months < 12) return 't6-11m'
+  if (months < 24) return 't12-23m'
+  return 't24m+'
+}
+
+function tenurePhrase(months) {
+  if (months == null) return ''
+  if (months === 0) return 'há menos de 1 mês'
+  if (months === 1) return 'há 1 mês'
+  if (months < 12) return `há ${months} meses`
+  const years = Math.floor(months / 12)
+  const rest = months % 12
+  if (years === 1 && rest === 0) return 'há 1 ano'
+  if (rest === 0) return `há ${years} anos`
+  if (years === 1) return `há 1 ano e ${rest} ${rest === 1 ? 'mês' : 'meses'}`
+  return `há ${years} anos e ${rest} ${rest === 1 ? 'mês' : 'meses'}`
+}
+
+function leadQuality(margin, months) {
+  const hasTenureData = months != null
+  if (margin === 'sim') {
+    if (hasTenureData && months >= 6) return 'top'
+    if (hasTenureData && months >= 3) return 'high'
+    return 'mid-new'
+  }
+  if (margin === 'naosei') {
+    if (hasTenureData && months >= 6) return 'mid'
+    return 'mid-new'
+  }
+  return 'low'
+}
+
+function buildWhatsAppMessage({ clt, margin, amount, tenureMonths }) {
+  if (clt !== 'sim') return ''
+  const formatted = amount.toLocaleString('pt-BR')
+  const phrase = tenurePhrase(tenureMonths)
+  const tenurePart = phrase ? ` ${phrase} na empresa atual` : ''
+  if (margin === 'sim') {
+    return `Olá, sou CLT ativo${tenurePart}, com margem disponível. Preciso de R$ ${formatted}.`
+  }
+  if (margin === 'nao') {
+    return `Olá, sou CLT ativo${tenurePart}, mas não tenho margem no momento. Preciso de R$ ${formatted}.`
+  }
+  return `Olá, sou CLT ativo${tenurePart} e quero verificar minha margem. Preciso de R$ ${formatted}.`
+}
+
+function buildLeadTag(sourceTag, margin, bucket) {
+  return `${sourceTag}-prequal-${margin}-${bucket}`
 }
 
 export default function PreQualForm({
@@ -64,6 +122,8 @@ export default function PreQualForm({
 }) {
   const [step, setStep] = useState(1)
   const [clt, setClt] = useState(null)
+  const [month, setMonth] = useState('')
+  const [year, setYear] = useState('')
   const [margin, setMargin] = useState(null)
   const [amount, setAmount] = useState(null)
   const [rejected, setRejected] = useState(false)
@@ -71,6 +131,9 @@ export default function PreQualForm({
   const rootRef = useRef(null)
   const viewFired = useRef(false)
   const startFired = useRef(false)
+
+  const tenureMonths = useMemo(() => calcTenureMonths(month, year), [month, year])
+  const bucket = useMemo(() => tenureBucket(tenureMonths), [tenureMonths])
 
   // ViewContent when the form first becomes visible
   useEffect(() => {
@@ -114,9 +177,19 @@ export default function PreQualForm({
     setStep(2)
   }
 
+  const handleTenureContinue = () => {
+    if (!month || !year) return
+    trackCustomEvent('PreQualTenure', {
+      content_name: `PreQualForm ${sourceTag}`,
+      tenure_months: tenureMonths,
+      tenure_bucket: bucket,
+    })
+    setStep(3)
+  }
+
   const handleMargin = (value) => {
     setMargin(value)
-    setStep(3)
+    setStep(4)
   }
 
   const handleAmount = (value) => {
@@ -126,18 +199,30 @@ export default function PreQualForm({
   const handleRestart = () => {
     setStep(1)
     setClt(null)
+    setMonth('')
+    setYear('')
     setMargin(null)
     setAmount(null)
     setRejected(false)
   }
 
-  const canSubmit = clt === 'sim' && margin && amount
+  const canSubmit = clt === 'sim' && tenureMonths != null && margin && amount
 
   const handleSubmit = () => {
     if (!canSubmit) return
 
     const eventId = generateEventId()
-    const leadTag = buildLeadTag(sourceTag, margin)
+    const quality = leadQuality(margin, tenureMonths)
+    const leadTag = buildLeadTag(sourceTag, margin, bucket)
+
+    const extraData = {
+      value: amount,
+      currency: 'BRL',
+      lead_quality: quality,
+      tenure_months: tenureMonths,
+      tenure_bucket: bucket,
+      has_margin: margin,
+    }
 
     // Meta Pixel — Lead (browser)
     trackEvent(
@@ -145,9 +230,7 @@ export default function PreQualForm({
       {
         content_name: `PreQualForm ${sourceTag}`,
         content_category: 'prequalification',
-        value: amount,
-        currency: 'BRL',
-        lead_quality: margin === 'sim' ? 'top' : margin === 'naosei' ? 'mid' : 'low',
+        ...extraData,
       },
       eventId
     )
@@ -158,26 +241,25 @@ export default function PreQualForm({
       eventId,
       {
         page: window.location.pathname,
-        purposes: `prequal:${margin}`,
+        purposes: `prequal:${margin}:${bucket}`,
       },
-      { value: amount, currency: 'BRL' }
+      extraData
     )
 
-    // Top-tier signal for custom audiences / lookalikes
-    if (margin === 'sim') {
+    // Top-tier signal (margem=sim + >=3m) for custom audiences / lookalikes
+    if (quality === 'top' || quality === 'high') {
       const qEventId = generateEventId()
       trackCustomEvent(
         'QuizQualified',
         {
           content_name: `PreQualForm ${sourceTag}`,
-          value: amount,
-          currency: 'BRL',
+          ...extraData,
         },
         qEventId
       )
     }
 
-    const body = buildWhatsAppMessage({ clt, margin, amount })
+    const body = buildWhatsAppMessage({ clt, margin, amount, tenureMonths })
     const tagged = tagMessage(`(${leadTag}) ${body}`)
     const encoded = encodeURIComponent(tagged)
 
@@ -192,7 +274,7 @@ export default function PreQualForm({
 
   const progress = useMemo(() => {
     if (rejected) return 100
-    return Math.min((step / 3) * 100, 100)
+    return Math.min((step / 4) * 100, 100)
   }, [step, rejected])
 
   return (
@@ -206,7 +288,7 @@ export default function PreQualForm({
         <h3 className="prequal-form__title">{title}</h3>
         {!rejected && (
           <p className="prequal-form__subtitle">
-            Responda 3 perguntas rápidas para ver se você se qualifica
+            Responda 4 perguntas rápidas para ver se você se qualifica
           </p>
         )}
         <div className="prequal-form__progress" aria-hidden="true">
@@ -277,6 +359,81 @@ export default function PreQualForm({
           {step === 2 && (
             <fieldset className="prequal-form__step">
               <legend className="prequal-form__label">
+                Quando você entrou na empresa atual?
+              </legend>
+              <div className="prequal-form__tenure-grid">
+                <label className="prequal-form__select-wrapper">
+                  <span className="prequal-form__select-label">Mês</span>
+                  <select
+                    className="prequal-form__select"
+                    value={month}
+                    onChange={(e) => setMonth(e.target.value)}
+                    aria-label="Mês de admissão"
+                  >
+                    <option value="">Selecione</option>
+                    {MONTHS.map((m) => (
+                      <option key={m.value} value={m.value}>
+                        {m.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="prequal-form__select-wrapper">
+                  <span className="prequal-form__select-label">Ano</span>
+                  <select
+                    className="prequal-form__select"
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                    aria-label="Ano de admissão"
+                  >
+                    <option value="">Selecione</option>
+                    {YEAR_OPTIONS.map((y) => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              {tenureMonths != null && (
+                <p className="prequal-form__hint">
+                  {tenureMonths < 3 && (
+                    <>Carência estendida disponível — até 84 dias para o primeiro pagamento.</>
+                  )}
+                  {tenureMonths >= 3 && tenureMonths < 12 && (
+                    <>Perfeito — várias condições disponíveis para você.</>
+                  )}
+                  {tenureMonths >= 12 && (
+                    <>Excelente — {tenurePhrase(tenureMonths)}. Acesso às melhores taxas.</>
+                  )}
+                </p>
+              )}
+
+              <button
+                type="button"
+                className="prequal-form__btn prequal-form__btn--primary"
+                onClick={handleTenureContinue}
+                disabled={!month || !year}
+                aria-label="Continuar"
+              >
+                Continuar
+              </button>
+
+              <button
+                type="button"
+                className="prequal-form__back"
+                onClick={() => setStep(1)}
+                aria-label="Voltar"
+              >
+                ← Voltar
+              </button>
+            </fieldset>
+          )}
+
+          {step === 3 && (
+            <fieldset className="prequal-form__step">
+              <legend className="prequal-form__label">
                 Tem margem consignável disponível?
               </legend>
               <div className="prequal-form__options prequal-form__options--three">
@@ -313,7 +470,7 @@ export default function PreQualForm({
               <button
                 type="button"
                 className="prequal-form__back"
-                onClick={() => setStep(1)}
+                onClick={() => setStep(2)}
                 aria-label="Voltar"
               >
                 ← Voltar
@@ -321,7 +478,7 @@ export default function PreQualForm({
             </fieldset>
           )}
 
-          {step === 3 && (
+          {step === 4 && (
             <fieldset className="prequal-form__step">
               <legend className="prequal-form__label">Qual valor você precisa?</legend>
               <div className="prequal-form__amounts">
@@ -361,7 +518,7 @@ export default function PreQualForm({
               <button
                 type="button"
                 className="prequal-form__back"
-                onClick={() => setStep(2)}
+                onClick={() => setStep(3)}
                 aria-label="Voltar"
               >
                 ← Voltar

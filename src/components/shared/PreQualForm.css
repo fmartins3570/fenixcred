@@ -203,6 +203,73 @@
   font-weight: 700;
 }
 
+/* ─── Tenure grid (Mes + Ano) ─── */
+.prequal-form__tenure-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.prequal-form__select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.prequal-form__select-label {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.prequal-form__select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 48px;
+  width: 100%;
+  padding: 0.7rem 2rem 0.7rem 0.75rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='rgba(255,255,255,0.55)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.65rem;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prequal-form__select:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.prequal-form__select:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-color: currentColor;
+}
+
+.prequal-form__select option {
+  background: #1a1a2e;
+  color: #ffffff;
+}
+
+.prequal-form--yellow .prequal-form__select:focus-visible {
+  outline-color: #fdb147;
+  border-color: #fdb147;
+}
+
+.prequal-form--light .prequal-form__select:focus-visible {
+  outline-color: #4ade80;
+  border-color: #4ade80;
+}
+
 /* ─── Amounts grid ─── */
 .prequal-form__amounts {
   display: grid;
