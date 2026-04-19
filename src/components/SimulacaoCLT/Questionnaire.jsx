@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
-import { sendServerEvent } from '../../utils/metaCAPI'
+import { sendServerEvent, getExternalId } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 import {
   DEFAULT_MONTHLY_RATE,
@@ -317,8 +317,9 @@ export default function Questionnaire() {
       profileParts.push(`Margem estimada: ${formatBRL(estimatedMargin)}`)
     }
 
-    // Enriched lead tag — quiz-prequal-{margin}-{bucket}
-    const leadTag = `quiz-prequal-${marginKey}-${bucket}`
+    // Enriched lead tag with ref token for server-side session matching
+    const refToken = getExternalId().slice(0, 8)
+    const leadTag = `quiz-prequal-${marginKey}-${bucket}-${refToken}`
 
     let baseMsg
     if (hasValidScenario) {

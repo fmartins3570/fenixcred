@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
-import { sendServerEvent } from '../../utils/metaCAPI'
+import { sendServerEvent, getExternalId } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 import {
   MONTHS,
@@ -56,7 +56,8 @@ function buildWhatsAppMessage({ clt, margin, amount, tenureMonths }) {
 }
 
 function buildLeadTag(sourceTag, margin, bucket) {
-  return `${sourceTag}-prequal-${margin}-${bucket}`
+  const refToken = getExternalId().slice(0, 8)
+  return `${sourceTag}-prequal-${margin}-${bucket}-${refToken}`
 }
 
 export default function PreQualForm({

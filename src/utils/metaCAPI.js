@@ -12,7 +12,7 @@ const CAPI_URL = 'https://painel.martinsfelipe.com/api/capi/meta'
 const CLIENT_ID = 'fenixcred'
 
 // External ID — identificação única do visitante persistida no localStorage
-function getExternalId() {
+export function getExternalId() {
   const key = 'fenix_external_id'
   let id = localStorage.getItem(key)
   if (!id) {
