@@ -176,20 +176,10 @@ export default function Questionnaire() {
       answerLabel = question.options.find((o) => o.value === answerValue)?.label || String(answerValue)
     }
 
-    // GA4: custom quiz_answer event for each step
-    if (window.gtag) {
-      window.gtag('event', 'quiz_answer', {
-        question_id: questionId,
-        question_text: question.text,
-        answer: answerLabel,
-        step: questionIndex + 1,
-        qualified: !isRejection,
-      })
-    }
-
-    // Meta Pixel: custom QuizAnswer event
+    // Meta Pixel + GA4: custom QuizAnswer event
     trackCustomEvent('QuizAnswer', {
       question_id: questionId,
+      question_text: question.text,
       answer: answerLabel,
       step: questionIndex + 1,
       qualified: !isRejection,
