@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import {
   SIMULATOR_CONFIG,
   FGTS_SIMULATOR_CONFIG,
@@ -6,7 +6,8 @@ import {
   calculateFgtsNet,
   formatCurrency,
 } from '../../utils/consignado-lp/simulator-config'
-import { trackCustomEvent } from '../../utils/metaPixel'
+import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import './Simulator.css'
 
 /**
@@ -27,6 +28,7 @@ export default function Simulator({ tag, onSimulate, mode = 'parcelado' }) {
   const [value, setValue] = useState(config.defaultValue)
   // Only used in parcelado mode
   const [term, setTerm] = useState(isFgts ? null : SIMULATOR_CONFIG.defaultTerm)
+  const icFired = useRef(false)
 
   // Result value: installment for parcelado, net amount for antecipado
   const result = isFgts
@@ -37,16 +39,26 @@ export default function Simulator({ tag, onSimulate, mode = 'parcelado' }) {
     setValue(Number(e.target.value))
   }, [])
 
+  const fireInitiateCheckout = useCallback(() => {
+    if (icFired.current) return
+    icFired.current = true
+    const eventId = generateEventId()
+    trackEvent('InitiateCheckout', { content_name: `Simulador ${tag}` }, eventId)
+    sendServerEvent('InitiateCheckout', eventId)
+  }, [tag])
+
   const handleValueChangeEnd = useCallback(() => {
+    fireInitiateCheckout()
     trackCustomEvent('CustomizeProduct', {
       content_name: `Simulador ${tag}`,
       value: value,
     })
-  }, [tag, value])
+  }, [tag, value, fireInitiateCheckout])
 
   const handleTermChange = useCallback((newTerm) => {
     setTerm(newTerm)
-  }, [])
+    fireInitiateCheckout()
+  }, [fireInitiateCheckout])
 
   const handleSimulate = () => {
     onSimulate(value, term, result)

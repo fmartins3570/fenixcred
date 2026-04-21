@@ -347,14 +347,9 @@ export default function Questionnaire() {
       has_margin: marginKey,
     }
 
-    // Meta Pixel + CAPI: split returning vs new customers so the algorithm can
-    // build separate Lookalikes and retargeting pools.
-    //   Lead                 → já fez consignado CLT antes (recorrente, intenção alta)
-    //   CompleteRegistration → primeira vez (novo, precisa de mais nurturing)
-    const eventName = returning ? 'Lead' : 'CompleteRegistration'
     const leadEventId = generateEventId()
-    trackEvent(eventName, extraData, leadEventId)
-    sendServerEvent(eventName, leadEventId, {
+    trackEvent('Lead', extraData, leadEventId)
+    sendServerEvent('Lead', leadEventId, {
       purposes: `quiz:${marginKey}:${bucket}`,
     }, extraData)
 
