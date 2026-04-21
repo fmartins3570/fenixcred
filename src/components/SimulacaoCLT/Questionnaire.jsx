@@ -358,12 +358,6 @@ export default function Questionnaire() {
       purposes: `quiz:${marginKey}:${bucket}`,
     }, extraData)
 
-    // Top-tier signal (margem=sim + tenure>=3m) aligned with PreQualForm
-    if (quality === 'top' || quality === 'high') {
-      const qEventId = generateEventId()
-      trackCustomEvent('QuizQualified', extraData, qEventId)
-    }
-
     window.open(
       `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
       '_blank',

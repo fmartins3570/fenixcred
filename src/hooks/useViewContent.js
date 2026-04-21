@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { trackEvent } from '../utils/metaPixel'
+import { trackEvent, generateEventId } from '../utils/metaPixel'
+import { sendServerEvent } from '../utils/metaCAPI'
 
 export function useViewContent(contentName) {
   const ref = useRef(null)
@@ -13,7 +14,9 @@ export function useViewContent(contentName) {
       ([entry]) => {
         if (entry.isIntersecting && !fired.current) {
           fired.current = true
-          trackEvent('ViewContent', { content_name: contentName })
+          const eventId = generateEventId()
+          trackEvent('ViewContent', { content_name: contentName }, eventId)
+          sendServerEvent('ViewContent', eventId)
           observer.disconnect()
         }
       },

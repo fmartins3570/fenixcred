@@ -3,7 +3,8 @@ import Simulator from './Simulator'
 import PreQualForm from '../shared/PreQualForm'
 import { useWhatsAppWithTag } from '../../hooks/useWhatsAppWithTag'
 import { SHARED } from '../../utils/consignado-lp/angles'
-import { trackEvent } from '../../utils/metaPixel'
+import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import './Hero.css'
 
 const ICON_MAP = {
@@ -30,10 +31,12 @@ export default function Hero({ angleData, tag }) {
   const isFgts = mode === 'antecipado'
 
   useEffect(() => {
+    const eventId = generateEventId()
     trackEvent('ViewContent', {
       content_name: isFgts ? `LP FGTS ${tag}` : `LP ${tag}`,
       content_category: isFgts ? 'antecipacao-fgts' : 'consignado-clt',
-    })
+    }, eventId)
+    sendServerEvent('ViewContent', eventId)
   }, [tag, isFgts])
 
   const handleSimulate = (value, term, result) => {
