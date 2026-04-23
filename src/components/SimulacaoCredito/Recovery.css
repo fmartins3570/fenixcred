@@ -1,0 +1,215 @@
+/* Recovery Screen — Creditas alternatives */
+
+.sim-quiz-recovery {
+  text-align: center;
+  animation: simFadeInUp 0.5s ease-out;
+}
+
+.sim-recovery-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.12) 0%, rgba(253, 177, 71, 0.04) 100%);
+  border: 1px solid rgba(253, 177, 71, 0.25);
+  border-radius: 50%;
+  color: #FDB147;
+  margin-bottom: 1.5rem;
+  animation: simBounceIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sim-recovery-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+@media (min-width: 640px) {
+  .sim-recovery-title {
+    font-size: 1.65rem;
+  }
+}
+
+.sim-recovery-text {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sim-recovery-text strong {
+  color: #FDB147;
+  font-weight: 700;
+}
+
+/* Recovery cards grid */
+.sim-recovery-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 520px) {
+  .sim-recovery-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sim-recovery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.5rem 1.25rem !important;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.sim-recovery-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.sim-recovery-card--home::before {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 100%);
+}
+
+.sim-recovery-card--auto::before {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.02) 100%);
+}
+
+.sim-recovery-card:hover::before {
+  opacity: 1;
+}
+
+.sim-recovery-card--home:hover {
+  border-color: rgba(59, 130, 246, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15);
+}
+
+.sim-recovery-card--auto:hover {
+  border-color: rgba(16, 185, 129, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
+}
+
+.sim-recovery-card:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.sim-recovery-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  position: relative;
+}
+
+.sim-recovery-card--home .sim-recovery-card-icon {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+.sim-recovery-card--auto .sim-recovery-card-icon {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.sim-recovery-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.sim-recovery-card-rate {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.sim-recovery-card--home .sim-recovery-card-rate {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.sim-recovery-card--auto .sim-recovery-card-rate {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.sim-recovery-card-desc {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+}
+
+.sim-recovery-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+  transition: gap 0.25s ease;
+}
+
+.sim-recovery-card--home .sim-recovery-card-cta {
+  color: #60a5fa;
+}
+
+.sim-recovery-card--auto .sim-recovery-card-cta {
+  color: #34d399;
+}
+
+.sim-recovery-card:hover .sim-recovery-card-cta {
+  gap: 0.65rem;
+}
+
+/* Footer area */
+.sim-recovery-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sim-recovery-partner {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.sim-recovery-partner strong {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+}

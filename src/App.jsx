@@ -42,6 +42,7 @@ const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
 const ReviewsSection = lazy(() => import("./components/ReviewsSection"));
 const CreditoCLT = lazy(() => import("./components/CreditoCLT"));
 const SimulacaoCLT = lazy(() => import("./components/SimulacaoCLT"));
+const SimulacaoCredito = lazy(() => import("./components/SimulacaoCredito"));
 const DataDeletion = lazy(() => import("./components/DataDeletion"));
 const ConsignadoLP = lazy(() => import("./components/ConsignadoLP"));
 // Global exit-intent email capture — rendered on every marketing route
@@ -80,6 +81,12 @@ function App() {
     // Verifica o pathname para simulação consignado CLT (questionário interativo)
     if (pathname === "/simulacao-consignado-clt" || pathname === "/simulacao-consignado-clt/") {
       setCurrentPage("simulacao-clt");
+      return;
+    }
+
+    // Simulação crédito com garantia (Creditas recovery flow)
+    if (pathname === "/simulacao-credito-garantia" || pathname === "/simulacao-credito-garantia/") {
+      setCurrentPage("simulacao-credito");
       return;
     }
 
@@ -138,6 +145,11 @@ function App() {
 
       if (newPathname === "/simulacao-consignado-clt" || newPathname === "/simulacao-consignado-clt/") {
         setCurrentPage("simulacao-clt");
+        return;
+      }
+
+      if (newPathname === "/simulacao-credito-garantia" || newPathname === "/simulacao-credito-garantia/") {
+        setCurrentPage("simulacao-credito");
         return;
       }
 
@@ -224,6 +236,28 @@ function App() {
           }
         >
           <SimulacaoCLT />
+        </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // Simulação crédito com garantia (quiz + recovery Creditas)
+  if (currentPage === "simulacao-credito") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <SimulacaoCredito />
         </Suspense>
         <Suspense fallback={null}>
           <EmailCapturePopup />
