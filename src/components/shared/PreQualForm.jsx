@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent, getExternalId } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
@@ -11,6 +11,11 @@ import {
   leadQuality,
 } from '../../utils/tenure'
 import './PreQualForm.css'
+
+const CREDITAS_LINKS = {
+  home: 'https://app.creditas.com/home-equity/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[hr]-crm&utm_term=always-on&utm_content=lp',
+  auto: 'https://app.creditas.com/auto-refi/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[ar]-crm&utm_term=always-on&utm_content=lp',
+}
 
 /**
  * Pre-qualification micro-form — 4 steps (CLT / Tenure / Margin / Amount)
@@ -153,6 +158,16 @@ export default function PreQualForm({
     setRejected(false)
   }
 
+  const handleCreditasClick = useCallback((product) => {
+    trackCustomEvent('CreditasRedirect', {
+      product,
+      rejection_reason: 'not_clt',
+      content_name: `Creditas ${product === 'home' ? 'Home Equity' : 'Auto Equity'}`,
+      source: `PreQualForm ${sourceTag}`,
+    })
+    window.open(CREDITAS_LINKS[product], '_blank', 'noopener,noreferrer')
+  }, [sourceTag])
+
   const canSubmit = clt === 'sim' && tenureMonths != null && margin && amount
 
   const handleSubmit = () => {
@@ -249,32 +264,83 @@ export default function PreQualForm({
       {rejected ? (
         <div className="prequal-form__body prequal-form__body--rejected">
           <div className="prequal-form__icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2v4" />
+              <path d="M12 18v4" />
+              <path d="M4.93 4.93l2.83 2.83" />
+              <path d="M16.24 16.24l2.83 2.83" />
+              <path d="M2 12h4" />
+              <path d="M18 12h4" />
+              <path d="M4.93 19.07l2.83-2.83" />
+              <path d="M16.24 7.76l2.83-2.83" />
             </svg>
           </div>
           <p className="prequal-form__reject-msg">
-            No momento atendemos apenas trabalhadores <strong>CLT ativos</strong>.
-            Em breve teremos soluções para você.
+            O consignado CLT não se aplica, mas temos <strong>outras opções</strong> para você!
           </p>
-          <div className="prequal-form__actions">
-            <a
-              className="prequal-form__btn prequal-form__btn--secondary"
-              href="/antecipacao-fgts"
-              aria-label="Ver solução de antecipação FGTS"
-            >
-              Ver FGTS
-            </a>
+
+          <div className="prequal-form__recovery-cards">
             <button
               type="button"
-              className="prequal-form__btn prequal-form__btn--ghost"
-              onClick={handleRestart}
+              className="prequal-form__recovery-card"
+              onClick={() => handleCreditasClick('home')}
             >
-              Voltar
+              <span className="prequal-form__recovery-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+              </span>
+              <span className="prequal-form__recovery-info">
+                <span className="prequal-form__recovery-title">Garantia de Imóvel</span>
+                <span className="prequal-form__recovery-rate">A partir de 1,09% a.m.</span>
+              </span>
+              <span className="prequal-form__recovery-arrow" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className="prequal-form__recovery-card"
+              onClick={() => handleCreditasClick('auto')}
+            >
+              <span className="prequal-form__recovery-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 17m-2 0a2 2 0 104 0 2 2 0 10-4 0" />
+                  <path d="M17 17m-2 0a2 2 0 104 0 2 2 0 10-4 0" />
+                  <path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 012 2v4h-2" />
+                  <path d="M9 17h6" />
+                  <line x1="14" y1="6" x2="14" y2="11" />
+                </svg>
+              </span>
+              <span className="prequal-form__recovery-info">
+                <span className="prequal-form__recovery-title">Garantia de Veículo</span>
+                <span className="prequal-form__recovery-rate">A partir de 1,49% a.m.</span>
+              </span>
+              <span className="prequal-form__recovery-arrow" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </span>
             </button>
           </div>
+
+          <p className="prequal-form__recovery-partner">
+            Em parceria com <strong>Creditas</strong>
+          </p>
+
+          <button
+            type="button"
+            className="prequal-form__back"
+            onClick={handleRestart}
+          >
+            ← Voltar ao início
+          </button>
         </div>
       ) : (
         <div className="prequal-form__body">
