@@ -14,7 +14,7 @@ export const DEFAULT_MONTHLY_RATE = 0.0149
 /**
  * Payment term options (months) surfaced in the quiz scenarios.
  */
-export const TERM_OPTIONS = [24, 48, 72]
+export const TERM_OPTIONS = [12, 24, 48]
 
 /**
  * Hard limits for the "valor desejado" input.

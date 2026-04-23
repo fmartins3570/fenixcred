@@ -7,7 +7,7 @@ export const SIMULATOR_CONFIG = {
   step: 500,
   defaultValue: 10000,
   monthlyRate: 0.0149, // 1.49% a.m.
-  terms: [12, 24, 36, 48, 60, 72, 84],
+  terms: [12, 24, 36, 48],
   defaultTerm: 48,
 }
 

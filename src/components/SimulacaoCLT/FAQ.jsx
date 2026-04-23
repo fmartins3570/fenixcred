@@ -24,7 +24,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Quais são as taxas e prazos?',
-    answer: 'As taxas começam a partir de 1,2% ao mês, variando conforme análise de crédito. O prazo pode chegar até 84 meses (7 anos). Sempre informamos a taxa exata antes da contratação.',
+    answer: 'As taxas começam a partir de 1,2% ao mês, variando conforme análise de crédito. O prazo pode chegar até 48 meses (4 anos). Sempre informamos a taxa exata antes da contratação.',
   },
   {
     question: 'A empresa pode recusar o empréstimo consignado?',

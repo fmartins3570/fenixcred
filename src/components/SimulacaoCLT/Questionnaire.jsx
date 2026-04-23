@@ -82,7 +82,7 @@ const SCENARIO_DEBOUNCE_MS = 200
  *   2. 5 perguntas de qualificação
  *   3a. Rejeição (perfil não-CLT, tempo insuficiente, sem margem), OR
  *   3b. Pré-aprovação → tela de resultado com 3 cenários de parcela
- *       (24 / 48 / 72 meses @ 1,49% a.m.) → CTA WhatsApp
+ *       (12 / 24 / 48 meses @ 1,49% a.m.) → CTA WhatsApp
  */
 export default function Questionnaire() {
   const [screen, setScreen] = useState('intro')
@@ -91,7 +91,7 @@ export default function Questionnaire() {
   const [value, setValue] = useState('')
   // Debounced numeric value used to derive scenarios.
   const [debouncedValue, setDebouncedValue] = useState(0)
-  const [selectedTerm, setSelectedTerm] = useState(48) // default highlight
+  const [selectedTerm, setSelectedTerm] = useState(24) // default highlight
   const [showSalaryHelper, setShowSalaryHelper] = useState(false)
   const [salaryInput, setSalaryInput] = useState('')
   const [estimatedMargin, setEstimatedMargin] = useState(0)
@@ -147,7 +147,7 @@ export default function Questionnaire() {
     setAnswers({})
     setValue('')
     setDebouncedValue(0)
-    setSelectedTerm(48)
+    setSelectedTerm(24)
     setShowSalaryHelper(false)
     setSalaryInput('')
     setEstimatedMargin(0)
@@ -246,7 +246,7 @@ export default function Questionnaire() {
     setAnswers({})
     setValue('')
     setDebouncedValue(0)
-    setSelectedTerm(48)
+    setSelectedTerm(24)
     setShowSalaryHelper(false)
     setSalaryInput('')
     setEstimatedMargin(0)

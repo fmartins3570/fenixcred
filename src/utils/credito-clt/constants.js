@@ -115,7 +115,7 @@ export const faqs = [
   },
   {
     question: 'Quais são as taxas e prazos disponíveis?',
-    answer: 'As taxas começam a partir de 1,49% ao mês, variando conforme análise de crédito. O prazo pode chegar até 84 meses (7 anos). Sempre informamos a taxa exata antes da contratação.',
+    answer: 'As taxas começam a partir de 1,49% ao mês, variando conforme análise de crédito. O prazo pode chegar até 48 meses (4 anos). Sempre informamos a taxa exata antes da contratação.',
   },
   {
     question: 'É seguro fazer o processo online?',
