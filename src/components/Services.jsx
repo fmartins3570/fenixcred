@@ -20,7 +20,7 @@ function Services() {
       description: 'Crédito consignado para trabalhadores com carteira assinada. Desconto direto na folha de pagamento, taxas justas e aprovação rápida. Atendemos todo Brasil.',
       icon: '📋',
       linkText: 'Simular crédito consignado CLT',
-      rate: 'A partir de 1,49% a.m.'
+      rate: 'A partir de 1,49% a.m.',
     },
     {
       id: 2,
@@ -28,25 +28,37 @@ function Services() {
       description: 'Antecipe seu FGTS de forma simples e segura. Liberação rápida, sem burocracia e com as melhores condições do mercado. Atendemos todo Brasil.',
       icon: '💰',
       linkText: 'Antecipar FGTS agora',
-      rate: 'A partir de 1,29% a.m.'
+      rate: 'A partir de 1,29% a.m.',
     },
     {
       id: 3,
-      title: 'Crédito Consignado',
-      description: 'Crédito consignado com as melhores taxas do mercado. Desconto direto na folha, aprovação em até 24h e condições que cabem no seu bolso.',
-      icon: '💳',
-      linkText: 'Simular crédito consignado',
-      rate: 'A partir de 1,49% a.m.'
-    }
+      title: 'Crédito com Garantia de Imóvel',
+      description: 'Use seu imóvel como garantia e consiga crédito com as menores taxas do mercado. Imóvel quitado ou financiado. Você continua morando normalmente.',
+      icon: '🏠',
+      linkText: 'Simular crédito imobiliário',
+      rate: 'A partir de 1,09% a.m.',
+      href: 'https://app.creditas.com/home-equity/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[hr]-crm&utm_term=always-on&utm_content=lp',
+      external: true,
+    },
+    {
+      id: 4,
+      title: 'Crédito com Garantia de Veículo',
+      description: 'Use seu veículo quitado como garantia e consiga crédito com taxas reduzidas. Você continua usando o carro normalmente.',
+      icon: '🚗',
+      linkText: 'Simular crédito veicular',
+      rate: 'A partir de 1,49% a.m.',
+      href: 'https://app.creditas.com/auto-refi/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[ar]-crm&utm_term=always-on&utm_content=lp',
+      external: true,
+    },
   ]
 
   return (
     <section id="servicos" className="services">
       <div className="services-container">
         <div className="services-header">
-          <h2 className="section-title">Soluções de crédito consignado para o CLT e Antecipação do FGTS</h2>
+          <h2 className="section-title">Soluções de crédito para você</h2>
           <p className="section-subtitle">
-            Oferecemos soluções financeiras completas para todo Brasil
+            Consignado CLT, antecipação FGTS e crédito com garantia de imóvel ou veículo. Atendemos todo Brasil.
           </p>
         </div>
 
@@ -61,9 +73,21 @@ function Services() {
               <h3 className="service-title">{service.title}</h3>
               <p className="service-description">{service.description}</p>
               <p className="service-rate">{service.rate}</p>
-              <a href="#contato" className="service-link" onClick={() => trackEvent('ViewContent', { content_name: service.title })}>
-                {service.linkText} →
-              </a>
+              {service.external ? (
+                <a
+                  href={service.href}
+                  className="service-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('ViewContent', { content_name: service.title })}
+                >
+                  {service.linkText} →
+                </a>
+              ) : (
+                <a href="#contato" className="service-link" onClick={() => trackEvent('ViewContent', { content_name: service.title })}>
+                  {service.linkText} →
+                </a>
+              )}
             </div>
           ))}
         </div>
