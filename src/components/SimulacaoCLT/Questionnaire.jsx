@@ -21,6 +21,19 @@ import {
   leadQuality,
 } from '../../utils/tenure'
 import './Questionnaire.css'
+import '../SimulacaoCredito/Recovery.css'
+
+const CREDITAS_LINKS = {
+  home: 'https://app.creditas.com/home-equity/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[hr]-crm&utm_term=always-on&utm_content=lp',
+  auto: 'https://app.creditas.com/auto-refi/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[ar]-crm&utm_term=always-on&utm_content=lp',
+}
+
+function rejectionReason(questionId) {
+  if (questionId === 'q1') return 'not_clt'
+  if (questionId === 'q3') return 'company_young'
+  if (questionId === 'q5') return 'no_margin'
+  return 'unknown'
+}
 
 const QUESTIONS = [
   {
@@ -95,8 +108,8 @@ export default function Questionnaire() {
   const [showSalaryHelper, setShowSalaryHelper] = useState(false)
   const [salaryInput, setSalaryInput] = useState('')
   const [estimatedMargin, setEstimatedMargin] = useState(0)
+  const [rejectedAt, setRejectedAt] = useState(null)
   const [animDir, setAnimDir] = useState('right')
-  // Tenure (q2) — persisted while navigating between questions
   const [tenureMonth, setTenureMonth] = useState('')
   const [tenureYear, setTenureYear] = useState('')
   const sectionRef = useRef(null)
@@ -145,6 +158,7 @@ export default function Questionnaire() {
     setScreen('question')
     setQuestionIndex(0)
     setAnswers({})
+    setRejectedAt(null)
     setValue('')
     setDebouncedValue(0)
     setSelectedTerm(24)
@@ -194,16 +208,17 @@ export default function Questionnaire() {
       })
     }
 
-    // Rejection branches (boolean only)
     if (question.type === 'boolean') {
       if (question.rejectOnFalse === true && answerValue === false) {
         setAnimDir('right')
-        setScreen('rejected')
+        setRejectedAt(questionId)
+        setScreen('recovery')
         return
       }
       if (question.rejectOnFalse === 'margin' && answerValue === false) {
         setAnimDir('right')
-        setScreen('rejected-margin')
+        setRejectedAt(questionId)
+        setScreen('recovery')
         return
       }
     }
@@ -244,6 +259,7 @@ export default function Questionnaire() {
     setScreen('intro')
     setQuestionIndex(0)
     setAnswers({})
+    setRejectedAt(null)
     setValue('')
     setDebouncedValue(0)
     setSelectedTerm(24)
@@ -251,6 +267,16 @@ export default function Questionnaire() {
     setSalaryInput('')
     setEstimatedMargin(0)
   }, [])
+
+  const handleCreditasClick = useCallback((product) => {
+    const reason = rejectionReason(rejectedAt)
+    trackCustomEvent('CreditasRedirect', {
+      product,
+      rejection_reason: reason,
+      content_name: `Creditas ${product === 'home' ? 'Home Equity' : 'Auto Equity'}`,
+    })
+    window.open(CREDITAS_LINKS[product], '_blank', 'noopener,noreferrer')
+  }, [rejectedAt])
 
   // Mask BRL while typing.
   const formatCurrencyFromDigits = useCallback((raw) => {
@@ -681,53 +707,92 @@ export default function Questionnaire() {
           </div>
         )}
 
-        {/* Rejected Screen */}
-        {screen === 'rejected' && (
-          <div className="sim-quiz-screen sim-quiz-rejected" key="rejected">
-            <div className="sim-quiz-rejected-icon">
+        {/* Recovery Screen — Creditas alternatives */}
+        {screen === 'recovery' && (
+          <div className="sim-quiz-screen sim-quiz-recovery" key="recovery">
+            <div className="sim-recovery-icon" aria-hidden="true">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
-                <line x1="9" y1="9" x2="9.01" y2="9" />
-                <line x1="15" y1="9" x2="15.01" y2="9" />
+                <path d="M12 2v4" />
+                <path d="M12 18v4" />
+                <path d="M4.93 4.93l2.83 2.83" />
+                <path d="M16.24 16.24l2.83 2.83" />
+                <path d="M2 12h4" />
+                <path d="M18 12h4" />
+                <path d="M4.93 19.07l2.83-2.83" />
+                <path d="M16.24 7.76l2.83-2.83" />
               </svg>
             </div>
-            <h3 className="sim-quiz-rejected-title">
-              Poxa, que pena!
-            </h3>
-            <p className="sim-quiz-rejected-text">
-              Infelizmente, você não atende aos requisitos para o empréstimo
-              consignado CLT neste momento. Mas fique à vontade para voltar
-              quando sua situação mudar!
-            </p>
-            <button className="sim-quiz-reset-btn" onClick={handleReset}>
-              Voltar ao início
-            </button>
-          </div>
-        )}
 
-        {/* Rejected - No Margin Screen */}
-        {screen === 'rejected-margin' && (
-          <div className="sim-quiz-screen sim-quiz-rejected" key="rejected-margin">
-            <div className="sim-quiz-rejected-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
-                <line x1="9" y1="9" x2="9.01" y2="9" />
-                <line x1="15" y1="9" x2="15.01" y2="9" />
-              </svg>
-            </div>
-            <h3 className="sim-quiz-rejected-title">
-              Poxa, que pena!
+            <h3 className="sim-recovery-title">
+              O consignado CLT não se aplica agora, mas temos outras opções!
             </h3>
-            <p className="sim-quiz-rejected-text">
-              Sem margem consignável disponível não é possível contratar o
-              empréstimo neste momento. Verifique com o RH da sua empresa
-              ou no seu holerite.
+            <p className="sim-recovery-text">
+              Você pode conseguir crédito usando seu <strong>imóvel</strong> ou <strong>veículo</strong> como garantia, com taxas ainda menores e sem precisar de carteira assinada.
             </p>
-            <button className="sim-quiz-reset-btn" onClick={handleReset}>
-              Voltar ao início
-            </button>
+
+            <div className="sim-recovery-cards">
+              <button
+                type="button"
+                className="sim-recovery-card sim-recovery-card--home"
+                onClick={() => handleCreditasClick('home')}
+              >
+                <span className="sim-recovery-card-icon" aria-hidden="true">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                  </svg>
+                </span>
+                <span className="sim-recovery-card-title">Crédito com Garantia de Imóvel</span>
+                <span className="sim-recovery-card-rate">Taxas a partir de 1,09% a.m.</span>
+                <span className="sim-recovery-card-desc">
+                  Use seu imóvel como garantia e consiga crédito com as menores taxas do mercado. Imóvel quitado ou financiado.
+                </span>
+                <span className="sim-recovery-card-cta">
+                  Simular agora
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                className="sim-recovery-card sim-recovery-card--auto"
+                onClick={() => handleCreditasClick('auto')}
+              >
+                <span className="sim-recovery-card-icon" aria-hidden="true">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 17m-2 0a2 2 0 104 0 2 2 0 10-4 0" />
+                    <path d="M17 17m-2 0a2 2 0 104 0 2 2 0 10-4 0" />
+                    <path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 012 2v4h-2" />
+                    <path d="M9 17h6" />
+                    <line x1="14" y1="6" x2="14" y2="11" />
+                  </svg>
+                </span>
+                <span className="sim-recovery-card-title">Crédito com Garantia de Veículo</span>
+                <span className="sim-recovery-card-rate">Taxas a partir de 1,49% a.m.</span>
+                <span className="sim-recovery-card-desc">
+                  Use seu veículo quitado como garantia. Você continua usando o carro normalmente.
+                </span>
+                <span className="sim-recovery-card-cta">
+                  Simular agora
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </button>
+            </div>
+
+            <div className="sim-recovery-footer">
+              <p className="sim-recovery-partner">
+                Em parceria com <strong>Creditas</strong> — a maior plataforma de crédito com garantia do Brasil
+              </p>
+              <button className="sim-quiz-reset-btn" onClick={handleReset}>
+                Voltar ao início
+              </button>
+            </div>
           </div>
         )}
       </div>
