@@ -3,6 +3,7 @@ import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent, getExternalId } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
+import { CREDITAS_LINKS, trackCreditasRedirect, trackCreditasRecoveryView } from '../../utils/creditas'
 import {
   DEFAULT_MONTHLY_RATE,
   MIN_LOAN_VALUE,
@@ -22,11 +23,6 @@ import {
 } from '../../utils/tenure'
 import './Questionnaire.css'
 import '../SimulacaoCredito/Recovery.css'
-
-const CREDITAS_LINKS = {
-  home: 'https://app.creditas.com/home-equity/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[hr]-crm&utm_term=always-on&utm_content=lp',
-  auto: 'https://app.creditas.com/auto-refi/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[ar]-crm&utm_term=always-on&utm_content=lp',
-}
 
 function rejectionReason(questionId) {
   if (questionId === 'q1') return 'not_clt'
@@ -236,8 +232,12 @@ export default function Questionnaire() {
 
       // Custom qualification signal (not Lead yet — no value/contact).
       // Fired here so the "scenarios" screen is when QuizQualified becomes true.
+      const qqEventId = generateEventId()
       trackCustomEvent('QuizQualified', {
         content_name: 'Quiz Simulação CLT - Pré-aprovado',
+      }, qqEventId)
+      sendServerEvent('QuizQualified', qqEventId, {
+        page: '/simulacao-consignado-clt',
       })
     }
   }, [answers, questionIndex])
@@ -269,14 +269,14 @@ export default function Questionnaire() {
   }, [])
 
   const handleCreditasClick = useCallback((product) => {
-    const reason = rejectionReason(rejectedAt)
-    trackCustomEvent('CreditasRedirect', {
-      product,
-      rejection_reason: reason,
-      content_name: `Creditas ${product === 'home' ? 'Home Equity' : 'Auto Equity'}`,
-    })
-    window.open(CREDITAS_LINKS[product], '_blank', 'noopener,noreferrer')
+    trackCreditasRedirect(product, rejectionReason(rejectedAt), 'Quiz Simulação CLT')
   }, [rejectedAt])
+
+  useEffect(() => {
+    if (screen === 'recovery') {
+      trackCreditasRecoveryView(rejectionReason(rejectedAt), 'Quiz Simulação CLT')
+    }
+  }, [screen, rejectedAt])
 
   // Mask BRL while typing.
   const formatCurrencyFromDigits = useCallback((raw) => {

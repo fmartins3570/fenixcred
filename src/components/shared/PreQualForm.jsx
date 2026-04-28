@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent, getExternalId } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
+import { CREDITAS_LINKS, trackCreditasRedirect, trackCreditasRecoveryView } from '../../utils/creditas'
 import {
   MONTHS,
   YEAR_OPTIONS,
@@ -11,11 +12,6 @@ import {
   leadQuality,
 } from '../../utils/tenure'
 import './PreQualForm.css'
-
-const CREDITAS_LINKS = {
-  home: 'https://app.creditas.com/home-equity/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[hr]-crm&utm_term=always-on&utm_content=lp',
-  auto: 'https://app.creditas.com/auto-refi/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[ar]-crm&utm_term=always-on&utm_content=lp',
-}
 
 /**
  * Pre-qualification micro-form — 4 steps (CLT / Tenure / Margin / Amount)
@@ -158,15 +154,17 @@ export default function PreQualForm({
     setRejected(false)
   }
 
+  const source = `PreQualForm ${sourceTag}`
+
   const handleCreditasClick = useCallback((product) => {
-    trackCustomEvent('CreditasRedirect', {
-      product,
-      rejection_reason: 'not_clt',
-      content_name: `Creditas ${product === 'home' ? 'Home Equity' : 'Auto Equity'}`,
-      source: `PreQualForm ${sourceTag}`,
-    })
-    window.open(CREDITAS_LINKS[product], '_blank', 'noopener,noreferrer')
-  }, [sourceTag])
+    trackCreditasRedirect(product, 'not_clt', source)
+  }, [source])
+
+  useEffect(() => {
+    if (rejected) {
+      trackCreditasRecoveryView('not_clt', source)
+    }
+  }, [rejected, source])
 
   const canSubmit = clt === 'sim' && tenureMonths != null && margin && amount
 
@@ -219,6 +217,9 @@ export default function PreQualForm({
         },
         qEventId
       )
+      sendServerEvent('QuizQualified', qEventId, {
+        page: window.location.pathname,
+      }, extraData)
     }
 
     const body = buildWhatsAppMessage({ clt, margin, amount, tenureMonths })

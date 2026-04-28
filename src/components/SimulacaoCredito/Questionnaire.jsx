@@ -3,6 +3,7 @@ import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
 import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
 import { sendServerEvent, getExternalId } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
+import { CREDITAS_LINKS, trackCreditasRedirect, trackCreditasRecoveryView } from '../../utils/creditas'
 import {
   DEFAULT_MONTHLY_RATE,
   MIN_LOAN_VALUE,
@@ -22,11 +23,6 @@ import {
 } from '../../utils/tenure'
 import '../SimulacaoCLT/Questionnaire.css'
 import './Recovery.css'
-
-const CREDITAS_LINKS = {
-  home: 'https://app.creditas.com/home-equity/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[hr]-crm&utm_term=always-on&utm_content=lp',
-  auto: 'https://app.creditas.com/auto-refi/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[ar]-crm&utm_term=always-on&utm_content=lp',
-}
 
 const QUESTIONS = [
   {
@@ -210,8 +206,12 @@ export default function Questionnaire() {
       setAnimDir('right')
       setScreen('approved')
       window.dispatchEvent(new Event('quiz-completed'))
+      const qqEventId = generateEventId()
       trackCustomEvent('QuizQualified', {
         content_name: 'Quiz Simulação Crédito Garantia - Pré-aprovado',
+      }, qqEventId)
+      sendServerEvent('QuizQualified', qqEventId, {
+        page: window.location.pathname,
       })
     }
   }, [answers, questionIndex])
@@ -243,15 +243,14 @@ export default function Questionnaire() {
   }, [])
 
   const handleCreditasClick = useCallback((product) => {
-    const reason = rejectionReason(rejectedAt)
-    trackCustomEvent('CreditasRedirect', {
-      product,
-      rejection_reason: reason,
-      content_name: `Creditas ${product === 'home' ? 'Home Equity' : 'Auto Equity'}`,
-    })
-    const url = CREDITAS_LINKS[product]
-    window.open(url, '_blank', 'noopener,noreferrer')
+    trackCreditasRedirect(product, rejectionReason(rejectedAt), 'Quiz Simulação Crédito Garantia')
   }, [rejectedAt])
+
+  useEffect(() => {
+    if (screen === 'recovery') {
+      trackCreditasRecoveryView(rejectionReason(rejectedAt), 'Quiz Simulação Crédito Garantia')
+    }
+  }, [screen, rejectedAt])
 
   const formatCurrencyFromDigits = useCallback((raw) => {
     const digits = String(raw).replace(/\D/g, '')
