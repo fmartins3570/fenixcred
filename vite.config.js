@@ -43,7 +43,7 @@ export default defineConfig({
           }
           // Tracking utils — shared entre ConsignadoLP e SimulacaoCLT
           if (
-            (id.includes("utils/metaCAPI") || id.includes("utils/metaPixel") || id.includes("utils/cookieConsent")) &&
+            (id.includes("utils/metaCAPI") || id.includes("utils/metaPixel") || id.includes("utils/cookieConsent") || id.includes("utils/analytics") || id.includes("utils/creditas")) &&
             !id.includes("node_modules")
           ) {
             return "vendor";
