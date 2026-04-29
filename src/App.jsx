@@ -42,6 +42,8 @@ const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
 const ReviewsSection = lazy(() => import("./components/ReviewsSection"));
 const CreditoCLT = lazy(() => import("./components/CreditoCLT"));
 const SimulacaoCLT = lazy(() => import("./components/SimulacaoCLT"));
+const SimulacaoCLTV2 = lazy(() => import("./components/SimulacaoCLTV2"));
+const SimulacaoCLTV3 = lazy(() => import("./components/SimulacaoCLTV3"));
 const SimulacaoCredito = lazy(() => import("./components/SimulacaoCredito"));
 const DataDeletion = lazy(() => import("./components/DataDeletion"));
 const ConsignadoLP = lazy(() => import("./components/ConsignadoLP"));
@@ -81,6 +83,18 @@ function App() {
     // Verifica o pathname para simulação consignado CLT (questionário interativo)
     if (pathname === "/simulacao-consignado-clt" || pathname === "/simulacao-consignado-clt/") {
       setCurrentPage("simulacao-clt");
+      return;
+    }
+
+    // V2 quiz — 4 perguntas, validação
+    if (pathname === "/simulacao-clt-v2" || pathname === "/simulacao-clt-v2/") {
+      setCurrentPage("simulacao-clt-v2");
+      return;
+    }
+
+    // V3 quiz — 4 perguntas + calculadora obrigatória
+    if (pathname === "/simulacao-clt-v3" || pathname === "/simulacao-clt-v3/") {
+      setCurrentPage("simulacao-clt-v3");
       return;
     }
 
@@ -145,6 +159,16 @@ function App() {
 
       if (newPathname === "/simulacao-consignado-clt" || newPathname === "/simulacao-consignado-clt/") {
         setCurrentPage("simulacao-clt");
+        return;
+      }
+
+      if (newPathname === "/simulacao-clt-v2" || newPathname === "/simulacao-clt-v2/") {
+        setCurrentPage("simulacao-clt-v2");
+        return;
+      }
+
+      if (newPathname === "/simulacao-clt-v3" || newPathname === "/simulacao-clt-v3/") {
+        setCurrentPage("simulacao-clt-v3");
         return;
       }
 
@@ -236,6 +260,50 @@ function App() {
           }
         >
           <SimulacaoCLT />
+        </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // V2 quiz — 4 perguntas, validação
+  if (currentPage === "simulacao-clt-v2") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <SimulacaoCLTV2 />
+        </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // V3 quiz — 4 perguntas + calculadora obrigatória
+  if (currentPage === "simulacao-clt-v3") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <SimulacaoCLTV3 />
         </Suspense>
         <Suspense fallback={null}>
           <EmailCapturePopup />

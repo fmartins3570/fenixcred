@@ -1,0 +1,41 @@
+import { useEffect } from 'react'
+import HeaderCLT from '../CreditoCLT/HeaderCLT'
+import Footer from '../CreditoCLT/Footer'
+import SchemaJSON from '../SchemaJSON'
+import BackToTop from '../BackToTop'
+import CookieBanner from '../CookieBanner'
+import Hero from '../SimulacaoCLT/Hero'
+import QuestionnaireV2 from './QuestionnaireV2'
+import FAQ from '../SimulacaoCLT/FAQ'
+import WhatsAppFloat from '../SimulacaoCLT/WhatsAppFloat'
+import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
+import '../SimulacaoCLT/index.css'
+
+export default function SimulacaoCLTV2() {
+  useEffect(() => {
+    const eventId = generateEventId()
+    trackEvent('ViewContent', {
+      content_name: 'Simulacao Consignado CLT V2',
+      content_category: 'simulacao-clt',
+      quiz_version: 'v2',
+    }, eventId)
+    sendServerEvent('ViewContent', eventId)
+  }, [])
+
+  return (
+    <div className="simulacao-clt-page">
+      <SchemaJSON />
+      <HeaderCLT />
+      <main>
+        <Hero />
+        <QuestionnaireV2 />
+        <FAQ />
+      </main>
+      <Footer />
+      <BackToTop />
+      <WhatsAppFloat />
+      <CookieBanner />
+    </div>
+  )
+}

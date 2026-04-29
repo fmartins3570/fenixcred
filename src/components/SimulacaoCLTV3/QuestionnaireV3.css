@@ -1,0 +1,154 @@
+/* V3 Calculator Screen */
+
+.sim-quiz-calculator {
+  text-align: center;
+}
+
+.sim-v3-calc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(253, 177, 71, 0.12) 0%, rgba(253, 177, 71, 0.04) 100%);
+  border: 1px solid rgba(253, 177, 71, 0.2);
+  border-radius: 20px;
+  color: #FDB147;
+  margin-bottom: 1.5rem;
+}
+
+.sim-v3-calc-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .sim-v3-calc-title {
+    font-size: 1.75rem;
+  }
+}
+
+.sim-v3-calc-text {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sim-v3-calc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 360px;
+  margin: 0 auto 1.5rem;
+}
+
+.sim-v3-calc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+}
+
+.sim-v3-calc-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.sim-v3-calc-prefilled {
+  font-weight: 400;
+  color: rgba(37, 211, 102, 0.7);
+  font-size: 0.78rem;
+}
+
+.sim-v3-calc-hint {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+/* Result states */
+
+.sim-v3-calc-result {
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  border-radius: 14px;
+  text-align: center;
+  animation: simFadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sim-v3-calc-result--ok {
+  background: rgba(37, 211, 102, 0.08);
+  border: 1.5px solid rgba(37, 211, 102, 0.3);
+}
+
+.sim-v3-calc-result--fail {
+  background: rgba(255, 100, 100, 0.08);
+  border: 1.5px solid rgba(255, 100, 100, 0.25);
+}
+
+.sim-v3-calc-result-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  color: #25d366;
+  background: rgba(37, 211, 102, 0.12);
+}
+
+.sim-v3-calc-result-icon--fail {
+  color: #ff6464;
+  background: rgba(255, 100, 100, 0.12);
+}
+
+.sim-v3-calc-result-text {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 0.5rem;
+}
+
+.sim-v3-calc-result-text strong {
+  font-size: 1.15rem;
+}
+
+.sim-v3-calc-result--ok .sim-v3-calc-result-text strong {
+  color: #25d366;
+}
+
+.sim-v3-calc-result--fail .sim-v3-calc-result-text strong {
+  color: #ff6464;
+}
+
+.sim-v3-calc-result-sub {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  margin: 0 0 1rem;
+}
+
+.sim-v3-calc-result .sim-quiz-start-btn {
+  margin-top: 0.75rem;
+}
+
+@keyframes simFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
