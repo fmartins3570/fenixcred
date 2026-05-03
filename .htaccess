@@ -61,8 +61,8 @@
     ExpiresByType font/eot "access plus 1 year"
     ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
     
-    # HTML - Cache curto (1 hora) para permitir atualizações
-    ExpiresByType text/html "access plus 1 hour"
+    # HTML - No caching (SPA entry point must always be fresh after deploys)
+    ExpiresByType text/html "access plus 0 seconds"
     
     # Arquivos de configuração - Cache médio (1 dia)
     ExpiresByType text/plain "access plus 1 day"
@@ -104,9 +104,9 @@
         Header unset ETag
     </FilesMatch>
     
-    # HTML - Cache curto
+    # HTML - No caching (SPA entry point must always be fresh after deploys)
     <FilesMatch "\.(html|htm)$">
-        Header set Cache-Control "public, max-age=3600, must-revalidate"
+        Header set Cache-Control "no-cache, must-revalidate"
         Header unset ETag
     </FilesMatch>
     
@@ -168,6 +168,9 @@ CustomLog /dev/null combined env=dontlog
 <IfModule mod_rewrite.c>
     # Redirecionar rotas do SPA diretamente para o index.html
     RewriteRule ^simulacao-consignado-clt/?$ /dist/index.html [L]
+    RewriteRule ^simulacao-clt-v2/?$ /dist/index.html [L]
+    RewriteRule ^simulacao-clt-v3/?$ /dist/index.html [L]
+    RewriteRule ^simulacao-credito-garantia/?$ /dist/index.html [L]
     RewriteRule ^page-credito-clt-personalizado/?$ /dist/index.html [L]
     RewriteRule ^page-credito-clt/?$ /dist/index.html [L]
     RewriteRule ^politica-privacidade/?$ /dist/index.html [L]
