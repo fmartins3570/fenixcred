@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { initSpotlight } from "./utils/spotlight.js";
 import { hasConsented, loadTrackingScripts } from "./utils/cookieConsent.js";
+import { ensureFbp } from "./utils/metaPixel.js";
 import { sendServerEvent } from "./utils/metaCAPI.js";
 import "./utils/lazyImages.js";
 
@@ -14,6 +15,10 @@ import "./styles/spotlight.css";
 
 // Inicializar efeito spotlight nos cards
 initSpotlight();
+
+// Ensure _fbp cookie exists before any CAPI event fires — works even when
+// fbevents.js is blocked by ad blockers or ITP (Safari).
+ensureFbp();
 
 // Carregar tracking scripts (mensuração de campanha é essencial)
 // O consent banner controla a experiência mas não bloqueia mensuração

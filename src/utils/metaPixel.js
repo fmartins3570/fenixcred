@@ -11,6 +11,19 @@ import { trackGA4Event, trackGA4CustomEvent } from './analytics'
 
 export const generateEventId = () => crypto.randomUUID()
 
+// Generate _fbp if missing — ensures CAPI events carry a matchable browser ID
+// even when fbevents.js is blocked by ad blockers or ITP.  When the pixel script
+// loads later it will reuse this cookie.  Format per Meta docs: fb.1.{ts}.{random}
+export function ensureFbp() {
+  if (typeof document === 'undefined') return
+  const cookies = document.cookie.split('; ')
+  const existing = cookies.find((c) => c.startsWith('_fbp='))
+  if (existing) return
+  const rand = Math.floor(Math.random() * 10_000_000_000)
+  const fbp = `fb.1.${Date.now()}.${rand}`
+  document.cookie = `_fbp=${fbp}; max-age=${90 * 24 * 60 * 60}; path=/; SameSite=Lax`
+}
+
 export const getMetaCookies = () => {
   const cookies = document.cookie.split('; ')
   const get = (name) => {
