@@ -60,11 +60,11 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://maps.googleapis.com" />
     <!-- Preload de recursos críticos (adicionado automaticamente) -->
-    <link rel="preload" as="style" href="/assets/index-BCIJ7H46.css" />
-    <link rel="preload" as="script" href="/assets/index-BJgyU5AN.js" />
-    <link rel="preload" as="script" href="/assets/react-vendor-Op1YXV87.js" />
-    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-525w-D0Sp9iYG.webp" type="image/webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-400w-DSNl4w5Z.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="style" href="/assets/index-Dr9BCGX1.css" />
+    <link rel="preload" as="script" href="/assets/index-C23fnRu4.js" />
+    <link rel="preload" as="script" href="/assets/react-vendor-BZTQXv49.js" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-525wp2 copy-QUC8MxBW.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-400wp2 copy-CTdPL5Al.webp" type="image/webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/assets/logo-fenix-cred-299w-TiKoL6JW.webp" type="image/webp" />
 
     
@@ -497,7 +497,13 @@
         } catch (e) { /* localStorage unavailable or corrupted — skip advanced matching */ }
 
         fbq('init', '2877752735949899', advancedMatching);
-        fbq('track', 'PageView');
+        // Share one event_id with the CAPI PageView dispatched from React so
+        // Meta deduplicates the pair — browser + server count as a single view.
+        window.__fenixPageViewEventId =
+          (crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : Date.now() + '-' + Math.random().toString(36).slice(2);
+        fbq('track', 'PageView', {}, { eventID: window.__fenixPageViewEventId });
       };
     </script>
     <!-- End Meta Pixel -->
@@ -529,16 +535,16 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-m_GNEAs7.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-CqcxUO88.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-vendor-Op1YXV87.js">
-    <link rel="modulepreload" crossorigin href="/assets/reviews-C9Cw9g8X.js">
-    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-hH42w_Na.js">
-    <link rel="modulepreload" crossorigin href="/assets/faq-BdaKRRjN.js">
+    <script type="module" crossorigin src="/assets/index-C23fnRu4.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-DZgofjZN.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-BZTQXv49.js">
+    <link rel="modulepreload" crossorigin href="/assets/reviews-CAV0gWjO.js">
+    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-Bw0X2Q1N.js">
+    <link rel="modulepreload" crossorigin href="/assets/faq-xYYtZRiQ.js">
     <link rel="stylesheet" crossorigin href="/assets/reviews-BkENODAt.css">
-    <link rel="stylesheet" crossorigin href="/assets/consignado-lp-C01eTXWB.css">
+    <link rel="stylesheet" crossorigin href="/assets/consignado-lp-BSJZM3Ch.css">
     <link rel="stylesheet" crossorigin href="/assets/faq-DVqLwSmM.css">
-    <link rel="stylesheet" crossorigin href="/assets/index-BCIJ7H46.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-Dr9BCGX1.css">
   </head>
   <body>
     <div id="root"></div>

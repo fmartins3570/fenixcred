@@ -1,8 +1,8 @@
-import { benefits } from '../../utils/credito-clt/constants'
+import { benefits as defaultBenefits } from '../../utils/credito-clt/constants'
 import { useViewContent } from '../../hooks/useViewContent'
 import './Benefits.css'
 
-export default function Benefits() {
+export default function Benefits({ benefits = defaultBenefits, title, description }) {
   const sectionRef = useViewContent('Benefits')
   const iconMap = {
     TrendingDown: (
@@ -44,11 +44,10 @@ export default function Benefits() {
         <div className="benefits-clt-header">
           <span className="benefits-clt-badge">Vantagens Exclusivas</span>
           <h2 className="benefits-clt-title">
-            Por que escolher a <span className="benefits-clt-title-highlight">Fênix Cred</span>?
+            {title || <>Por que escolher a <span className="benefits-clt-title-highlight">Fênix Cred</span>?</>}
           </h2>
           <p className="benefits-clt-description">
-            Oferecemos as melhores condições do mercado para trabalhadores CLT.
-            Conheça os benefícios do nosso crédito consignado CLT.
+            {description || 'Oferecemos as melhores condições do mercado para trabalhadores CLT. Conheça os benefícios do nosso crédito consignado CLT.'}
           </p>
         </div>
 

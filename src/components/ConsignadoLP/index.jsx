@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { ANGLES } from '../../utils/consignado-lp/angles'
+import { fgtsBenefits, fgtsSteps } from '../../utils/credito-clt/constants'
 import Hero from './Hero'
+import UrgencyBanner from './UrgencyBanner'
 import SocialProof from '../CreditoCLT/SocialProof'
 import Benefits from '../CreditoCLT/Benefits'
 import HowItWorks from '../CreditoCLT/HowItWorks'
@@ -41,9 +43,18 @@ export default function ConsignadoLP({ angle }) {
       <HeaderCLT />
       <main>
         <Hero angleData={angleData} tag={angleData.tag} />
+        {isFgts && <UrgencyBanner />}
         <SocialProof />
-        <Benefits />
-        <HowItWorks />
+        <Benefits
+          benefits={isFgts ? fgtsBenefits : undefined}
+          title={isFgts ? <>Vantagens da <span className="benefits-clt-title-highlight">Antecipação FGTS</span></> : undefined}
+          description={isFgts ? 'Antecipe seu saque-aniversário com as melhores condições. Sem burocracia, sem consulta ao SPC.' : undefined}
+        />
+        <HowItWorks
+          steps={isFgts ? fgtsSteps : undefined}
+          title={isFgts ? <>Como funciona a <span className="how-it-works-title-highlight">Antecipação FGTS</span>?</> : undefined}
+          description={isFgts ? 'Em 4 passos simples, antecipe seu FGTS. Todo o processo é 100% online.' : undefined}
+        />
         <ReviewsSection variant="clt" />
         <FAQ
           faqs={angleData.faqs}

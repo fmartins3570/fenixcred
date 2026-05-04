@@ -146,6 +146,68 @@ export const stats = [
   },
 ]
 
+// Benefícios da antecipação FGTS
+export const fgtsBenefits = [
+  {
+    icon: 'TrendingDown',
+    title: 'Taxas a partir de 1,29% a.m.',
+    description: 'Uma das menores taxas do mercado para antecipação do saque-aniversário FGTS.',
+  },
+  {
+    icon: 'ShieldCheck',
+    title: 'Sem Consulta SPC/Serasa',
+    description: 'Negativado ou com restrição? Não importa. A antecipação não exige análise de crédito.',
+  },
+  {
+    icon: 'Clock',
+    title: 'Dinheiro em até 24h',
+    description: 'Após aprovação, o valor é depositado direto na sua conta em até 24 horas úteis.',
+  },
+  {
+    icon: 'Wallet',
+    title: 'Sem Parcelas Mensais',
+    description: 'O desconto é feito automaticamente do seu saque-aniversário futuro. Nada sai do seu salário.',
+  },
+  {
+    icon: 'Smartphone',
+    title: '100% Online',
+    description: 'Todo o processo pelo celular. Sem ir a agência, sem burocracia, sem papelada.',
+  },
+  {
+    icon: 'Users',
+    title: 'Consultores Especializados',
+    description: 'Atendimento humano pelo WhatsApp. Tiramos todas as suas dúvidas antes de contratar.',
+  },
+]
+
+// Passos da antecipação FGTS
+export const fgtsSteps = [
+  {
+    number: '01',
+    title: 'Simule sua Antecipação',
+    description: 'Informe o valor desejado e veja quanto pode receber. Simulação grátis e sem compromisso.',
+    icon: 'FileText',
+  },
+  {
+    number: '02',
+    title: 'Adesão ao Saque-Aniversário',
+    description: 'Se ainda não aderiu, fazemos juntos pelo app FGTS. Se já aderiu, seguimos direto.',
+    icon: 'Search',
+  },
+  {
+    number: '03',
+    title: 'Autorização Digital',
+    description: 'Autorize o banco parceiro a consultar seu saldo no app FGTS. Tudo pelo celular.',
+    icon: 'PenTool',
+  },
+  {
+    number: '04',
+    title: 'Dinheiro na Conta',
+    description: 'Aprovação automática e valor depositado em até 24h na sua conta bancária.',
+    icon: 'Banknote',
+  },
+]
+
 // Informações da empresa
 export const companyInfo = {
   name: 'Fênix Cred',

@@ -1,4 +1,4 @@
-import { steps } from '../../utils/credito-clt/constants'
+import { steps as defaultSteps } from '../../utils/credito-clt/constants'
 import { useViewContent } from '../../hooks/useViewContent'
 import './HowItWorks.css'
 
@@ -25,7 +25,7 @@ const iconMap = {
   ),
 }
 
-export default function HowItWorks() {
+export default function HowItWorks({ steps = defaultSteps, title, description }) {
   const sectionRef = useViewContent('HowItWorks')
   return (
     <section id="como-funciona-clt" className="how-it-works-clt" ref={sectionRef}>
@@ -34,11 +34,10 @@ export default function HowItWorks() {
         <div className="how-it-works-header">
           <span className="how-it-works-badge">Processo Simples</span>
           <h2 className="how-it-works-title">
-            Como funciona o <span className="how-it-works-title-highlight">Crédito CLT</span>?
+            {title || <>Como funciona o <span className="how-it-works-title-highlight">Crédito CLT</span>?</>}
           </h2>
           <p className="how-it-works-description">
-            Em apenas 4 passos simples, você consegue seu crédito consignado CLT.
-            Todo o processo é feito 100% online, sem burocracia.
+            {description || 'Em apenas 4 passos simples, você consegue seu crédito consignado CLT. Todo o processo é feito 100% online, sem burocracia.'}
           </p>
         </div>
 
