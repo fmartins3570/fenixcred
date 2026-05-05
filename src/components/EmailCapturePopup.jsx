@@ -287,6 +287,8 @@ export default function EmailCapturePopup() {
       {
         content_name: 'EmailCapturePopup',
         page: window.location.pathname,
+        value: 5.0,
+        currency: 'BRL',
       },
       eventId
     )
@@ -300,7 +302,7 @@ export default function EmailCapturePopup() {
         email: cleanEmail,
         page: window.location.pathname,
       },
-      { value: 0, currency: 'BRL' }
+      { value: 5.0, currency: 'BRL' }
     )
 
     // Persist capture flags only if the user consented to cookies. Without
