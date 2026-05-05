@@ -457,6 +457,15 @@
       }
     </style>
 
+    <!-- Meta CAPI Parameter Builder SDK (official) -->
+    <script src="/clientParamBuilder.bundle.js"></script>
+    <script>
+      // Initialize fbc/fbp cookies via Meta's official SDK before pixel loads
+      if (window.clientParamBuilder) {
+        try { window.clientParamBuilder.processAndCollectAllParams(); } catch(e) {}
+      }
+    </script>
+
     <!-- Meta Pixel - Stub + carregamento condicional (LGPD) -->
     <!-- Pixel só carrega após consentimento de cookies via CookieBanner -->
     <script>

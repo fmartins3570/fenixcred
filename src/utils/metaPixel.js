@@ -11,11 +11,13 @@ import { trackGA4Event, trackGA4CustomEvent } from './analytics'
 
 export const generateEventId = () => crypto.randomUUID()
 
-// Generate _fbp if missing — ensures CAPI events carry a matchable browser ID
-// even when fbevents.js is blocked by ad blockers or ITP.  When the pixel script
-// loads later it will reuse this cookie.  Format per Meta docs: fb.1.{ts}.{random}
+// Use Meta's official Parameter Builder SDK when available (loaded in index.html).
+// Falls back to manual cookie generation when SDK is blocked by ad blockers.
 export function ensureFbp() {
   if (typeof document === 'undefined') return
+  if (window.clientParamBuilder) {
+    try { window.clientParamBuilder.processAndCollectAllParams(); return } catch {}
+  }
   const cookies = document.cookie.split('; ')
   const existing = cookies.find((c) => c.startsWith('_fbp='))
   if (existing) return
@@ -25,6 +27,14 @@ export function ensureFbp() {
 }
 
 export const getMetaCookies = () => {
+  if (window.clientParamBuilder) {
+    try {
+      const fbc = window.clientParamBuilder.getFbc() || ''
+      const fbp = window.clientParamBuilder.getFbp() || ''
+      if (fbc || fbp) return { fbc, fbp }
+    } catch {}
+  }
+
   const cookies = document.cookie.split('; ')
   const get = (name) => {
     const c = cookies.find((c) => c.startsWith(name + '='))
@@ -34,8 +44,6 @@ export const getMetaCookies = () => {
   let fbc = get('_fbc')
   const fbp = get('_fbp')
 
-  // Se não tem _fbc cookie mas tem fbclid na URL, gera o fbc manualmente
-  // Formato: fb.1.{timestamp}.{fbclid}
   if (!fbc) {
     const params = new URLSearchParams(window.location.search)
     const fbclid = params.get('fbclid')

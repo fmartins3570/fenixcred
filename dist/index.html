@@ -61,8 +61,8 @@
     <link rel="dns-prefetch" href="https://maps.googleapis.com" />
     <!-- Preload de recursos críticos (adicionado automaticamente) -->
     <link rel="preload" as="style" href="/assets/index-Dr9BCGX1.css" />
-    <link rel="preload" as="script" href="/assets/index-BQMGRDJw.js" />
-    <link rel="preload" as="script" href="/assets/react-vendor-Bu-dFVcS.js" />
+    <link rel="preload" as="script" href="/assets/index-DQKwQi7W.js" />
+    <link rel="preload" as="script" href="/assets/react-vendor-D8-kfwsS.js" />
     <link rel="preload" as="image" href="/assets/modelo_fenix_cred-525wp2 copy-QUC8MxBW.webp" type="image/webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/assets/modelo_fenix_cred-400wp2 copy-CTdPL5Al.webp" type="image/webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/assets/logo-fenix-cred-299w-TiKoL6JW.webp" type="image/webp" />
@@ -463,6 +463,15 @@
       }
     </style>
 
+    <!-- Meta CAPI Parameter Builder SDK (official) -->
+    <script src="/clientParamBuilder.bundle.js"></script>
+    <script>
+      // Initialize fbc/fbp cookies via Meta's official SDK before pixel loads
+      if (window.clientParamBuilder) {
+        try { window.clientParamBuilder.processAndCollectAllParams(); } catch(e) {}
+      }
+    </script>
+
     <!-- Meta Pixel - Stub + carregamento condicional (LGPD) -->
     <!-- Pixel só carrega após consentimento de cookies via CookieBanner -->
     <script>
@@ -535,12 +544,12 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-BQMGRDJw.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-CS9i16fO.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-vendor-Bu-dFVcS.js">
-    <link rel="modulepreload" crossorigin href="/assets/reviews-NADs9YLu.js">
-    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-CFql0r3y.js">
-    <link rel="modulepreload" crossorigin href="/assets/faq-BAJLDmbP.js">
+    <script type="module" crossorigin src="/assets/index-W9NOSQ8l.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-qBI749ib.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-D8-kfwsS.js">
+    <link rel="modulepreload" crossorigin href="/assets/reviews-D8g_ojaM.js">
+    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-C_02m3g4.js">
+    <link rel="modulepreload" crossorigin href="/assets/faq-AFXTm_4X.js">
     <link rel="stylesheet" crossorigin href="/assets/reviews-BkENODAt.css">
     <link rel="stylesheet" crossorigin href="/assets/consignado-lp-BSJZM3Ch.css">
     <link rel="stylesheet" crossorigin href="/assets/faq-DVqLwSmM.css">
