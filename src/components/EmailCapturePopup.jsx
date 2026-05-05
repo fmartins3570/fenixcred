@@ -280,14 +280,19 @@ export default function EmailCapturePopup() {
     const cleanName = name.trim()
     const cleanEmail = email.trim().toLowerCase()
     const eventId = generateEventId()
+    const path = window.location.pathname
+    const subscribeValue = path.startsWith('/simulacao') ? 12.0
+      : path.startsWith('/page-credito-clt') ? 8.0
+      : path.startsWith('/consignado') ? 10.0
+      : 5.0
 
     // Browser-side Pixel event. CAPI server will hash email/name to match.
     trackEvent(
       'Subscribe',
       {
         content_name: 'EmailCapturePopup',
-        page: window.location.pathname,
-        value: 5.0,
+        page: path,
+        value: subscribeValue,
         currency: 'BRL',
       },
       eventId
@@ -300,9 +305,9 @@ export default function EmailCapturePopup() {
       {
         ...(cleanName && { name: cleanName }),
         email: cleanEmail,
-        page: window.location.pathname,
+        page: path,
       },
-      { value: 5.0, currency: 'BRL' }
+      { value: subscribeValue, currency: 'BRL' }
     )
 
     // Persist capture flags only if the user consented to cookies. Without
