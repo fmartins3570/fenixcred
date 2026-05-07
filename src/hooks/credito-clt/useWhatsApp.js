@@ -6,13 +6,28 @@ import { tagMessage } from '../../utils/utmParams'
 /**
  * Hook para integração com WhatsApp
  */
+function getSavedLeadPII() {
+  try {
+    const raw = localStorage.getItem('fenix_lead_data')
+    if (!raw) return {}
+    const data = JSON.parse(raw)
+    return {
+      ...(data.name && { name: data.name }),
+      ...(data.phone && { phone: data.phone.replace(/\D/g, '') }),
+    }
+  } catch { return {} }
+}
+
 export function useWhatsApp() {
   const phoneNumber = WHATSAPP_NUMBER
 
   const openWhatsApp = (message = '(clt) Olá, gostaria de simular um crédito CLT', trackingName = 'WhatsApp CLT') => {
     const eventId = generateEventId()
     trackEvent('Contact', { content_name: trackingName, content_category: 'whatsapp' }, eventId)
-    sendServerEvent('Contact', eventId, { page: trackingName })
+    sendServerEvent('Contact', eventId, { ...getSavedLeadPII(), page: trackingName }, {
+      content_name: trackingName,
+      content_category: 'whatsapp',
+    })
     const encodedMessage = encodeURIComponent(tagMessage(message))
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
     window.open(url, '_blank', 'noopener,noreferrer')

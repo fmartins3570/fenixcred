@@ -10,6 +10,18 @@ import { tagMessage } from '../utils/utmParams'
  * @param {string} tag - Tracking tag (e.g. 'neg', 'vel', 'ger')
  * @returns {{ openWhatsApp: Function, openWhatsAppWithSimulator: Function }}
  */
+function getSavedLeadPII() {
+  try {
+    const raw = localStorage.getItem('fenix_lead_data')
+    if (!raw) return {}
+    const data = JSON.parse(raw)
+    return {
+      ...(data.name && { name: data.name }),
+      ...(data.phone && { phone: data.phone.replace(/\D/g, '') }),
+    }
+  } catch { return {} }
+}
+
 export function useWhatsAppWithTag(tag) {
   const phoneNumber = SHARED.whatsappNumber
 
@@ -31,7 +43,11 @@ export function useWhatsAppWithTag(tag) {
     }, eventId)
 
     sendServerEvent('Contact', eventId, {
+      ...getSavedLeadPII(),
       page: window.location.pathname,
+    }, {
+      content_name: trackingName,
+      content_category: 'whatsapp',
     })
 
     const encoded = encodeURIComponent(taggedMessage)
@@ -67,6 +83,7 @@ export function useWhatsAppWithTag(tag) {
     }, eventId)
 
     sendServerEvent('Contact', eventId, {
+      ...getSavedLeadPII(),
       page: window.location.pathname,
     }, {
       value: value,
@@ -105,6 +122,7 @@ export function useWhatsAppWithTag(tag) {
     }, eventId)
 
     sendServerEvent('Contact', eventId, {
+      ...getSavedLeadPII(),
       page: window.location.pathname,
     }, {
       value: value,

@@ -166,7 +166,11 @@ export default function Questionnaire() {
 
     const eventId = generateEventId()
     trackEvent('InitiateCheckout', { content_name: 'Quiz Simulação CLT' }, eventId)
-    sendServerEvent('InitiateCheckout', eventId)
+    sendServerEvent('InitiateCheckout', eventId, {
+      page: window.location.pathname,
+    }, {
+      content_name: 'Quiz Simulação CLT',
+    })
   }, [])
 
   const handleAnswer = useCallback((questionId, answerValue) => {
@@ -238,6 +242,8 @@ export default function Questionnaire() {
       }, qqEventId)
       sendServerEvent('QuizQualified', qqEventId, {
         page: '/simulacao-consignado-clt',
+      }, {
+        content_name: 'Quiz Simulação CLT - Pré-aprovado',
       })
     }
   }, [answers, questionIndex])
@@ -349,7 +355,10 @@ export default function Questionnaire() {
     // Meta Pixel + CAPI: Contact (used by "Contato WhatsApp" custom conversion)
     const contactEventId = generateEventId()
     trackEvent('Contact', { content_name: 'Quiz Simulação CLT - WhatsApp', content_category: 'whatsapp' }, contactEventId)
-    sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulação CLT' })
+    sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulação CLT' }, {
+      content_name: 'Quiz Simulação CLT - WhatsApp',
+      content_category: 'whatsapp',
+    })
 
     // Enriched payload aligned with PreQualForm so Meta + CAPI audiences share schema
     const extraData = {

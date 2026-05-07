@@ -94,7 +94,14 @@ export default function Hero({ personalized = false }) {
   const handlePersonalizedWhatsApp = () => {
     const eventId = generateEventId()
     trackEvent('Contact', { content_name: 'Hero CLT Personalizado WhatsApp', content_category: 'whatsapp' }, eventId)
-    sendServerEvent('Contact', eventId, { page: 'Hero CLT Personalizado' })
+    sendServerEvent('Contact', eventId, {
+      name: leadData?.name,
+      phone: leadData?.phone?.replace(/\D/g, ''),
+      page: 'Hero CLT Personalizado',
+    }, {
+      content_name: 'Hero CLT Personalizado WhatsApp',
+      content_category: 'whatsapp',
+    })
     const selectedLabels = PURPOSES
       .filter((p) => (leadData?.purposes || []).includes(p.id))
       .map((p) => p.label)
