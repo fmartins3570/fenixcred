@@ -496,6 +496,9 @@
               if (parts[0]) advancedMatching.fn = parts[0];
               if (parts.length > 1) advancedMatching.ln = parts.slice(1).join(' ');
             }
+            if (lead && lead.email) {
+              advancedMatching.em = String(lead.email).trim().toLowerCase();
+            }
           }
         } catch (e) { /* localStorage unavailable or corrupted — skip advanced matching */ }
 
