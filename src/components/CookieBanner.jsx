@@ -2,6 +2,17 @@ import { useState } from 'react'
 import { setConsent, hasResponded, loadTrackingScripts } from '../utils/cookieConsent'
 import './CookieBanner.css'
 
+const CAPI_CONSENT_URL = 'https://painel.martinsfelipe.com/api/capi/consent'
+
+function reportConsent(decision) {
+  try {
+    navigator.sendBeacon(
+      CAPI_CONSENT_URL,
+      JSON.stringify({ decision, page_url: window.location.href })
+    )
+  } catch {}
+}
+
 export default function CookieBanner() {
   const [visible, setVisible] = useState(!hasResponded())
 
@@ -10,12 +21,14 @@ export default function CookieBanner() {
   const handleAccept = () => {
     setConsent(true)
     loadTrackingScripts()
+    reportConsent('accept')
     setVisible(false)
   }
 
   const handleReject = () => {
     setConsent(false)
     loadTrackingScripts()
+    reportConsent('reject')
     setVisible(false)
   }
 

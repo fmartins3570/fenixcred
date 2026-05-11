@@ -10,6 +10,7 @@ import {
   tenureBucket,
   tenurePhrase,
   leadQuality,
+  leadValue,
 } from '../../utils/tenure'
 import './PreQualForm.css'
 
@@ -91,7 +92,14 @@ export default function PreQualForm({
       ([entry]) => {
         if (entry.isIntersecting && !viewFired.current) {
           viewFired.current = true
+          const vcEventId = generateEventId()
           trackEvent('ViewContent', {
+            content_name: `PreQualForm ${sourceTag}`,
+            content_category: 'prequalification',
+          }, vcEventId)
+          sendServerEvent('ViewContent', vcEventId, {
+            page: window.location.pathname,
+          }, {
             content_name: `PreQualForm ${sourceTag}`,
             content_category: 'prequalification',
           })
@@ -176,12 +184,13 @@ export default function PreQualForm({
     const leadTag = buildLeadTag(sourceTag, margin, bucket)
 
     const extraData = {
-      value: amount,
+      value: leadValue(quality),
       currency: 'BRL',
       lead_quality: quality,
       tenure_months: tenureMonths,
       tenure_bucket: bucket,
       has_margin: margin,
+      requested_amount: amount,
     }
 
     // Meta Pixel — Lead (browser)

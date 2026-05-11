@@ -19,6 +19,7 @@ import {
   tenureBucket,
   tenurePhrase,
   leadQuality,
+  leadValue,
 } from '../../utils/tenure'
 import '../SimulacaoCLT/Questionnaire.css'
 import '../SimulacaoCredito/Recovery.css'
@@ -362,7 +363,7 @@ export default function QuestionnaireV3() {
     sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulacao CLT V3' })
 
     const extraData = {
-      value: parsedValue,
+      value: leadValue(quality),
       currency: 'BRL',
       content_name: 'Quiz Simulacao CLT V3 - WhatsApp',
       customer_type: consignadoStatus === 'none' ? 'new' : 'returning',
@@ -370,6 +371,7 @@ export default function QuestionnaireV3() {
       tenure_months: tenureMonths,
       tenure_bucket: bucket,
       has_margin: marginKey,
+      requested_amount: parsedValue,
       margin_verified: calculatedMargin,
       consignado_status: consignadoStatus,
       quiz_version: 'v3',

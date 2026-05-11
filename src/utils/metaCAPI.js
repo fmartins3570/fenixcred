@@ -50,6 +50,7 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
       ...(userData.phone && { phone: userData.phone }),
       ...(userData.city && { city: userData.city }),
       ...(userData.state && { state: userData.state }),
+      ...(userData.email && { email: userData.email }),
     },
     custom_data: {
       ...(userData.purposes && { purposes: userData.purposes }),

@@ -20,6 +20,7 @@ import {
   tenureBucket,
   tenurePhrase,
   leadQuality,
+  leadValue,
 } from '../../utils/tenure'
 import './Questionnaire.css'
 import '../SimulacaoCredito/Recovery.css'
@@ -362,7 +363,7 @@ export default function Questionnaire() {
 
     // Enriched payload aligned with PreQualForm so Meta + CAPI audiences share schema
     const extraData = {
-      value: parsedValue,
+      value: leadValue(quality),
       currency: 'BRL',
       content_name: 'Quiz Simulação CLT - WhatsApp',
       customer_type: returning ? 'returning' : 'new',
@@ -370,6 +371,7 @@ export default function Questionnaire() {
       tenure_months: tenureMonths,
       tenure_bucket: bucket,
       has_margin: marginKey,
+      requested_amount: parsedValue,
     }
 
     const leadEventId = generateEventId()

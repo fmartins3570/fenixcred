@@ -44,7 +44,11 @@ export default function Simulator({ tag, onSimulate, mode = 'parcelado' }) {
     icFired.current = true
     const eventId = generateEventId()
     trackEvent('InitiateCheckout', { content_name: `Simulador ${tag}` }, eventId)
-    sendServerEvent('InitiateCheckout', eventId)
+    sendServerEvent('InitiateCheckout', eventId, {
+      page: window.location.pathname,
+    }, {
+      content_name: `Simulador ${tag}`,
+    })
   }, [tag])
 
   const handleValueChangeEnd = useCallback(() => {

@@ -1,6 +1,7 @@
 import './Services.css'
 import RelatedContent from './RelatedContent'
 import { trackEvent } from '../utils/metaPixel'
+import { CREDITAS_LINKS, trackCreditasRedirect } from '../utils/creditas'
 
 /**
  * Componente Services - Seção de serviços oferecidos
@@ -37,8 +38,9 @@ function Services() {
       icon: '🏠',
       linkText: 'Simular crédito imobiliário',
       rate: 'A partir de 1,09% a.m.',
-      href: 'https://app.creditas.com/home-equity/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[hr]-crm&utm_term=always-on&utm_content=lp',
+      href: CREDITAS_LINKS.home,
       external: true,
+      creditasProduct: 'home',
     },
     {
       id: 4,
@@ -47,8 +49,9 @@ function Services() {
       icon: '🚗',
       linkText: 'Simular crédito veicular',
       rate: 'A partir de 1,49% a.m.',
-      href: 'https://app.creditas.com/auto-refi/solicitacao/informacoes-pessoais?utm_medium=affiliates&utm_source=HII588383&utm_campaign=[ar]-crm&utm_term=always-on&utm_content=lp',
+      href: CREDITAS_LINKS.auto,
       external: true,
+      creditasProduct: 'auto',
     },
   ]
 
@@ -79,7 +82,10 @@ function Services() {
                   className="service-link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackEvent('ViewContent', { content_name: service.title })}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    trackCreditasRedirect(service.creditasProduct, 'organic_browse', 'Homepage Serviços')
+                  }}
                 >
                   {service.linkText} →
                 </a>

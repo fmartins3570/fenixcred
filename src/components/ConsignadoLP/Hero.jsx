@@ -36,7 +36,12 @@ export default function Hero({ angleData, tag }) {
       content_name: isFgts ? `LP FGTS ${tag}` : `LP ${tag}`,
       content_category: isFgts ? 'antecipacao-fgts' : 'consignado-clt',
     }, eventId)
-    sendServerEvent('ViewContent', eventId)
+    sendServerEvent('ViewContent', eventId, {
+      page: window.location.pathname,
+    }, {
+      content_name: isFgts ? `LP FGTS ${tag}` : `LP ${tag}`,
+      content_category: isFgts ? 'antecipacao-fgts' : 'consignado-clt',
+    })
   }, [tag, isFgts])
 
   const handleSimulate = (value, term, result) => {

@@ -24,7 +24,12 @@ export default function SimulacaoCLT() {
       content_name: 'Simulação Consignado CLT',
       content_category: 'simulacao-clt',
     }, eventId)
-    sendServerEvent('ViewContent', eventId)
+    sendServerEvent('ViewContent', eventId, {
+      page: window.location.pathname,
+    }, {
+      content_name: 'Simulação Consignado CLT',
+      content_category: 'simulacao-clt',
+    })
   }, [])
 
   return (

@@ -63,6 +63,12 @@ export function tenurePhrase(months) {
  *   mid-new  → margem=naosei + tenure < 6m
  *   low      → margem=nao (any tenure)
  */
+const LEAD_VALUES = { top: 50, high: 35, 'mid-new': 15, mid: 10, low: 2 }
+
+export function leadValue(quality) {
+  return LEAD_VALUES[quality] ?? LEAD_VALUES.low
+}
+
 export function leadQuality(margin, months) {
   const hasTenureData = months != null
   if (margin === 'sim') {

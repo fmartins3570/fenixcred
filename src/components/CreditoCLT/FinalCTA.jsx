@@ -65,13 +65,13 @@ export default function FinalCTA() {
     setIsSubmitting(true)
     const numericValue = parseInt(formData.amount.replace(/\D/g, ''), 10) / 100 || 0
     const eventId = generateEventId()
-    trackEvent('Lead', { content_name: 'FinalCTA Form', value: numericValue, currency: 'BRL', lead_quality: 'unqualified', customer_type: 'new' }, eventId)
-    sendServerEvent('Lead', eventId, {
+    trackEvent('InitiateCheckout', { content_name: 'FinalCTA Form', value: 5, currency: 'BRL', requested_amount: numericValue }, eventId)
+    sendServerEvent('InitiateCheckout', eventId, {
       name: formData.name.trim(),
       phone: formData.phone.replace(/\D/g, ''),
       city: formData.city.trim(),
       page: window.location.pathname,
-    }, { value: numericValue, currency: 'BRL', lead_quality: 'unqualified', customer_type: 'new' })
+    }, { value: 5, currency: 'BRL', content_name: 'FinalCTA Form', requested_amount: numericValue })
     openWhatsAppWithFormData(
       formData.name,
       formData.phone,

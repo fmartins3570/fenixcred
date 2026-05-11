@@ -78,16 +78,18 @@ export function useWhatsAppWithTag(tag) {
     trackEvent('Contact', {
       content_name: `WhatsApp Simulador ${tag}`,
       content_category: 'whatsapp',
-      value: value,
+      value: 3,
       currency: 'BRL',
+      requested_amount: value,
     }, eventId)
 
     sendServerEvent('Contact', eventId, {
       ...getSavedLeadPII(),
       page: window.location.pathname,
     }, {
-      value: value,
+      value: 3,
       currency: 'BRL',
+      requested_amount: value,
     })
 
     const taggedMessage = tagMessage(`(${tag})${message}`)
@@ -117,16 +119,18 @@ export function useWhatsAppWithTag(tag) {
     trackEvent('Contact', {
       content_name: `WhatsApp Simulador ${tag}`,
       content_category: 'whatsapp',
-      value: value,
+      value: 3,
       currency: 'BRL',
+      requested_amount: value,
     }, eventId)
 
     sendServerEvent('Contact', eventId, {
       ...getSavedLeadPII(),
       page: window.location.pathname,
     }, {
-      value: value,
+      value: 3,
       currency: 'BRL',
+      requested_amount: value,
     })
 
     const taggedMessage = tagMessage(`(${tag})${message}`)
