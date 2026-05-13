@@ -63,9 +63,12 @@ export function tenurePhrase(months) {
  *   mid-new  → margem=naosei + tenure < 6m
  *   low      → margem=nao (any tenure)
  */
-const LEAD_VALUES = { top: 50, high: 35, 'mid-new': 15, mid: 10, low: 2 }
+// 7 distinct values for Meta VBO eligibility (requires ≥5 distinct in 14d)
+const LEAD_VALUES = { high: 30, 'mid-new': 15, mid: 8, low: 2 }
+const TOP_BY_TENURE = { 't24m+': 80, 't12-23m': 60, 't6-11m': 45 }
 
-export function leadValue(quality) {
+export function leadValue(quality, bucket) {
+  if (quality === 'top') return TOP_BY_TENURE[bucket] ?? 45
   return LEAD_VALUES[quality] ?? LEAD_VALUES.low
 }
 

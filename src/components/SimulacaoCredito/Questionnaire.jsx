@@ -321,7 +321,7 @@ export default function Questionnaire() {
     sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulação Crédito Garantia' })
 
     const extraData = {
-      value: leadValue(quality),
+      value: leadValue(quality, bucket),
       currency: 'BRL',
       content_name: 'Quiz Simulação Crédito Garantia - WhatsApp',
       customer_type: returning ? 'returning' : 'new',

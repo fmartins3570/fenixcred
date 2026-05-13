@@ -363,7 +363,7 @@ export default function Questionnaire() {
 
     // Enriched payload aligned with PreQualForm so Meta + CAPI audiences share schema
     const extraData = {
-      value: leadValue(quality),
+      value: leadValue(quality, bucket),
       currency: 'BRL',
       content_name: 'Quiz Simulação CLT - WhatsApp',
       customer_type: returning ? 'returning' : 'new',

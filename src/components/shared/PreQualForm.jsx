@@ -184,7 +184,7 @@ export default function PreQualForm({
     const leadTag = buildLeadTag(sourceTag, margin, bucket)
 
     const extraData = {
-      value: leadValue(quality),
+      value: leadValue(quality, bucket),
       currency: 'BRL',
       lead_quality: quality,
       tenure_months: tenureMonths,

@@ -363,7 +363,7 @@ export default function QuestionnaireV3() {
     sendServerEvent('Contact', contactEventId, { page: 'Quiz Simulacao CLT V3' })
 
     const extraData = {
-      value: leadValue(quality),
+      value: leadValue(quality, bucket),
       currency: 'BRL',
       content_name: 'Quiz Simulacao CLT V3 - WhatsApp',
       customer_type: consignadoStatus === 'none' ? 'new' : 'returning',
