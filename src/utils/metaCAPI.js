@@ -11,7 +11,6 @@ import { getMetaCookies } from './metaPixel'
 const CAPI_URL = 'https://painel.martinsfelipe.com/api/capi/meta'
 const CLIENT_ID = 'fenixcred'
 
-// External ID — identificação única do visitante persistida no localStorage
 export function getExternalId() {
   const key = 'fenix_external_id'
   let id = localStorage.getItem(key)
@@ -22,18 +21,46 @@ export function getExternalId() {
   return id
 }
 
-/**
- * Envia evento para o CAPI Server que:
- * 1. Valida e enriquece os dados (IP real, hashing SHA-256)
- * 2. Encaminha para a Conversions API do Meta (graph.facebook.com/v22.0)
- *
- * @param {string} eventName - Nome do evento (Lead, CompleteRegistration, Contact)
- * @param {string} eventId - UUID compartilhado com o pixel browser para deduplicação
- * @param {Object} userData - Dados do usuário { name, phone, city, state, purposes, page }
- * @param {Object} customData - Dados customizados { value, currency }
- */
+function splitName(fullName) {
+  if (!fullName) return {}
+  const parts = fullName.trim().split(/\s+/)
+  const result = { fn: parts[0].toLowerCase() }
+  if (parts.length > 1) result.ln = parts.slice(1).join(' ').toLowerCase()
+  return result
+}
+
+function normalizePhone(raw) {
+  if (!raw) return undefined
+  const digits = raw.replace(/\D/g, '')
+  if (digits.length === 10 || digits.length === 11) return '55' + digits
+  if (digits.length === 12 || digits.length === 13) return digits
+  return undefined
+}
+
+// Merge PII from all capture flows (Quiz, LeadPopup, EmailCapture)
+function enrichUserData(callerData = {}) {
+  const stored = JSON.parse(localStorage.getItem('fenix_lead_data') || '{}')
+  const storedEmail = localStorage.getItem('email')
+
+  const email = callerData.email || stored.email || storedEmail
+  const phone = callerData.phone || stored.phone || stored.whatsappNumber
+  const name = callerData.name || stored.name || localStorage.getItem('name')
+  const { fn, ln } = splitName(name)
+
+  return {
+    ...(email && { em: email.toLowerCase().trim() }),
+    ...(normalizePhone(phone) && { ph: normalizePhone(phone) }),
+    ...(fn && { fn }),
+    ...(ln && { ln }),
+    ...(callerData.city && { ct: callerData.city.toLowerCase().trim() }),
+    ...(callerData.state && { st: callerData.state.toLowerCase().trim() }),
+    country: 'br',
+  }
+}
+
 export function sendServerEvent(eventName, eventId, userData = {}, customData = {}) {
   const { fbc, fbp } = getMetaCookies()
+  const enriched = enrichUserData(userData)
 
   const payload = {
     client_id: CLIENT_ID,
@@ -45,12 +72,7 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
       fbp,
       external_id: getExternalId(),
       client_user_agent: navigator.userAgent,
-      country: 'br',
-      ...(userData.name && { name: userData.name }),
-      ...(userData.phone && { phone: userData.phone }),
-      ...(userData.city && { city: userData.city }),
-      ...(userData.state && { state: userData.state }),
-      ...(userData.email && { em: userData.email }),
+      ...enriched,
     },
     custom_data: {
       ...(userData.purposes && { purposes: userData.purposes }),
