@@ -79,3 +79,29 @@ export const trackCustomEvent = (eventName, params = {}, eventId) => {
   }
   trackGA4CustomEvent(eventName, params)
 }
+
+/**
+ * Re-init Advanced Matching with fresh PII from localStorage.
+ * Call after forms capture new email/phone/name so the Pixel
+ * sends enriched user_data without waiting for next page load.
+ */
+export function updateAdvancedMatching() {
+  if (!window.fbq) return
+  try {
+    const raw = localStorage.getItem('fenix_lead_data')
+    if (!raw) return
+    const lead = JSON.parse(raw)
+    const data = { country: 'br' }
+    if (lead.phone) {
+      const digits = String(lead.phone).replace(/\D/g, '')
+      data.ph = digits.startsWith('55') ? digits : '55' + digits
+    }
+    if (lead.name) {
+      const parts = String(lead.name).trim().toLowerCase().split(/\s+/)
+      if (parts[0]) data.fn = parts[0]
+      if (parts.length > 1) data.ln = parts.slice(1).join(' ')
+    }
+    if (lead.email) data.em = String(lead.email).trim().toLowerCase()
+    window.fbq('init', '2877752735949899', data)
+  } catch { /* localStorage or JSON parse error — skip silently */ }
+}

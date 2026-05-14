@@ -87,8 +87,8 @@ export default function FAQ({
               onClick={(e) => {
                 e.preventDefault()
                 const eventId = generateEventId()
-                trackEvent('Contact', { content_name: `FAQ ${ctaTag} WhatsApp`, content_category: 'whatsapp' }, eventId)
-                sendServerEvent('Contact', eventId, { page: `FAQ ${ctaTag}` })
+                trackEvent('Contact', { content_name: `FAQ ${ctaTag} WhatsApp`, content_category: 'whatsapp', value: 3, currency: 'BRL' }, eventId)
+                sendServerEvent('Contact', eventId, { page: `FAQ ${ctaTag}` }, { value: 3, currency: 'BRL' })
                 const msg = encodeURIComponent(tagMessage(`(${ctaTag}) Olá! Tenho algumas dúvidas sobre ${topic}.`))
                 window.open(`https://wa.me/5511917082143?text=${msg}`, '_blank', 'noopener,noreferrer')
               }}

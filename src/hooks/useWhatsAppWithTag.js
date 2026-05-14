@@ -40,6 +40,8 @@ export function useWhatsAppWithTag(tag) {
     trackEvent('Contact', {
       content_name: trackingName,
       content_category: 'whatsapp',
+      value: 3,
+      currency: 'BRL',
     }, eventId)
 
     sendServerEvent('Contact', eventId, {
@@ -48,6 +50,8 @@ export function useWhatsAppWithTag(tag) {
     }, {
       content_name: trackingName,
       content_category: 'whatsapp',
+      value: 3,
+      currency: 'BRL',
     })
 
     const encoded = encodeURIComponent(taggedMessage)

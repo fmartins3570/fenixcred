@@ -86,5 +86,9 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
     keepalive: true,
-  }).catch(() => {})
+  }).catch((err) => {
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn('[CAPI]', eventName, err.message || err)
+    }
+  })
 }

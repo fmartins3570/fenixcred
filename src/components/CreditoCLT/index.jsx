@@ -53,8 +53,8 @@ export default function CreditoCLT({ personalized = false }) {
 function WhatsAppFloatingButton() {
   const handleClick = () => {
     const eventId = generateEventId()
-    trackEvent('Contact', { content_name: 'WhatsApp Float CLT', content_category: 'whatsapp' }, eventId)
-    sendServerEvent('Contact', eventId, { page: 'CreditoCLT Float' })
+    trackEvent('Contact', { content_name: 'WhatsApp Float CLT', content_category: 'whatsapp', value: 3, currency: 'BRL' }, eventId)
+    sendServerEvent('Contact', eventId, { page: 'CreditoCLT Float' }, { value: 3, currency: 'BRL' })
     const message = encodeURIComponent(
       tagMessage("(clt) Olá! Gostaria de simular um crédito consignado CLT."),
     );

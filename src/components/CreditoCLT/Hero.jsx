@@ -93,7 +93,7 @@ export default function Hero({ personalized = false }) {
 
   const handlePersonalizedWhatsApp = () => {
     const eventId = generateEventId()
-    trackEvent('Contact', { content_name: 'Hero CLT Personalizado WhatsApp', content_category: 'whatsapp' }, eventId)
+    trackEvent('Contact', { content_name: 'Hero CLT Personalizado WhatsApp', content_category: 'whatsapp', value: 3, currency: 'BRL' }, eventId)
     sendServerEvent('Contact', eventId, {
       name: leadData?.name,
       phone: leadData?.phone?.replace(/\D/g, ''),
@@ -101,6 +101,8 @@ export default function Hero({ personalized = false }) {
     }, {
       content_name: 'Hero CLT Personalizado WhatsApp',
       content_category: 'whatsapp',
+      value: 3,
+      currency: 'BRL',
     })
     const selectedLabels = PURPOSES
       .filter((p) => (leadData?.purposes || []).includes(p.id))

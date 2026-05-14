@@ -1,4 +1,6 @@
 import { useWhatsAppWithTag } from '../../hooks/useWhatsAppWithTag'
+import { trackEvent, generateEventId } from '../../utils/metaPixel'
+import { sendServerEvent } from '../../utils/metaCAPI'
 import './FinalCTA.css'
 
 export default function FinalCTA({ tag, ctaText, mode }) {
@@ -6,6 +8,24 @@ export default function FinalCTA({ tag, ctaText, mode }) {
   const { openWhatsApp } = useWhatsAppWithTag(tag)
 
   const handleClick = () => {
+    // Lead event — consignado leads are mid-tier (not pre-qualified)
+    const leadEventId = generateEventId()
+    const contentName = isFgts ? `FinalCTA FGTS ${tag}` : `FinalCTA Consignado ${tag}`
+    trackEvent('Lead', {
+      value: 15,
+      currency: 'BRL',
+      content_name: contentName,
+      content_category: 'consignado',
+    }, leadEventId)
+    sendServerEvent('Lead', leadEventId, {
+      page: window.location.pathname,
+    }, {
+      value: 15,
+      currency: 'BRL',
+      content_name: contentName,
+      content_category: 'consignado',
+    })
+
     openWhatsApp(
       isFgts
         ? 'Olá! Gostaria de antecipar meu FGTS.'

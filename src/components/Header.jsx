@@ -26,8 +26,8 @@ function Header() {
   // Função para abrir WhatsApp
   const openWhatsApp = () => {
     const eventId = generateEventId()
-    trackEvent('Contact', { content_name: 'Header WhatsApp', content_category: 'whatsapp' }, eventId)
-    sendServerEvent('Contact', eventId, { page: 'Header' })
+    trackEvent('Contact', { content_name: 'Header WhatsApp', content_category: 'whatsapp', value: 3, currency: 'BRL' }, eventId)
+    sendServerEvent('Contact', eventId, { page: 'Header' }, { value: 3, currency: 'BRL' })
     const msg = encodeURIComponent(tagMessage('(nav) Olá, gostaria de simular o crédito para o CLT.'))
     window.open(`https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`, '_blank')
   }

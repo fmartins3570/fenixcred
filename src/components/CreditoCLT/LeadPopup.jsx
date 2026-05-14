@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useLeadData } from '../../hooks/credito-clt/useLeadData'
-import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
+import { trackEvent, trackCustomEvent, generateEventId, updateAdvancedMatching } from '../../utils/metaPixel'
 import { sendServerEvent } from '../../utils/metaCAPI'
 import './LeadPopup.css'
 
@@ -143,6 +143,8 @@ export default function LeadPopup() {
       capturedAt: new Date().toISOString(),
     }
     saveLead(leadData)
+    // Re-init Advanced Matching with fresh PII after lead capture
+    updateAdvancedMatching()
     sessionStorage.setItem(SESSION_KEY, '1')
     setOpen(false)
 

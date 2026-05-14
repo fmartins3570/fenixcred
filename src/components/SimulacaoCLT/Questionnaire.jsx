@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { WHATSAPP_NUMBER } from '../../utils/credito-clt/constants'
-import { trackEvent, trackCustomEvent, generateEventId } from '../../utils/metaPixel'
+import { trackEvent, trackCustomEvent, generateEventId, updateAdvancedMatching } from '../../utils/metaPixel'
 import { sendServerEvent, getExternalId } from '../../utils/metaCAPI'
 import { tagMessage } from '../../utils/utmParams'
 import { CREDITAS_LINKS, trackCreditasRedirect, trackCreditasRecoveryView } from '../../utils/creditas'
@@ -379,6 +379,9 @@ export default function Questionnaire() {
     sendServerEvent('Lead', leadEventId, {
       purposes: `quiz:${marginKey}:${bucket}`,
     }, extraData)
+
+    // Re-init Advanced Matching with fresh PII after Lead event
+    updateAdvancedMatching()
 
     window.open(
       `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,

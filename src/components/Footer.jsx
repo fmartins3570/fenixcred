@@ -13,8 +13,8 @@ import logoFM from '../assets/logo_fm_consultoria.webp';
 function Footer() {
   const openWhatsApp = () => {
     const eventId = generateEventId()
-    trackEvent('Contact', { content_name: 'Footer WhatsApp Float', content_category: 'whatsapp' }, eventId)
-    sendServerEvent('Contact', eventId, { page: 'Footer Float' })
+    trackEvent('Contact', { content_name: 'Footer WhatsApp Float', content_category: 'whatsapp', value: 3, currency: 'BRL' }, eventId)
+    sendServerEvent('Contact', eventId, { page: 'Footer Float' }, { value: 3, currency: 'BRL' })
     const msg = encodeURIComponent(tagMessage('(footer) Olá, gostaria de simular o crédito para o CLT.'))
     window.open(
       `https://api.whatsapp.com/send?phone=5511917082143&text=${msg}`,
@@ -159,8 +159,8 @@ function Footer() {
                     aria-label="Ligar para (11) 91708-2143"
                     onClick={() => {
                       const eventId = generateEventId()
-                      trackEvent('Contact', { content_name: 'Footer Telefone', content_category: 'phone' }, eventId)
-                      sendServerEvent('Contact', eventId, { page: 'Footer Telefone' })
+                      trackEvent('Contact', { content_name: 'Footer Telefone', content_category: 'phone', value: 3, currency: 'BRL' }, eventId)
+                      sendServerEvent('Contact', eventId, { page: 'Footer Telefone' }, { value: 3, currency: 'BRL' })
                     }}
                   >
                     (11) 91708-2143
@@ -174,8 +174,8 @@ function Footer() {
                     aria-label="Enviar email para contato@fenixcredbr.com.br"
                     onClick={() => {
                       const eventId = generateEventId()
-                      trackEvent('Contact', { content_name: 'Footer Email', content_category: 'email' }, eventId)
-                      sendServerEvent('Contact', eventId, { page: 'Footer Email' })
+                      trackEvent('Contact', { content_name: 'Footer Email', content_category: 'email', value: 3, currency: 'BRL' }, eventId)
+                      sendServerEvent('Contact', eventId, { page: 'Footer Email' }, { value: 3, currency: 'BRL' })
                     }}
                   >
                     contato@fenixcredbr.com.br

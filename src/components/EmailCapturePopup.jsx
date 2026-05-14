@@ -23,7 +23,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { trackEvent, trackCustomEvent, generateEventId } from '../utils/metaPixel'
+import { trackEvent, trackCustomEvent, generateEventId, updateAdvancedMatching } from '../utils/metaPixel'
 import { sendServerEvent } from '../utils/metaCAPI'
 import { hasConsented, hasResponded } from '../utils/cookieConsent'
 import './EmailCapturePopup.css'
@@ -327,6 +327,9 @@ export default function EmailCapturePopup() {
         ...(cleanName && { name: cleanName }),
       })
     }
+
+    // Re-init Advanced Matching with fresh PII
+    updateAdvancedMatching()
 
     setSuccess(true)
     setSubmitting(false)

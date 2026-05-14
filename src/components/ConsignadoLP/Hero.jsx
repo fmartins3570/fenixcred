@@ -45,6 +45,24 @@ export default function Hero({ angleData, tag }) {
   }, [tag, isFgts])
 
   const handleSimulate = (value, term, result) => {
+    // Lead event — consignado leads are mid-tier (not pre-qualified)
+    const leadEventId = generateEventId()
+    const contentName = isFgts ? `Simulador FGTS ${tag}` : `Simulador Consignado ${tag}`
+    trackEvent('Lead', {
+      value: 15,
+      currency: 'BRL',
+      content_name: contentName,
+      content_category: 'consignado',
+    }, leadEventId)
+    sendServerEvent('Lead', leadEventId, {
+      page: window.location.pathname,
+    }, {
+      value: 15,
+      currency: 'BRL',
+      content_name: contentName,
+      content_category: 'consignado',
+    })
+
     if (isFgts) {
       // In 'antecipado' mode, `result` is the net amount (see Simulator)
       openWhatsAppWithFgts(value, result)

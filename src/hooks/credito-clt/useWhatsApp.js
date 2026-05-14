@@ -23,10 +23,12 @@ export function useWhatsApp() {
 
   const openWhatsApp = (message = '(clt) Olá, gostaria de simular um crédito CLT', trackingName = 'WhatsApp CLT') => {
     const eventId = generateEventId()
-    trackEvent('Contact', { content_name: trackingName, content_category: 'whatsapp' }, eventId)
+    trackEvent('Contact', { content_name: trackingName, content_category: 'whatsapp', value: 3, currency: 'BRL' }, eventId)
     sendServerEvent('Contact', eventId, { ...getSavedLeadPII(), page: trackingName }, {
       content_name: trackingName,
       content_category: 'whatsapp',
+      value: 3,
+      currency: 'BRL',
     })
     const encodedMessage = encodeURIComponent(tagMessage(message))
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
