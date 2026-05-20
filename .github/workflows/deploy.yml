@@ -26,6 +26,7 @@ jobs:
         env:
           VITE_FENIX_PLACE_ID: ${{ secrets.VITE_FENIX_PLACE_ID }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+          VITE_CAPI_KEY: ${{ secrets.VITE_CAPI_KEY }}
 
       - name: Copy .htaccess to dist
         run: cp .htaccess dist/.htaccess

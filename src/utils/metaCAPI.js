@@ -10,6 +10,10 @@ import { getMetaCookies } from './metaPixel'
 
 const CAPI_URL = 'https://painel.martinsfelipe.com/api/capi/meta'
 const CLIENT_ID = 'fenixcred'
+// Bearer token required by the CAPI server (validated against clients.json api_key).
+// Injected at build time via VITE_CAPI_KEY. Origin is also restricted server-side
+// via allowed_origins, so an exposed bundle key is gated by the request Origin.
+const CAPI_KEY = import.meta.env.VITE_CAPI_KEY
 
 export function getExternalId() {
   const key = 'fenix_external_id'
@@ -83,12 +87,21 @@ export function sendServerEvent(eventName, eventId, userData = {}, customData = 
 
   fetch(CAPI_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(CAPI_KEY && { Authorization: `Bearer ${CAPI_KEY}` }),
+    },
     body: JSON.stringify(payload),
     keepalive: true,
-  }).catch((err) => {
-    if (typeof console !== 'undefined' && console.warn) {
-      console.warn('[CAPI]', eventName, err.message || err)
-    }
   })
+    .then((res) => {
+      if (!res.ok && typeof console !== 'undefined' && console.warn) {
+        console.warn('[CAPI]', eventName, 'HTTP', res.status)
+      }
+    })
+    .catch((err) => {
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn('[CAPI]', eventName, err.message || err)
+      }
+    })
 }
