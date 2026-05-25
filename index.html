@@ -483,6 +483,19 @@
 
         var advancedMatching = { country: 'br' };
         try {
+          // external_id: shared key with metaCAPI.js getExternalId(). Generate here
+          // if first visit so Pixel + CAPI share the same UUID on initial PageView
+          // (otherwise React-side CAPI generates later, missing dedup for 1st event).
+          var extKey = 'fenix_external_id';
+          var extId = localStorage.getItem(extKey);
+          if (!extId) {
+            extId = (crypto && crypto.randomUUID)
+              ? crypto.randomUUID()
+              : Date.now() + '-' + Math.random().toString(36).slice(2);
+            localStorage.setItem(extKey, extId);
+          }
+          advancedMatching.external_id = extId;
+
           var raw = localStorage.getItem('fenix_lead_data');
           if (raw) {
             var lead = JSON.parse(raw);
