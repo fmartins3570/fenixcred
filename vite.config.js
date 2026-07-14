@@ -51,6 +51,9 @@ export default defineConfig({
           if (id.includes("components/ConsignadoLP")) {
             return "consignado-lp";
           }
+          if (id.includes("components/Investidores")) {
+            return "investidores";
+          }
           if (id.includes("components/SimulacaoCLTV3")) {
             return "simulacao-clt-v3";
           }

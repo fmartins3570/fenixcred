@@ -178,6 +178,8 @@ CustomLog /dev/null combined env=dontlog
     RewriteRule ^consignado-negativado/?$ /dist/index.html [L]
     RewriteRule ^consignado-rapido/?$ /dist/index.html [L]
     RewriteRule ^consignado-clt/?$ /dist/index.html [L]
+    RewriteRule ^antecipacao-fgts/?$ /dist/index.html [L]
+    RewriteRule ^investidores/?$ /dist/index.html [L]
 
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
     RewriteCond %{REQUEST_FILENAME} !-f

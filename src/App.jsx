@@ -47,6 +47,7 @@ const SimulacaoCLTV3 = lazy(() => import("./components/SimulacaoCLTV3"));
 const SimulacaoCredito = lazy(() => import("./components/SimulacaoCredito"));
 const DataDeletion = lazy(() => import("./components/DataDeletion"));
 const ConsignadoLP = lazy(() => import("./components/ConsignadoLP"));
+const Investidores = lazy(() => import("./components/Investidores"));
 // Global exit-intent email capture — rendered on every marketing route
 const EmailCapturePopup = lazy(() => import("./components/EmailCapturePopup"));
 
@@ -77,6 +78,12 @@ function App() {
     }
     if (pathname === "/antecipacao-fgts" || pathname === "/antecipacao-fgts/") {
       setCurrentPage("antecipacao-fgts");
+      return;
+    }
+
+    // Apresentacao para investidores (nao indexada, sem tracking)
+    if (pathname === "/investidores" || pathname === "/investidores/") {
+      setCurrentPage("investidores");
       return;
     }
 
@@ -154,6 +161,11 @@ function App() {
       }
       if (newPathname === "/antecipacao-fgts" || newPathname === "/antecipacao-fgts/") {
         setCurrentPage("antecipacao-fgts");
+        return;
+      }
+
+      if (newPathname === "/investidores" || newPathname === "/investidores/") {
+        setCurrentPage("investidores");
         return;
       }
 
@@ -241,6 +253,25 @@ function App() {
         </Suspense>
         <Suspense fallback={null}>
           <EmailCapturePopup />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // Apresentacao para investidores — sem EmailCapturePopup e sem tracking de midia
+  if (currentPage === "investidores") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <Investidores />
         </Suspense>
       </div>
     );
