@@ -31,7 +31,7 @@ export default function Rodape() {
             {COMPANY.role}.
           </p>
           <p>
-            Referência jun/2026 ({REFERENCE.report}) · {REFERENCE.cut}.
+            {REFERENCE.label} · {REFERENCE.report}. {REFERENCE.cut}.
           </p>
           <p>Fontes primárias: {SOURCES.join(' · ')}.</p>
           <p className="inv-integrity-final">

@@ -1,17 +1,112 @@
 /**
  * Single source of truth for every number on the investor page.
  *
- * Every value here comes from the 27/jun/2026 primary-data report (FM Consultoria):
- * Meta Ads API (act_1234061875532331), CAPI leads.db (SSH), VendeAI dashboard and
- * the text of Portaria MTE no 1.115. No projections, no estimates, no invented
- * valuation/TAM. If a number is not in the report, it is not on the page.
+ * Sources, all primary, all queried directly:
+ * - Meta Ads API (act_1234061875532331) — spend, impressions, clicks, reach
+ * - CAPI leads.db, via SSH — events, proposals, leads
+ * - VendeAI dashboard — FGTS funnel
+ * - Portaria MTE no 1.115 — the regulation text
+ *
+ * No projections, no estimates, no invented valuation/TAM. If a number was not
+ * returned by one of those sources, it is not on the page.
  */
 
 export const REFERENCE = {
-  label: 'Dados de referência jun/2026',
-  cut: 'Corte 27/jun/2026 · janela de 30 dias · funil FGTS de 21 a 27/jun',
-  report: 'Relatório de dados primários, FM Consultoria, 27/06/2026',
+  label: 'Operação de fev/2026 a 14/jul/2026',
+  cut: 'Séries mensais até 14/jul/2026 · indicadores de originação em janela de 30 dias · funil FGTS de 21 a 27/jun',
+  report: 'Consultas diretas à Meta Ads API e à base CAPI leads.db',
 }
+
+/**
+ * Lifetime totals for the whole operation.
+ *
+ * `mediaSpend` is media only — it is the one investment figure that is auditable
+ * end to end in the Meta Ads API. Subscriptions, infrastructure, fees and hours
+ * are NOT included, because no source here holds them, and inventing a total
+ * would be the one thing that could discredit every other number on the page.
+ */
+export const INVESTMENT = {
+  mediaSpend: 30049.05,
+  since: '20/jan/2026',
+  until: '14/jul/2026',
+  impressions: 1742813,
+  clicks: 72460,
+  reach: 606954,
+  /** Distinct phone numbers in the CAPI base */
+  people: 33175,
+  /** Purchase events, deduplicated by conversation, mai–jul */
+  sales: 106,
+  /** Proposals with an approved balance, mai–jul */
+  proposals: 438,
+  /** Total credit offered, mai–jul */
+  offered: 1264467,
+  /** mediaSpend over the tracked window (mai–jul) divided by sales */
+  costPerSale: 204.73,
+}
+
+/**
+ * Month by month, fev/2026 → 14/jul/2026.
+ *
+ * `tracked` is the honest part. Media spend starts in Feb, but the CAPI server
+ * only went live on 19/apr — so Feb and Mar have real spend and NO funnel
+ * telemetry at all. Those months are not zero-performance; they are
+ * zero-measurement, and the page has to say so instead of plotting a 0 that
+ * reads as failure. April is partial for the same reason.
+ *
+ *   'none'    — spend is real, no CAPI telemetry existed
+ *   'partial' — CAPI came online mid-month (19/apr)
+ *   'full'    — complete telemetry
+ */
+export const TRACKING_START = '19/abr/2026'
+
+export const HISTORY = [
+  { month: 'fev', label: 'fev/2026', spend: 19.94, impressions: 18324, clicks: 6, tracked: 'none' },
+  { month: 'mar', label: 'mar/2026', spend: 3483.13, impressions: 93115, clicks: 3845, tracked: 'none' },
+  {
+    month: 'abr',
+    label: 'abr/2026',
+    spend: 4844.72,
+    impressions: 168190,
+    clicks: 6026,
+    tracked: 'partial',
+    note: 'CAPI entrou em 19/abr',
+  },
+  {
+    month: 'mai',
+    label: 'mai/2026',
+    spend: 8925.15,
+    impressions: 573773,
+    clicks: 24144,
+    tracked: 'full',
+    conversations: 11733,
+    proposals: 51,
+    sales: 45,
+  },
+  {
+    month: 'jun',
+    label: 'jun/2026',
+    spend: 10050.4,
+    impressions: 725058,
+    clicks: 30171,
+    tracked: 'full',
+    conversations: 15482,
+    proposals: 331,
+    sales: 55,
+  },
+  {
+    month: 'jul',
+    label: 'jul/2026',
+    spend: 2725.71,
+    impressions: 164353,
+    clicks: 8268,
+    tracked: 'full',
+    conversations: 3112,
+    proposals: 56,
+    sales: 6,
+    partialMonth: true,
+    note: 'Mês em curso · 1 a 14/jul',
+  },
+]
 
 export const COMPANY = {
   name: 'Fenix Cred',

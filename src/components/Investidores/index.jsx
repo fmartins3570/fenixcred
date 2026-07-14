@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Logo from '../Logo'
 import Scoreboard from './Scoreboard'
 import Metodologia from './Metodologia'
+import Historico from './Historico'
 import Producao from './Producao'
 import FunilFgts from './FunilFgts'
 import Margem from './Margem'
@@ -28,6 +29,7 @@ import './Investidores.css'
 const RAIL = [
   { id: 'scoreboard', label: 'Painel' },
   { id: 'metodologia', label: 'Como medimos' },
+  { id: 'historico', label: 'Histórico' },
   { id: 'producao', label: '01 · Originação' },
   { id: 'funil', label: '02 · Funil FGTS' },
   { id: 'margem', label: '03 · Margem' },
@@ -96,7 +98,7 @@ export default function Investidores() {
     const description = setMeta(
       'name',
       'description',
-      'Fenix Cred — indicadores da operação de crédito CLT e FGTS. Dados primários, referência jun/2026.'
+      'Fenix Cred — indicadores da operação de crédito CLT e FGTS. Dados primários, fev a jul/2026.'
     )
 
     return () => {
@@ -115,7 +117,7 @@ export default function Investidores() {
           <a href="/" className="inv-header-logo" aria-label="Fenix Cred — página inicial">
             <Logo size="small" />
           </a>
-          <span className="inv-header-tag">Indicadores da operação · ref. jun/2026</span>
+          <span className="inv-header-tag">Indicadores da operação · fev–jul/2026</span>
           <a href="#fontes" className="inv-header-cta">
             Fontes
           </a>
@@ -127,6 +129,7 @@ export default function Investidores() {
       <main>
         <Scoreboard />
         <Metodologia />
+        <Historico />
         <Producao />
         <FunilFgts />
         <Margem />
