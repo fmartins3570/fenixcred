@@ -60,15 +60,21 @@ require_once __DIR__ . '/controllers/PostsController.php';
 
 $results = ['tables' => 'ok'];
 
-$email = $cfg['admin_email'] ?? 'contato@fenixcredbr.com.br';
+$email = strtolower(trim((string) ($cfg['admin_email'] ?? 'contato@fenixcredbr.com.br')));
 $name = $cfg['admin_name'] ?? 'Fênix Cred';
-$stmt = $pdo->prepare('SELECT id FROM admin_users WHERE email = :email');
+$reset = isset($_GET['reset']) && $_GET['reset'] === '1';
+$stmt = $pdo->prepare('SELECT id FROM admin_users WHERE lower(email) = :email');
 $stmt->execute(['email' => $email]);
 $existingAdmin = $stmt->fetch();
 
 $generatedPassword = null;
+$plain = $cfg['admin_password'] ?: bin2hex(random_bytes(8));
+$hash = password_hash($plain, PASSWORD_DEFAULT);
+if ($hash === false) {
+    jsonError('password_hash failed', 500);
+}
+
 if (!$existingAdmin) {
-    $plain = $cfg['admin_password'] ?: bin2hex(random_bytes(8));
     if (empty($cfg['admin_password'])) {
         $generatedPassword = $plain;
     }
@@ -77,10 +83,20 @@ if (!$existingAdmin) {
     );
     $ins->execute([
         'email' => $email,
-        'hash'  => password_hash($plain, PASSWORD_DEFAULT),
+        'hash'  => $hash,
         'nome'  => $name,
     ]);
     $results['admin'] = 'created';
+} elseif ($reset) {
+    $upd = $pdo->prepare('UPDATE admin_users SET email = :email, password_hash = :hash, nome = :nome WHERE id = :id');
+    $upd->execute([
+        'email' => $email,
+        'hash'  => $hash,
+        'nome'  => $name,
+        'id'    => $existingAdmin['id'],
+    ]);
+    $generatedPassword = $plain;
+    $results['admin'] = 'reset';
 } else {
     $results['admin'] = 'exists';
 }
@@ -146,4 +162,6 @@ if ($generatedPassword) {
 }
 
 $results['admin_url'] = ($cfg['site_url'] ?? '') . '/admin/index.php';
+$results['db_path'] = loadConfig()['db_path'] ?? null;
+$results['admin_count'] = (int) $pdo->query('SELECT COUNT(*) FROM admin_users')->fetchColumn();
 jsonResponse($results);

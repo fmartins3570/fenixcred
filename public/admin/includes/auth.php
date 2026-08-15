@@ -5,13 +5,14 @@ declare(strict_types=1);
 require_once dirname(__DIR__, 2) . '/api/bootstrap.php';
 require_once dirname(__DIR__, 2) . '/api/db.php';
 
-$secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+$https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https');
 session_set_cookie_params([
     'lifetime' => 8 * 3600,
-    'path'     => '/admin',
-    'secure'   => $secure,
+    'path'     => '/',
+    'secure'   => $https,
     'httponly' => true,
-    'samesite' => 'Strict',
+    'samesite' => 'Lax',
 ]);
 session_start();
 

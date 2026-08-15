@@ -13,24 +13,33 @@ $error = '';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     verifyCsrf();
-    $email = trim((string) ($_POST['email'] ?? ''));
+    $email = strtolower(trim((string) ($_POST['email'] ?? '')));
     $password = (string) ($_POST['password'] ?? '');
 
     if ($email !== '' && $password !== '') {
-        $pdo = getDB();
-        $stmt = $pdo->prepare('SELECT id, email, password_hash, nome FROM admin_users WHERE email = :email');
-        $stmt->execute(['email' => $email]);
-        $user = $stmt->fetch();
-        if ($user && password_verify($password, $user['password_hash'])) {
-            session_regenerate_id(true);
-            $_SESSION['admin_user_id'] = $user['id'];
-            $_SESSION['admin_user_nome'] = $user['nome'];
-            $_SESSION['admin_user_email'] = $user['email'];
-            header('Location: dashboard.php');
-            exit;
+        try {
+            $pdo = getDB();
+            $stmt = $pdo->prepare('SELECT id, email, password_hash, nome FROM admin_users WHERE lower(email) = :email');
+            $stmt->execute(['email' => $email]);
+            $user = $stmt->fetch();
+            if ($user && is_string($user['password_hash']) && password_verify($password, $user['password_hash'])) {
+                session_regenerate_id(true);
+                $_SESSION['admin_user_id'] = $user['id'];
+                $_SESSION['admin_user_nome'] = $user['nome'];
+                $_SESSION['admin_user_email'] = $user['email'];
+                header('Location: dashboard.php');
+                exit;
+            }
+            $count = (int) $pdo->query('SELECT COUNT(*) FROM admin_users')->fetchColumn();
+            $error = $count === 0
+                ? 'Nenhum usuário no banco deste painel. Rode a migração de novo.'
+                : 'Email ou senha incorretos.';
+        } catch (Throwable $e) {
+            $error = 'Não foi possível ler o banco do painel.';
         }
+    } else {
+        $error = 'Email ou senha incorretos.';
     }
-    $error = 'Email ou senha incorretos.';
 }
 
 $pageTitle = 'Entrar';

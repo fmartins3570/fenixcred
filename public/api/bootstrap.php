@@ -15,7 +15,31 @@ declare(strict_types=1);
 
 function persistRoot(): string
 {
-    return dirname(__DIR__, 2);
+    static $root = null;
+    if ($root !== null) {
+        return $root;
+    }
+
+    $here = dirname(__DIR__);
+    $doc = rtrim((string) ($_SERVER['DOCUMENT_ROOT'] ?? ''), '/');
+    $candidates = array_values(array_unique(array_filter([
+        dirname($here),
+        $here,
+        $doc,
+        $doc !== '' ? dirname($doc) : '',
+    ])));
+
+    foreach ($candidates as $dir) {
+        if (is_file($dir . '/data/artigos.sqlite') || is_file($dir . '/data/config.php')) {
+            return $root = $dir;
+        }
+    }
+
+    if (basename($here) === 'dist') {
+        return $root = dirname($here);
+    }
+
+    return $root = dirname($here);
 }
 
 function dataDir(): string
