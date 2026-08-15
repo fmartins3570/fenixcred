@@ -28,7 +28,7 @@ function Footer() {
         <div className="footer-content">
           {/* Coluna 1: Sobre */}
           <div className="footer-column">
-            <a href="#inicio" className="footer-logo-link">
+            <a href="/" className="footer-logo-link">
               <Logo size="small" />
             </a>
             <p>
@@ -81,31 +81,28 @@ function Footer() {
             <h4>Links Rápidos</h4>
             <ul>
               <li>
-                <a href="#inicio">Home</a>
+                <a href="/#inicio">Home</a>
               </li>
               <li>
-                <a href="#sobre">Sobre Nós</a>
+                <a href="/#sobre">Sobre Nós</a>
               </li>
               <li>
-                <a href="#servicos">Serviços</a>
+                <a href="/#servicos">Serviços</a>
               </li>
               <li>
-                <a href="#depoimentos">Depoimentos</a>
+                <a href="/artigos">Artigos</a>
               </li>
               <li>
-                <a href="#parceiros">Parceiros</a>
+                <a href="/#depoimentos">Depoimentos</a>
               </li>
               <li>
-                <a href="#faq">FAQ</a>
+                <a href="/#parceiros">Parceiros</a>
               </li>
               <li>
-                <a
-                  href="#politica-privacidade"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.hash = "politica-privacidade";
-                  }}
-                >
+                <a href="/#faq">FAQ</a>
+              </li>
+              <li>
+                <a href="/#politica-privacidade">
                   Política de Privacidade
                 </a>
               </li>
@@ -117,16 +114,16 @@ function Footer() {
             <h4>Nossos Serviços</h4>
             <ul>
               <li>
-                <a href="#servicos">Empréstimo Consignado</a>
+                <a href="/#servicos">Empréstimo Consignado</a>
               </li>
               <li>
-                <a href="#servicos">Empréstimo Pessoal</a>
+                <a href="/#servicos">Empréstimo Pessoal</a>
               </li>
               <li>
-                <a href="#servicos">Financiamento Veicular</a>
+                <a href="/#servicos">Financiamento Veicular</a>
               </li>
               <li>
-                <a href="#servicos">Crédito Imobiliário</a>
+                <a href="/#servicos">Crédito Imobiliário</a>
               </li>
             </ul>
           </div>

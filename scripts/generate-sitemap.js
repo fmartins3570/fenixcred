@@ -16,6 +16,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { ARTIGOS } from '../src/data/artigos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,6 +54,7 @@ function getComponentModDate(sectionId) {
     'trabalhe-conosco': 'TrabalheConosco.jsx',
     'politica-privacidade': 'PrivacyPolicy.jsx',
     'antecipacao-fgts': 'ConsignadoLP/index.jsx',
+    'artigos': 'Artigos/index.jsx',
   };
 
   const componentFile = componentMap[sectionId];
@@ -139,7 +141,22 @@ function generateSitemap() {
       changefreq: 'weekly',
       priority: '0.90',
       description: 'Landing Page - Antecipação FGTS'
-    }
+    },
+    {
+      loc: `${baseUrl}/artigos`,
+      sectionId: 'artigos',
+      changefreq: 'weekly',
+      priority: '0.85',
+      description: 'Listagem de artigos'
+    },
+    ...ARTIGOS.map((artigo) => ({
+      loc: `${baseUrl}/artigos/${artigo.slug}`,
+      sectionId: 'artigos',
+      changefreq: 'monthly',
+      priority: '0.75',
+      description: artigo.titulo,
+      lastmod: `${artigo.data}T12:00:00.000Z`,
+    })),
   ];
 
   // Gerar XML
@@ -150,7 +167,7 @@ function generateSitemap() {
 
   urls.forEach((url, index) => {
     // Obter data de modificação real
-    const lastmod = getComponentModDate(url.sectionId);
+    const lastmod = url.lastmod || getComponentModDate(url.sectionId);
     
     xml += `  <!-- ${url.description} -->\n`;
     xml += `  <url>\n`;

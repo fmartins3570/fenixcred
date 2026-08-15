@@ -14,6 +14,10 @@ dist-ssr
 .env.local
 .env.*.local
 
+# Painel de artigos — persiste fora do deploy
+/data/
+/uploads/
+
 # Isolated Codex implementation worktrees
 .worktrees/
 

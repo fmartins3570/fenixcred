@@ -48,11 +48,55 @@ const SimulacaoCredito = lazy(() => import("./components/SimulacaoCredito"));
 const DataDeletion = lazy(() => import("./components/DataDeletion"));
 const ConsignadoLP = lazy(() => import("./components/ConsignadoLP"));
 const Investidores = lazy(() => import("./components/Investidores"));
+const Artigos = lazy(() => import("./components/Artigos"));
+const Artigo = lazy(() => import("./components/Artigos/Article"));
 // Global exit-intent email capture — rendered on every marketing route
 const EmailCapturePopup = lazy(() => import("./components/EmailCapturePopup"));
 
+const PATH_PAGES = {
+  "/consignado-negativado": "consignado-negativado",
+  "/consignado-rapido": "consignado-rapido",
+  "/consignado-clt": "consignado-clt",
+  "/antecipacao-fgts": "antecipacao-fgts",
+  "/investidores": "investidores",
+  "/simulacao-consignado-clt": "simulacao-clt",
+  "/simulacao-clt-v2": "simulacao-clt-v2",
+  "/simulacao-clt-v3": "simulacao-clt-v3",
+  "/simulacao-credito-garantia": "simulacao-credito",
+  "/page-credito-clt-personalizado": "credito-clt-personalizado",
+  "/page-credito-clt": "credito-clt",
+  "/politica-privacidade": "privacy-standalone",
+  "/exclusao-de-dados": "data-deletion",
+};
+
+function normalizePath(pathname) {
+  if (!pathname || pathname === "/") return "/";
+  return pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+}
+
+function resolveLocation(pathname, hash) {
+  const path = normalizePath(pathname);
+  if (path === "/artigos") return { page: "artigos", slug: null };
+  if (path.startsWith("/artigos/")) {
+    const slug = path.slice("/artigos/".length);
+    if (slug && !slug.includes("/")) return { page: "artigo", slug };
+  }
+  if (PATH_PAGES[path]) return { page: PATH_PAGES[path], slug: null };
+  if ((hash || "").replace("#", "") === "politica-privacidade") {
+    return { page: "privacy", slug: null };
+  }
+  return { page: "home", slug: null };
+}
+
+function getInitialLocation() {
+  if (typeof window === "undefined") return { page: "home", slug: null };
+  return resolveLocation(window.location.pathname, window.location.hash);
+}
+
 function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const initialLocation = getInitialLocation();
+  const [currentPage, setCurrentPage] = useState(initialLocation.page);
+  const [artigoSlug, setArtigoSlug] = useState(initialLocation.slug);
   const activeSection = useActiveSection();
   // Manter ordem de hooks estável entre rotas
   const [shouldLoadReviews, reviewsRef] = useLazyComponent("300px");
@@ -61,167 +105,18 @@ function App() {
   const [shouldLoadTrabalhe, trabalheRef] = useLazyComponent("300px");
 
   useEffect(() => {
-    const pathname = window.location.pathname;
-
-    // Landing pages por angulo — ConsignadoLP
-    if (pathname === "/consignado-negativado" || pathname === "/consignado-negativado/") {
-      setCurrentPage("consignado-negativado");
-      return;
-    }
-    if (pathname === "/consignado-rapido" || pathname === "/consignado-rapido/") {
-      setCurrentPage("consignado-rapido");
-      return;
-    }
-    if (pathname === "/consignado-clt" || pathname === "/consignado-clt/") {
-      setCurrentPage("consignado-clt");
-      return;
-    }
-    if (pathname === "/antecipacao-fgts" || pathname === "/antecipacao-fgts/") {
-      setCurrentPage("antecipacao-fgts");
-      return;
-    }
-
-    // Apresentacao para investidores (nao indexada, sem tracking)
-    if (pathname === "/investidores" || pathname === "/investidores/") {
-      setCurrentPage("investidores");
-      return;
-    }
-
-    // Verifica o pathname para simulação consignado CLT (questionário interativo)
-    if (pathname === "/simulacao-consignado-clt" || pathname === "/simulacao-consignado-clt/") {
-      setCurrentPage("simulacao-clt");
-      return;
-    }
-
-    // V2 quiz — 4 perguntas, validação
-    if (pathname === "/simulacao-clt-v2" || pathname === "/simulacao-clt-v2/") {
-      setCurrentPage("simulacao-clt-v2");
-      return;
-    }
-
-    // V3 quiz — 4 perguntas + calculadora obrigatória
-    if (pathname === "/simulacao-clt-v3" || pathname === "/simulacao-clt-v3/") {
-      setCurrentPage("simulacao-clt-v3");
-      return;
-    }
-
-    // Simulação crédito com garantia (Creditas recovery flow)
-    if (pathname === "/simulacao-credito-garantia" || pathname === "/simulacao-credito-garantia/") {
-      setCurrentPage("simulacao-credito");
-      return;
-    }
-
-    // Verifica o pathname para landing page CLT personalizada (com popup + greeting)
-    if (pathname === "/page-credito-clt-personalizado" || pathname === "/page-credito-clt-personalizado/") {
-      setCurrentPage("credito-clt-personalizado");
-      return;
-    }
-
-    // Verifica o pathname para landing page CLT (sem popup)
-    if (pathname === "/page-credito-clt" || pathname === "/page-credito-clt/") {
-      setCurrentPage("credito-clt");
-      return;
-    }
-
-    // Verifica o pathname para política de privacidade (URL standalone para Meta Developers)
-    if (pathname === "/politica-privacidade" || pathname === "/politica-privacidade/") {
-      setCurrentPage("privacy-standalone");
-      return;
-    }
-
-    // Verifica o pathname para exclusão de dados (Meta Developers - Data Deletion)
-    if (pathname === "/exclusao-de-dados" || pathname === "/exclusao-de-dados/") {
-      setCurrentPage("data-deletion");
-      return;
-    }
-
-    // Verifica o hash na URL ao carregar a página
-    const hash = window.location.hash.replace("#", "");
-    if (hash === "politica-privacidade") {
-      setCurrentPage("privacy");
-    } else {
-      setCurrentPage("home");
-    }
-
-    // Escuta mudanças no pathname e hash
-    const handleLocationChange = () => {
-      const newPathname = window.location.pathname;
-      // Landing pages por angulo — ConsignadoLP
-      if (newPathname === "/consignado-negativado" || newPathname === "/consignado-negativado/") {
-        setCurrentPage("consignado-negativado");
-        return;
-      }
-      if (newPathname === "/consignado-rapido" || newPathname === "/consignado-rapido/") {
-        setCurrentPage("consignado-rapido");
-        return;
-      }
-      if (newPathname === "/consignado-clt" || newPathname === "/consignado-clt/") {
-        setCurrentPage("consignado-clt");
-        return;
-      }
-      if (newPathname === "/antecipacao-fgts" || newPathname === "/antecipacao-fgts/") {
-        setCurrentPage("antecipacao-fgts");
-        return;
-      }
-
-      if (newPathname === "/investidores" || newPathname === "/investidores/") {
-        setCurrentPage("investidores");
-        return;
-      }
-
-      if (newPathname === "/simulacao-consignado-clt" || newPathname === "/simulacao-consignado-clt/") {
-        setCurrentPage("simulacao-clt");
-        return;
-      }
-
-      if (newPathname === "/simulacao-clt-v2" || newPathname === "/simulacao-clt-v2/") {
-        setCurrentPage("simulacao-clt-v2");
-        return;
-      }
-
-      if (newPathname === "/simulacao-clt-v3" || newPathname === "/simulacao-clt-v3/") {
-        setCurrentPage("simulacao-clt-v3");
-        return;
-      }
-
-      if (newPathname === "/simulacao-credito-garantia" || newPathname === "/simulacao-credito-garantia/") {
-        setCurrentPage("simulacao-credito");
-        return;
-      }
-
-      if (newPathname === "/page-credito-clt-personalizado" || newPathname === "/page-credito-clt-personalizado/") {
-        setCurrentPage("credito-clt-personalizado");
-        return;
-      }
-
-      if (newPathname === "/page-credito-clt" || newPathname === "/page-credito-clt/") {
-        setCurrentPage("credito-clt");
-        return;
-      }
-
-      if (newPathname === "/politica-privacidade" || newPathname === "/politica-privacidade/") {
-        setCurrentPage("privacy-standalone");
-        return;
-      }
-
-      if (newPathname === "/exclusao-de-dados" || newPathname === "/exclusao-de-dados/") {
-        setCurrentPage("data-deletion");
-        return;
-      }
-
-      const newHash = window.location.hash.replace("#", "");
-      if (newHash === "politica-privacidade") {
-        setCurrentPage("privacy");
-      } else {
-        setCurrentPage("home");
-      }
+    const applyLocation = () => {
+      const { page, slug } = resolveLocation(window.location.pathname, window.location.hash);
+      setCurrentPage(page);
+      setArtigoSlug(slug);
     };
 
-    window.addEventListener("hashchange", handleLocationChange);
-    window.addEventListener("popstate", handleLocationChange);
+    applyLocation();
+    window.addEventListener("hashchange", applyLocation);
+    window.addEventListener("popstate", applyLocation);
     return () => {
-      window.removeEventListener("hashchange", handleLocationChange);
-      window.removeEventListener("popstate", handleLocationChange);
+      window.removeEventListener("hashchange", applyLocation);
+      window.removeEventListener("popstate", applyLocation);
     };
   }, []);
 
@@ -401,6 +296,50 @@ function App() {
           }
         >
           <CreditoCLT />
+        </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // Listagem de artigos (modelo Mariano Santana)
+  if (currentPage === "artigos") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <Artigos />
+        </Suspense>
+        <Suspense fallback={null}>
+          <EmailCapturePopup />
+        </Suspense>
+      </div>
+    );
+  }
+
+  // Artigo individual
+  if (currentPage === "artigo") {
+    return (
+      <div className="App">
+        <Suspense
+          fallback={
+            <div
+              style={{ padding: "2rem", textAlign: "center", color: "#fff" }}
+            >
+              Carregando...
+            </div>
+          }
+        >
+          <Artigo slug={artigoSlug} />
         </Suspense>
         <Suspense fallback={null}>
           <EmailCapturePopup />

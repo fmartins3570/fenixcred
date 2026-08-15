@@ -11,6 +11,18 @@
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+    # Dados persistentes do painel de artigos — fora do /dist
+    RewriteRule ^data/ - [F,L]
+    RewriteRule ^uploads/ - [L]
+
+    # API e admin (PHP em /dist após o build)
+    RewriteRule ^api/migrate\.php$ /dist/api/migrate.php [L,QSA]
+    RewriteRule ^api/sitemap\.php$ /dist/api/sitemap.php [L,QSA]
+    RewriteRule ^api(/.*)?$ /dist/api/index.php [L,QSA]
+    RewriteRule ^admin/?$ /dist/admin/index.php [L]
+    RewriteRule ^admin/([A-Za-z0-9._-]+\.(php|css|js))$ /dist/admin/$1 [L]
+    RewriteRule ^admin/assets/(.+)$ /dist/admin/assets/$1 [L]
+
     # Servir arquivos da pasta dist/ (deploy via Git)
     # Se não é um arquivo/pasta existente na raiz, buscar em dist/
     RewriteCond %{REQUEST_URI} !^/dist/
@@ -123,7 +135,7 @@
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     
     # CSP - Content Security Policy (segurança XSS)
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://maps.gstatic.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://www.facebook.com https://painel.martinsfelipe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://maps.gstatic.com https://connect.facebook.net https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://www.facebook.com https://painel.martinsfelipe.com https://cdn.jsdelivr.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests;"
     
     # HSTS - HTTP Strict Transport Security (força HTTPS)
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
@@ -180,6 +192,8 @@ CustomLog /dev/null combined env=dontlog
     RewriteRule ^consignado-clt/?$ /dist/index.html [L]
     RewriteRule ^antecipacao-fgts/?$ /dist/index.html [L]
     RewriteRule ^investidores/?$ /dist/index.html [L]
+    RewriteRule ^artigos/?$ /dist/index.html [L]
+    RewriteRule ^artigos/[^/]+/?$ /dist/index.html [L]
 
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
     RewriteCond %{REQUEST_FILENAME} !-f

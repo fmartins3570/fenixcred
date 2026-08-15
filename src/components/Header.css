@@ -213,6 +213,11 @@
 @media (min-width: 1024px) {
   .nav-desktop {
     display: flex;
+    gap: 6px;
+  }
+
+  .nav-desktop a {
+    font-size: 0.86rem;
   }
 
   .btn-whatsapp-header {

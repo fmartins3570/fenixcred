@@ -45,6 +45,9 @@ src/
     credito-clt/
       useLeadData.js        # Gerencia dados de lead CLT
       useWhatsApp.js        # WhatsApp especifico para fluxo CLT
+  data/
+    artigos.js              # Catalogo de artigos (slug, SEO, helpers)
+    artigos-content.js      # Corpo dos artigos (secoes)
   utils/
     analytics.js            # Google Analytics (GA4 init/fallback)
     metaPixel.js            # Meta Pixel (fbq helper, generateEventId, cookies)
@@ -100,6 +103,11 @@ src/
       sections/             # Sub-secoes modulares
       seo/                  # SEO especifico (schema, meta)
       ui/                   # Componentes UI reutilizaveis
+    Artigos/                # Blog/artigos (modelo Mariano Santana)
+      index.jsx             # Listagem /artigos
+      Article.jsx           # Detalhe /artigos/:slug
+      ArticleBody.jsx       # Renderer do corpo (markdown-lite)
+      ArticleCard.jsx       # Card da grade
     SimulacaoCLT/           # Questionario interativo de pre-qualificacao
       index.jsx             # Entry point
       Hero.jsx              # Hero do quiz
@@ -130,6 +138,10 @@ O roteamento e feito manualmente em `App.jsx` via `window.location.pathname` (se
 | `/simulacao-consignado-clt` | Simulador | Quiz interativo de pre-qualificacao -> WhatsApp |
 | `/politica-privacidade` | Estatica | Politica de privacidade (LGPD + Meta Data Deletion) |
 | `/exclusao-de-dados` | Estatica | Instrucoes de exclusao de dados (Meta Developers) |
+| `/artigos` | Conteudo | Listagem de artigos (hero + grade) |
+| `/artigos/:slug` | Conteudo | Artigo individual + relacionados + CTA |
+| `/admin/` | Painel | Login + CRUD de artigos (SQLite fora do `/dist`) |
+| `/api/posts` | API | Lista/detalhe publicados — o site lê em tempo real |
 | `/#politica-privacidade` | Hash | Politica de privacidade com header/footer do site |
 
 ## Integracoes
