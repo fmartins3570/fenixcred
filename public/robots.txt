@@ -86,3 +86,4 @@ Allow: /robots.txt
 
 # Localização do sitemap
 Sitemap: https://fenixcredbr.com.br/sitemap.xml
+Sitemap: https://fenixcredbr.com.br/api/sitemap.php

@@ -1,0 +1,455 @@
+/* Artigos — editorial listing + article, Fenix palette, Mariano Santana model */
+
+.artigos-page {
+  background: var(--bg-dark);
+}
+
+.artigos-page main {
+  padding-top: 4.75rem;
+}
+
+.artigos-hero {
+  position: relative;
+  padding: 4.5rem 1.5rem 3.5rem;
+  overflow: hidden;
+}
+
+.artigos-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 70% at 90% 0%, rgba(253, 177, 71, 0.08), transparent 55%),
+    linear-gradient(180deg, rgba(3, 3, 24, 0.4), transparent);
+  pointer-events: none;
+}
+
+.artigos-hero-inner {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.artigos-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+
+.artigos-breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.artigos-breadcrumb li:not(:last-child)::after {
+  content: "/";
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.artigos-page .artigos-breadcrumb a {
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-weight: 500;
+}
+
+.artigos-page .artigos-breadcrumb a:hover {
+  color: var(--primary-yellow) !important;
+}
+
+.artigos-eyebrow {
+  margin: 0 0 0.85rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--primary-yellow);
+}
+
+.artigos-hero h1 {
+  max-width: 18ch;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.artigos-hero-sub {
+  max-width: 58ch;
+  margin: 1.15rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.artigos-hero-rule {
+  display: block;
+  width: 3rem;
+  height: 2px;
+  margin-top: 1.5rem;
+  background: var(--primary-yellow);
+}
+
+.artigos-page .artigos-back {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--primary-yellow) !important;
+  font-weight: 600;
+}
+
+.artigos-listing {
+  padding: 0 1.5rem 5rem;
+}
+
+.artigos-listing-inner,
+.artigos-related-inner,
+.artigos-cta-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.artigos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.artigos-grid li {
+  animation: artigos-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--card-index, 0) * 80ms);
+}
+
+@keyframes artigos-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.artigos-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.artigos-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(253, 177, 71, 0.28);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.artigos-card-image {
+  display: block;
+  width: 100%;
+  height: 11rem;
+  object-fit: cover;
+}
+
+.artigos-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.25rem 1.3rem 1.35rem;
+}
+
+.artigos-card-tag {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-yellow);
+}
+
+.artigos-card-title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.artigos-page .artigos-card-title a {
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.artigos-page .artigos-card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.artigos-page .artigos-card:hover .artigos-card-title a {
+  color: var(--primary-yellow) !important;
+}
+
+.artigos-card-excerpt {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.artigos-card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.7rem;
+}
+
+.artigos-card-cta {
+  color: var(--primary-yellow);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.artigos-detail {
+  padding: 0 1.5rem 4rem;
+}
+
+.artigos-detail-inner {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.artigos-byline {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}
+
+.artigos-cover {
+  margin: 1.75rem 0 0;
+}
+
+.artigos-cover img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0.9rem;
+}
+
+.artigos-cover figcaption {
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 0.7rem;
+}
+
+.artigos-prose {
+  margin-top: 2.4rem;
+}
+
+.artigos-prose p,
+.artigos-prose li {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.artigos-prose p {
+  margin: 1.05rem 0 0;
+}
+
+.artigos-prose h2 {
+  margin: 2.4rem 0 0;
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.artigos-prose h3 {
+  margin: 1.85rem 0 0;
+  color: #fff;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.artigos-prose strong {
+  color: #fff;
+  font-weight: 650;
+}
+
+.artigos-prose ul,
+.artigos-prose ol {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.artigos-prose li + li {
+  margin-top: 0.45rem;
+}
+
+.artigos-prose ul {
+  list-style: disc;
+}
+
+.artigos-prose ul li::marker {
+  color: var(--primary-yellow);
+}
+
+.artigos-table-wrap {
+  margin-top: 1.4rem;
+  overflow-x: auto;
+}
+
+.artigos-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.artigos-table th,
+.artigos-table td {
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+  vertical-align: top;
+}
+
+.artigos-table th {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  font-weight: 600;
+}
+
+.artigos-table td {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.artigos-related {
+  padding: 4rem 1.5rem;
+  background: var(--bg-darker);
+}
+
+.artigos-related h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 600;
+}
+
+.artigos-related-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0 0;
+}
+
+.artigos-card--compact .artigos-card-image {
+  height: 8rem;
+}
+
+.artigos-cta {
+  padding: 4.5rem 1.5rem 5rem;
+}
+
+.artigos-cta-inner {
+  max-width: 40rem;
+}
+
+.artigos-cta h2 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.artigos-cta p {
+  max-width: 42ch;
+  margin: 0.9rem 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.6;
+}
+
+.artigos-cta-btn {
+  margin-top: 1.6rem;
+  min-height: 48px;
+  padding: 0.85rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: #0d7a3a;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.artigos-cta-btn:hover {
+  background: #0a5d2b;
+  transform: translateY(-2px);
+}
+
+.artigos-cta-btn:active {
+  transform: translateY(0);
+}
+
+@media (min-width: 700px) {
+  .artigos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .artigos-related-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .artigos-hero,
+  .artigos-listing,
+  .artigos-cta,
+  .artigos-related,
+  .artigos-detail {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .artigos-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artigos-grid li {
+    animation: none;
+  }
+
+  .artigos-card,
+  .artigos-cta-btn {
+    transition: none;
+  }
+}

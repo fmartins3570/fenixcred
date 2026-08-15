@@ -54,6 +54,9 @@ export default defineConfig({
           if (id.includes("components/Investidores")) {
             return "investidores";
           }
+          if (id.includes("components/Artigos")) {
+            return "artigos";
+          }
           if (id.includes("components/SimulacaoCLTV3")) {
             return "simulacao-clt-v3";
           }

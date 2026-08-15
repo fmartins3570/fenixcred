@@ -36,56 +36,63 @@ function Header() {
     <header className="header">
       <div className="header-container">
         {/* Logo Fênix Cred */}
-        <a href="#inicio" className="logo-link">
+        <a href="/" className="logo-link">
           <Logo size="medium" />
         </a>
 
         {/* Menu de navegação desktop */}
         <nav className="nav-desktop" aria-label="Navegação principal">
           <a 
-            href="#inicio" 
+            href="/#inicio" 
             aria-label="Ir para seção inicial"
             className={activeSection === 'inicio' ? 'active' : ''}
           >
             Home
           </a>
           <a 
-            href="#sobre" 
+            href="/#sobre" 
             aria-label="Ir para seção sobre nós"
             className={activeSection === 'sobre' ? 'active' : ''}
           >
             Sobre Nós
           </a>
           <a 
-            href="#servicos" 
+            href="/#servicos" 
             aria-label="Ir para seção de serviços"
             className={activeSection === 'servicos' ? 'active' : ''}
           >
             Serviços
           </a>
           <a 
-            href="#depoimentos" 
+            href="/artigos" 
+            aria-label="Ir para artigos"
+            className={typeof window !== 'undefined' && window.location.pathname.startsWith('/artigos') ? 'active' : ''}
+          >
+            Artigos
+          </a>
+          <a 
+            href="/#depoimentos" 
             aria-label="Ir para seção de depoimentos"
             className={activeSection === 'depoimentos' ? 'active' : ''}
           >
             Depoimentos
           </a>
           <a 
-            href="#parceiros" 
+            href="/#parceiros" 
             aria-label="Ir para seção de parceiros"
             className={activeSection === 'parceiros' ? 'active' : ''}
           >
             Parceiros
           </a>
           <a 
-            href="#faq" 
+            href="/#faq" 
             aria-label="Ir para seção de perguntas frequentes"
             className={activeSection === 'faq' ? 'active' : ''}
           >
             FAQ
           </a>
           <a 
-            href="#trabalhe-conosco" 
+            href="/#trabalhe-conosco" 
             aria-label="Ir para seção trabalhe conosco"
             className={activeSection === 'trabalhe-conosco' ? 'active' : ''}
           >
@@ -124,13 +131,14 @@ function Header() {
           className={`nav-mobile ${menuOpen ? 'active' : ''}`}
           aria-label="Navegação mobile"
         >
-          <a href="#inicio" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="#sobre" onClick={() => setMenuOpen(false)}>Sobre Nós</a>
-          <a href="#servicos" onClick={() => setMenuOpen(false)}>Serviços</a>
-          <a href="#depoimentos" onClick={() => setMenuOpen(false)}>Depoimentos</a>
-          <a href="#parceiros" onClick={() => setMenuOpen(false)}>Parceiros</a>
-          <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
-          <a href="#trabalhe-conosco" onClick={() => setMenuOpen(false)}>Trabalhe Conosco</a>
+          <a href="/#inicio" onClick={() => setMenuOpen(false)}>Home</a>
+          <a href="/#sobre" onClick={() => setMenuOpen(false)}>Sobre Nós</a>
+          <a href="/#servicos" onClick={() => setMenuOpen(false)}>Serviços</a>
+          <a href="/artigos" onClick={() => setMenuOpen(false)}>Artigos</a>
+          <a href="/#depoimentos" onClick={() => setMenuOpen(false)}>Depoimentos</a>
+          <a href="/#parceiros" onClick={() => setMenuOpen(false)}>Parceiros</a>
+          <a href="/#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+          <a href="/#trabalhe-conosco" onClick={() => setMenuOpen(false)}>Trabalhe Conosco</a>
           <button 
             className="btn-whatsapp-mobile" 
             onClick={() => { openWhatsApp(); setMenuOpen(false); }}
