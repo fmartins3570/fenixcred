@@ -19,7 +19,7 @@ session_start();
 function requireLogin(): void
 {
     if (empty($_SESSION['admin_user_id'])) {
-        header('Location: index.php');
+        header('Location: /admin/index.php');
         exit;
     }
 }

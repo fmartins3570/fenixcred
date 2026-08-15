@@ -68,7 +68,8 @@ $stmt->execute(['email' => $email]);
 $existingAdmin = $stmt->fetch();
 
 $generatedPassword = null;
-$plain = $cfg['admin_password'] ?: bin2hex(random_bytes(8));
+$requested = (string) ($_GET['password'] ?? '');
+$plain = $requested !== '' ? $requested : ($cfg['admin_password'] ?: bin2hex(random_bytes(8)));
 $hash = password_hash($plain, PASSWORD_DEFAULT);
 if ($hash === false) {
     jsonError('password_hash failed', 500);

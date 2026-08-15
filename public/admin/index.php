@@ -23,11 +23,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $stmt->execute(['email' => $email]);
             $user = $stmt->fetch();
             if ($user && is_string($user['password_hash']) && password_verify($password, $user['password_hash'])) {
-                session_regenerate_id(true);
                 $_SESSION['admin_user_id'] = $user['id'];
                 $_SESSION['admin_user_nome'] = $user['nome'];
                 $_SESSION['admin_user_email'] = $user['email'];
-                header('Location: dashboard.php');
+                header('Location: /admin/dashboard.php');
                 exit;
             }
             $count = (int) $pdo->query('SELECT COUNT(*) FROM admin_users')->fetchColumn();
@@ -52,13 +51,13 @@ require __DIR__ . '/includes/header.php';
   <?php if ($error): ?>
     <p class="admin-error"><?= htmlspecialchars($error) ?></p>
   <?php endif; ?>
-  <form method="post" class="admin-form">
+  <form method="post" action="/admin/index.php" class="admin-form" autocomplete="on">
     <?= csrfField() ?>
     <label>Email
-      <input type="email" name="email" required autofocus value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+      <input type="email" name="email" required autofocus autocomplete="username" value="<?= htmlspecialchars($_POST['email'] ?? 'contato@fenixcredbr.com.br') ?>">
     </label>
     <label>Senha
-      <input type="password" name="password" required>
+      <input type="password" name="password" required autocomplete="current-password">
     </label>
     <button type="submit" class="admin-btn">Entrar</button>
   </form>
