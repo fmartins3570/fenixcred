@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- ⚡ OBRIGATÓRIO: charset DEVE ser a PRIMEIRA meta tag (WCAG e segurança) -->
+    <meta charset="UTF-8" />
+    
+    <!-- CSP definido via .htaccess HTTP header (fonte única de verdade) -->
+
+    <!-- HSTS - HTTP Strict Transport Security (força HTTPS) -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload" />
+    
+    <!-- COOP - Cross-Origin-Opener-Policy (isolamento de origem) -->
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin" />
+    
+    <!-- COEP/CORP em modo compatível para integrações de terceiros (Google Maps/Places) -->
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="unsafe-none" />
+    <meta http-equiv="Cross-Origin-Resource-Policy" content="cross-origin" />
+    
+    <!-- Google Analytics - Stub + carregamento condicional (LGPD) -->
+    <!-- GA só carrega após consentimento de cookies via CookieBanner -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ window.dataLayer.push(arguments); };
+
+      window.__loadGA = function() {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-T91KB49251';
+        s.onload = function() {
+          window.gtag('js', new Date());
+          window.gtag('config', 'G-T91KB49251', {
+            send_page_view: true,
+            page_path: window.location.pathname + window.location.search,
+            page_title: document.title
+          });
+        };
+        document.head.appendChild(s);
+      };
+    </script>
+    
+    <!-- Viewport otimizado para mobile-first -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes" />
+    
+    <!-- Mobile Web App Capable -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Theme Color (cor primária do site - amarelo) -->
+    <meta name="theme-color" content="#FDB147" />
+    <meta name="msapplication-TileColor" content="#FDB147" />
+    <meta name="msapplication-navbutton-color" content="#FDB147" />
+    
+    <!-- Resource Hints - Otimização de Carregamento (FCP) -->
+    <!-- Preconnect para domínios externos (reduz latência de DNS/TLS) -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://maps.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+    <!-- Preload de recursos críticos (adicionado automaticamente) -->
+    <link rel="preload" as="style" href="/assets/index-Dr9BCGX1.css" />
+    <link rel="preload" as="script" href="/assets/index-BozO36FK.js" />
+    <link rel="preload" as="script" href="/assets/react-vendor-COOsOcEo.js" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-525wp2 copy-QUC8MxBW.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-400wp2 copy-CTdPL5Al.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/logo-fenix-cred-299w-TiKoL6JW.webp" type="image/webp" />
+
+    
+    <!-- PLACEHOLDER_RESOURCE_HINTS -->
+    
+    <link rel="icon" type="image/webp" href="/favicon_fenix_cred.webp" />
+    <!-- Título otimizado para mobile-first (56 caracteres - ideal 50-60) -->
+    <title>Juros do consignado CLT 2026: teto e taxa média | Fênix Cred</title>
+    
+    <!-- Meta Description otimizada (156 caracteres - ideal 150-160) -->
+    <meta name="description" content="Juros do consignado CLT em 2026: como funciona o teto do MTE, a taxa média de 3,2% ao mês, o limite de 1,99% com garantia e o que muda a sua proposta." />
+    <meta
+      name="keywords"
+      content="crédito CLT, antecipação FGTS, crédito consignado CLT, empréstimo CLT, antecipar FGTS, crédito para trabalhador CLT, crédito consignado, antecipação saque FGTS"
+    />
+    <meta name="author" content="Fênix Cred Soluções Financeiras" />
+    <meta name="language" content="Portuguese-BR" />
+    <!-- Robots otimizado para mobile-first indexing -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://fenixcredbr.com.br/artigos/taxa-juros-consignado-clt-2026" />
+
+    <!-- Open Graph / Facebook - Otimizado para mobile -->
+    <meta property="og:url" content="https://fenixcredbr.com.br/artigos/taxa-juros-consignado-clt-2026" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Juros do consignado CLT 2026: teto e taxa média | Fênix Cred" />
+    <meta property="og:description" content="Juros do consignado CLT em 2026: como funciona o teto do MTE, a taxa média de 3,2% ao mês, o limite de 1,99% com garantia e o que muda a sua proposta." />
+    <meta property="og:image" content="https://fenixcredbr.com.br/images/artigos/taxa-juros-consignado-clt-2026.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Fênix Cred Soluções Financeiras" />
+
+    <!-- Open Graph - Localização (NAP) -->
+    <meta property="og:locality" content="São Paulo" />
+    <meta property="og:region" content="SP" />
+    <meta property="og:postal-code" content="03220-200" />
+    <meta property="og:country-name" content="Brazil" />
+    <meta
+      property="og:street-address"
+      content="Av. do Oratório, 4098 - Jardim Guairaca"
+    />
+
+    <!-- Meta Tags de Contato -->
+    <meta name="contact" content="contato@fenixcredbr.com.br" />
+    <meta name="telephone" content="+55-11-99949-0655" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@fenixcred" />
+    <meta name="twitter:url" content="https://fenixcredbr.com.br/artigos/taxa-juros-consignado-clt-2026" />
+    <!-- Twitter Card otimizado para mobile -->
+    <meta name="twitter:title" content="Juros do consignado CLT 2026: teto e taxa média | Fênix Cred" />
+    <meta name="twitter:description" content="Juros do consignado CLT em 2026: como funciona o teto do MTE, a taxa média de 3,2% ao mês, o limite de 1,99% com garantia e o que muda a sua proposta." />
+    <meta name="twitter:image" content="https://fenixcredbr.com.br/images/artigos/taxa-juros-consignado-clt-2026.webp" />
+
+    <!-- Alternates para mobile -->
+    <meta name="mobile-alternate" content="https://fenixcredbr.com.br/" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/favicon_fenix_cred.webp" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_fenix_cred.webp" />
+    
+    <!-- Format Detection (desabilitar auto-detecção de telefone) -->
+    <meta name="format-detection" content="telephone=yes" />
+    
+    <!-- Mobile Optimization -->
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+
+    <!-- CSS Crítico Inline - Above the Fold (Header + Hero) -->
+    <style>
+      /* Reset básico */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg-dark: #050528;
+        --bg-darker: #030318;
+        --primary-yellow: #fdb147;
+        --primary-yellow-light: #fdc567;
+        --whatsapp-green: #25d366;
+        --whatsapp-green-dark: #20ba5a;
+        --text-white: #ffffff;
+        --text-gray: rgba(255, 255, 255, 0.8);
+        --text-gray-light: rgba(255, 255, 255, 0.6);
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+          "Droid Sans", "Helvetica Neue", sans-serif;
+        line-height: 1.5;
+        font-weight: 400;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        background-color: var(--bg-dark);
+        overflow-x: hidden;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+      }
+      .header {
+        background: rgba(5, 5, 40, 0.5);
+        backdrop-filter: blur(10px);
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        padding: 1rem 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: opacity 0.3s;
+      }
+      .logo-link:hover {
+        opacity: 0.8;
+      }
+      .nav-desktop {
+        display: none;
+        gap: 8px; /* Espaçamento mínimo de 8px entre elementos (WCAG 2.5.5) */
+        align-items: center;
+      }
+      .nav-desktop a {
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.3s;
+        position: relative;
+        padding: 14px 18px !important; /* Área de toque aumentada (WCAG 2.5.5) */
+        min-height: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+        min-width: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center;
+        margin: 0 4px; /* Espaçamento mínimo de 8px entre elementos */
+      }
+      .nav-desktop a:hover {
+        color: #fdb147;
+      }
+      .btn-whatsapp-header {
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        background: #128a3f;
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-height: 48px;
+      }
+      .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+      .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: #fff;
+        transition: all 0.3s;
+        border-radius: 2px;
+      }
+      .nav-mobile {
+        display: none;
+      }
+      @media (min-width: 1024px) {
+        .nav-desktop {
+          display: flex;
+        }
+        .btn-whatsapp-header {
+          display: flex;
+        }
+        .menu-toggle {
+          display: none;
+        }
+      }
+      .hero {
+        background: #050528;
+        color: #fff;
+        padding: 120px 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        margin-top: 70px;
+      }
+      .hero-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .hero-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .hero-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border: 2px solid #fdb147;
+        border-radius: 50px;
+        color: #050528;
+        background: #fdb147;
+        font-weight: 600;
+        font-size: 0.9rem;
+        width: fit-content;
+      }
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: #fdb147;
+        line-height: 1.2;
+        margin: 0;
+      }
+      .hero-subheadline {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        margin: 0.5rem 0;
+      }
+      .hero-description {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 500px;
+      }
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+      }
+      .btn-primary {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #128a3f;
+        color: #fff;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-height: 48px;
+      }
+      .btn-secondary {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fdb147;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+      .hero-image {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+      .hero-image-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        height: 560px;
+      }
+      .hero-circle {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 30%, transparent 70%, rgba(5,5,40,0.6) 100%);
+        z-index: 3;
+        pointer-events: none;
+      }
+      .hero-person {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .hero-model-image {
+        width: 115%;
+        height: 115%;
+        object-fit: contain;
+        object-position: center bottom;
+        border-radius: 0;
+        position: relative;
+        max-width: none;
+      }
+      @media (max-width: 1024px) {
+        .hero-content {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .hero-image {
+          order: -1;
+        }
+        .hero-image-wrapper {
+          max-width: 360px;
+          height: 440px;
+        }
+      }
+      @media (max-width: 768px) {
+        .hero {
+          padding: 80px 0 60px;
+        }
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .hero-description {
+          font-size: 1rem;
+        }
+        .hero-image-wrapper {
+          max-width: 280px;
+          height: 360px;
+        }
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+      .logo-image {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+
+    <!-- Meta CAPI Parameter Builder SDK (official) -->
+    <script src="/clientParamBuilder.bundle.js"></script>
+    <script>
+      // Initialize fbc/fbp cookies via Meta's official SDK before pixel loads
+      if (window.clientParamBuilder) {
+        try { window.clientParamBuilder.processAndCollectAllParams(); } catch(e) {}
+      }
+    </script>
+
+    <!-- Meta Pixel - Stub + carregamento condicional (LGPD) -->
+    <!-- Pixel só carrega após consentimento de cookies via CookieBanner -->
+    <script>
+      window.fbq = function(){ (window.fbq.queue = window.fbq.queue || []).push(arguments); };
+      window._fbq = window.fbq;
+
+      window.__loadMetaPixel = function() {
+        if (window.__metaPixelLoaded) return;
+        window.__metaPixelLoaded = true;
+        !function(f,b,e,v,n,t,s){if(f.fbq&&f.fbq.loaded)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+        var advancedMatching = { country: 'br' };
+        try {
+          // external_id: shared key with metaCAPI.js getExternalId(). Generate here
+          // if first visit so Pixel + CAPI share the same UUID on initial PageView
+          // (otherwise React-side CAPI generates later, missing dedup for 1st event).
+          var extKey = 'fenix_external_id';
+          var extId = localStorage.getItem(extKey);
+          if (!extId) {
+            extId = (crypto && crypto.randomUUID)
+              ? crypto.randomUUID()
+              : Date.now() + '-' + Math.random().toString(36).slice(2);
+            localStorage.setItem(extKey, extId);
+          }
+          advancedMatching.external_id = extId;
+
+          var raw = localStorage.getItem('fenix_lead_data');
+          if (raw) {
+            var lead = JSON.parse(raw);
+            if (lead && lead.phone) {
+              var digits = String(lead.phone).replace(/\D/g, '');
+              if (digits && !digits.startsWith('55')) digits = '55' + digits;
+              if (digits) advancedMatching.ph = digits;
+            }
+            if (lead && lead.name) {
+              var parts = String(lead.name).trim().toLowerCase().split(/\s+/);
+              if (parts[0]) advancedMatching.fn = parts[0];
+              if (parts.length > 1) advancedMatching.ln = parts.slice(1).join(' ');
+            }
+            if (lead && lead.email) {
+              advancedMatching.em = String(lead.email).trim().toLowerCase();
+            }
+          }
+        } catch (e) { /* localStorage unavailable or corrupted — skip advanced matching */ }
+
+        fbq('init', '2877752735949899', advancedMatching);
+        // Share one event_id with the CAPI PageView dispatched from React so
+        // Meta deduplicates the pair — browser + server count as a single view.
+        window.__fenixPageViewEventId =
+          (crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : Date.now() + '-' + Math.random().toString(36).slice(2);
+        fbq('track', 'PageView', {}, { eventID: window.__fenixPageViewEventId });
+      };
+    </script>
+    <!-- End Meta Pixel -->
+
+    <!-- Script para tornar CSS não-crítico não-bloqueante -->
+    <script>
+      /* Tornar CSS não-crítico não-bloqueante usando técnica de print media */
+      (function () {
+        function makeCSSNonBlocking() {
+          setTimeout(function () {
+            var links = document.querySelectorAll('link[rel="stylesheet"]');
+            links.forEach(function (link) {
+              if (link.href && !link.href.startsWith('data:')) {
+                // Skip stylesheets that are already loaded
+                if (link.sheet) return;
+                link.media = 'print';
+                link.onload = function () {
+                  this.media = 'all';
+                };
+              }
+            });
+          }, 0);
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", makeCSSNonBlocking);
+        } else {
+          makeCSSNonBlocking();
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BozO36FK.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-Udoeyx44.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-COOsOcEo.js">
+    <link rel="modulepreload" crossorigin href="/assets/artigos-De4TCdPd.js">
+    <link rel="modulepreload" crossorigin href="/assets/reviews-D5MXNQlc.js">
+    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-DXE8CA9s.js">
+    <link rel="modulepreload" crossorigin href="/assets/faq-Dnr2bU6O.js">
+    <link rel="stylesheet" crossorigin href="/assets/artigos-C-gQGOqC.css">
+    <link rel="stylesheet" crossorigin href="/assets/reviews-BkENODAt.css">
+    <link rel="stylesheet" crossorigin href="/assets/consignado-lp-9ruhoKKd.css">
+    <link rel="stylesheet" crossorigin href="/assets/faq-DVqLwSmM.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-Dr9BCGX1.css">
+    <meta property="og:image:alt" content="Trabalhador compara taxas de consignado CLT na tela do celular" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Taxa de juros do consignado CLT em 2026: teto, média e qual banco cobra menos","description":"Como o teto do Crédito do Trabalhador é calculado, a média divulgada pelo MTE, a faixa real de propostas e o que faz a sua taxa subir ou cair.","datePublished":"2026-08-17","dateModified":"2026-08-17","inLanguage":"pt-BR","mainEntityOfPage":{"@type":"WebPage","@id":"https://fenixcredbr.com.br/artigos/taxa-juros-consignado-clt-2026"},"image":"https://fenixcredbr.com.br/images/artigos/taxa-juros-consignado-clt-2026.webp","author":{"@type":"Organization","name":"Fênix Cred","url":"https://fenixcredbr.com.br"},"publisher":{"@type":"Organization","name":"Fênix Cred","url":"https://fenixcredbr.com.br","logo":{"@type":"ImageObject","url":"https://fenixcredbr.com.br/favicon_fenix_cred.webp"}}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fenixcredbr.com.br/"},{"@type":"ListItem","position":2,"name":"Artigos","item":"https://fenixcredbr.com.br/artigos"},{"@type":"ListItem","position":3,"name":"Taxa de juros do consignado CLT em 2026: teto, média e qual banco cobra menos","item":"https://fenixcredbr.com.br/artigos/taxa-juros-consignado-clt-2026"}]}</script>
+  </head>
+  <body>
+    <div id="root"><div class="App artigos-page"><main><article class="artigos-article">
+      <nav aria-label="Trilha"><ol><li><a href="/">Home</a></li><li><a href="/artigos">Artigos</a></li><li>Taxa de juros do consignado CLT em 2026: teto, média e qual banco cobra menos</li></ol></nav>
+      <h1>Taxa de juros do consignado CLT em 2026: teto, média e qual banco cobra menos</h1>
+      <p class="artigos-lead">Como o teto do Crédito do Trabalhador é calculado, a média divulgada pelo MTE, a faixa real de propostas e o que faz a sua taxa subir ou cair.</p>
+      <p class="artigos-meta">Fênix Cred — <time datetime="2026-08-17">17 de agosto de 2026</time></p>
+      <img src="/images/artigos/taxa-juros-consignado-clt-2026.webp" alt="Trabalhador compara taxas de consignado CLT na tela do celular" width="1200" height="630" />
+      <div class="artigos-prose">
+<p>“Qual é a taxa do consignado CLT?” é a pergunta mais repetida no atendimento da Fênix Cred — e a resposta honesta incomoda: <strong>não existe uma taxa única</strong>. O Crédito do Trabalhador tem um teto móvel, uma média divulgada pelo governo e uma faixa larga de propostas que muda por banco, prazo e perfil.</p>
+<p>Este artigo mostra os três números que importam em 2026 e o que você consegue mudar na sua proposta.</p>
+<h2>O teto não é fixo em lei</h2>
+<p>A <strong>Resolução CGCONSIG/MTE nº 2, de abril de 2026</strong>, não cravou um percentual. Ela criou um <strong>sistema de monitoramento</strong>: o Ministério do Trabalho acompanha as taxas praticadas no mercado, calcula a média e admite um limite acima dela. Quando a média cai, o teto cai junto.</p>
+<p>Foi o que aconteceu duas vezes entre abril e julho de 2026. Por isso qualquer conteúdo que prometa “o teto é X%” envelhece em semanas — inclusive este, se não for atualizado.</p>
+<h2>Os números de agosto de 2026</h2>
+<div class="artigos-table-wrap"><table class="artigos-table"><thead><tr><td>Indicador</td><td>Valor</td><td>Vale para</td></tr></thead><tbody><tr><td>Teto com garantias</td><td>1,99% ao mês</td><td>Contratos que usam FGTS, multa e verbas rescisórias como garantia</td></tr><tr><td>Taxa média de mercado (MTE)</td><td>cerca de 3,2% ao mês</td><td>Indicador de acompanhamento, não é oferta</td></tr><tr><td>Faixa real das propostas</td><td>de ~1,6% a ~6,9% ao mês</td><td>Varia por banco, prazo, tempo de casa e margem</td></tr></tbody></table></div>
+<p>O teto de <strong>1,99% ao mês</strong> veio da <strong>Resolução CGCONSIG/MTE nº 3</strong> e da <strong>Portaria MTE 1.115/2026</strong>, de junho de 2026, e só vale quando o trabalhador aceita oferecer as <a href="/artigos/garantias-consignado-clt-fgts">garantias opcionais do consignado CLT</a>. Sem garantia, a taxa segue a régua do monitoramento.</p>
+<h2>Média não é a sua taxa</h2>
+<p>A média serve para medir o mercado, não para prever a sua proposta. Dois trabalhadores com o mesmo salário podem receber taxas diferentes no mesmo dia porque mudam prazo, banco, tempo de casa e histórico do CNPJ do empregador.</p>
+<p>O único número que vale para decidir é o que aparece na simulação com o seu CPF — com <strong>parcela, prazo, valor liberado e CET</strong> na mesma tela.</p>
+<h2>O que faz a sua taxa cair</h2>
+<ul><li><strong>Oferecer garantias</strong> (FGTS/multa/verbas): é a alavanca mais forte hoje, com teto de 1,99% ao mês</li><li><strong>Prazo menor</strong>: menos parcelas costumam sair com juros menores e custo total bem menor</li><li><strong>Tempo de casa maior</strong>: reduz o risco percebido e abre mais bancos na grade</li><li><strong>Margem folgada</strong>: pedir menos do que o limite dá espaço para o banco melhorar as condições</li><li><strong>Comparar mais de uma instituição</strong>: a diferença entre a primeira e a melhor proposta costuma ser grande</li></ul>
+<h2>O que faz a sua taxa subir</h2>
+<ul><li>Prazo esticado só para “caber a parcela”</li><li>Margem no talo, sem folga nenhuma</li><li>Admissão recente, ainda sem histórico de folha — veja <a href="/artigos/emprestimo-clt-3-meses-de-carteira">empréstimo CLT com 3 meses de carteira</a></li><li>Aceitar a primeira oferta do app sem comparar</li></ul>
+<h2>Qual banco cobra menos?</h2>
+<p>Não existe um vencedor permanente. Os bancos mudam política de taxa por mês, por faixa de salário e até por setor do empregador. O banco mais barato para um vendedor com 5 anos de casa pode recusar um recém-contratado do mesmo salário.</p>
+<p>É exatamente por isso que a Fênix Cred trabalha como correspondente de várias instituições: em vez de defender um banco, consultamos a grade e colocamos as propostas lado a lado. A escolha continua sendo sua.</p>
+<h2>Olhe o CET, não só o juro</h2>
+<p>Desde abril de 2026, o <strong>Custo Efetivo Total</strong> não pode ficar mais de 1 ponto percentual acima da taxa mensal contratada. Tarifa de cadastro ou de “abertura de crédito” é irregular. Os encargos permitidos são juros, encargos de atraso, tributos e seguro prestamista — este último <strong>só com autorização expressa</strong>.</p>
+<p>Se a proposta traz um CET muito acima do juro anunciado, pergunte o que está embutido antes de assinar.</p>
+<h2>Perguntas frequentes</h2>
+<p><strong>A taxa média de 3,2% é a que vou pagar?</strong> Não. É um indicador de mercado divulgado pelo MTE. Sua taxa sai da análise do banco.</p>
+<p><strong>Consigo 1,99% sem garantia?</strong> Em regra, não. O teto de 1,99% ao mês está vinculado ao contrato com garantias da Portaria 1.115/2026.</p>
+<p><strong>A taxa muda depois de assinar?</strong> Não no consignado com taxa prefixada. O que muda é o custo total se você refinanciar ou fizer <a href="/artigos/portabilidade-refinanciamento-consignado-clt">portabilidade</a>.</p>
+      </div>
+      <aside><h2>Leia também</h2><ul><li><a href="/artigos/bancos-consignado-clt-2026">Quais bancos fazem consignado CLT em 2026 e como conferir a lista oficial</a></li><li><a href="/artigos/garantias-consignado-clt-fgts">Garantias do consignado CLT: FGTS e multa rescisória derrubam o juro para 1,99%</a></li><li><a href="/artigos/consignado-clt-13-salario-ferias">Consignado CLT desconta no 13º e nas férias? A regra do MTE</a></li></ul></aside>
+      <p><a href="https://api.whatsapp.com/send?phone=5511917082143">Simular pelo WhatsApp</a></p>
+    </article></main></div></div>
+  </body>
+</html>

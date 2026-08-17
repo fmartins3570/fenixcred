@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- ⚡ OBRIGATÓRIO: charset DEVE ser a PRIMEIRA meta tag (WCAG e segurança) -->
+    <meta charset="UTF-8" />
+    
+    <!-- CSP definido via .htaccess HTTP header (fonte única de verdade) -->
+
+    <!-- HSTS - HTTP Strict Transport Security (força HTTPS) -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload" />
+    
+    <!-- COOP - Cross-Origin-Opener-Policy (isolamento de origem) -->
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin" />
+    
+    <!-- COEP/CORP em modo compatível para integrações de terceiros (Google Maps/Places) -->
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="unsafe-none" />
+    <meta http-equiv="Cross-Origin-Resource-Policy" content="cross-origin" />
+    
+    <!-- Google Analytics - Stub + carregamento condicional (LGPD) -->
+    <!-- GA só carrega após consentimento de cookies via CookieBanner -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ window.dataLayer.push(arguments); };
+
+      window.__loadGA = function() {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-T91KB49251';
+        s.onload = function() {
+          window.gtag('js', new Date());
+          window.gtag('config', 'G-T91KB49251', {
+            send_page_view: true,
+            page_path: window.location.pathname + window.location.search,
+            page_title: document.title
+          });
+        };
+        document.head.appendChild(s);
+      };
+    </script>
+    
+    <!-- Viewport otimizado para mobile-first -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes" />
+    
+    <!-- Mobile Web App Capable -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Theme Color (cor primária do site - amarelo) -->
+    <meta name="theme-color" content="#FDB147" />
+    <meta name="msapplication-TileColor" content="#FDB147" />
+    <meta name="msapplication-navbutton-color" content="#FDB147" />
+    
+    <!-- Resource Hints - Otimização de Carregamento (FCP) -->
+    <!-- Preconnect para domínios externos (reduz latência de DNS/TLS) -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://maps.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+    <!-- Preload de recursos críticos (adicionado automaticamente) -->
+    <link rel="preload" as="style" href="/assets/index-Dr9BCGX1.css" />
+    <link rel="preload" as="script" href="/assets/index-BozO36FK.js" />
+    <link rel="preload" as="script" href="/assets/react-vendor-COOsOcEo.js" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-525wp2 copy-QUC8MxBW.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/modelo_fenix_cred-400wp2 copy-CTdPL5Al.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/logo-fenix-cred-299w-TiKoL6JW.webp" type="image/webp" />
+
+    
+    <!-- PLACEHOLDER_RESOURCE_HINTS -->
+    
+    <link rel="icon" type="image/webp" href="/favicon_fenix_cred.webp" />
+    <!-- Título otimizado para mobile-first (56 caracteres - ideal 50-60) -->
+    <title>Artigos sobre crédito CLT e FGTS | Fênix Cred</title>
+    
+    <!-- Meta Description otimizada (156 caracteres - ideal 150-160) -->
+    <meta name="description" content="Artigos da Fênix Cred sobre consignado CLT, antecipação de FGTS e crédito para quem está negativado. Conteúdo prático para decidir com clareza." />
+    <meta
+      name="keywords"
+      content="crédito CLT, antecipação FGTS, crédito consignado CLT, empréstimo CLT, antecipar FGTS, crédito para trabalhador CLT, crédito consignado, antecipação saque FGTS"
+    />
+    <meta name="author" content="Fênix Cred Soluções Financeiras" />
+    <meta name="language" content="Portuguese-BR" />
+    <!-- Robots otimizado para mobile-first indexing -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://fenixcredbr.com.br/artigos" />
+
+    <!-- Open Graph / Facebook - Otimizado para mobile -->
+    <meta property="og:url" content="https://fenixcredbr.com.br/artigos" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Artigos sobre crédito CLT e FGTS | Fênix Cred" />
+    <meta property="og:description" content="Artigos da Fênix Cred sobre consignado CLT, antecipação de FGTS e crédito para quem está negativado. Conteúdo prático para decidir com clareza." />
+    <meta property="og:image" content="https://fenixcredbr.com.br/images/artigos/golpes-consignado-clt-como-identificar.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Fênix Cred Soluções Financeiras" />
+
+    <!-- Open Graph - Localização (NAP) -->
+    <meta property="og:locality" content="São Paulo" />
+    <meta property="og:region" content="SP" />
+    <meta property="og:postal-code" content="03220-200" />
+    <meta property="og:country-name" content="Brazil" />
+    <meta
+      property="og:street-address"
+      content="Av. do Oratório, 4098 - Jardim Guairaca"
+    />
+
+    <!-- Meta Tags de Contato -->
+    <meta name="contact" content="contato@fenixcredbr.com.br" />
+    <meta name="telephone" content="+55-11-99949-0655" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@fenixcred" />
+    <meta name="twitter:url" content="https://fenixcredbr.com.br/artigos" />
+    <!-- Twitter Card otimizado para mobile -->
+    <meta name="twitter:title" content="Artigos sobre crédito CLT e FGTS | Fênix Cred" />
+    <meta name="twitter:description" content="Artigos da Fênix Cred sobre consignado CLT, antecipação de FGTS e crédito para quem está negativado. Conteúdo prático para decidir com clareza." />
+    <meta name="twitter:image" content="https://fenixcredbr.com.br/images/artigos/golpes-consignado-clt-como-identificar.webp" />
+
+    <!-- Alternates para mobile -->
+    <meta name="mobile-alternate" content="https://fenixcredbr.com.br/" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/favicon_fenix_cred.webp" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_fenix_cred.webp" />
+    
+    <!-- Format Detection (desabilitar auto-detecção de telefone) -->
+    <meta name="format-detection" content="telephone=yes" />
+    
+    <!-- Mobile Optimization -->
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+
+    <!-- CSS Crítico Inline - Above the Fold (Header + Hero) -->
+    <style>
+      /* Reset básico */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg-dark: #050528;
+        --bg-darker: #030318;
+        --primary-yellow: #fdb147;
+        --primary-yellow-light: #fdc567;
+        --whatsapp-green: #25d366;
+        --whatsapp-green-dark: #20ba5a;
+        --text-white: #ffffff;
+        --text-gray: rgba(255, 255, 255, 0.8);
+        --text-gray-light: rgba(255, 255, 255, 0.6);
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+          "Droid Sans", "Helvetica Neue", sans-serif;
+        line-height: 1.5;
+        font-weight: 400;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        background-color: var(--bg-dark);
+        overflow-x: hidden;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+      }
+      .header {
+        background: rgba(5, 5, 40, 0.5);
+        backdrop-filter: blur(10px);
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        padding: 1rem 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: opacity 0.3s;
+      }
+      .logo-link:hover {
+        opacity: 0.8;
+      }
+      .nav-desktop {
+        display: none;
+        gap: 8px; /* Espaçamento mínimo de 8px entre elementos (WCAG 2.5.5) */
+        align-items: center;
+      }
+      .nav-desktop a {
+        color: #ffffff !important; /* Branco puro - Contraste 19.56:1 sobre #050528 (WCAG AAA) */
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.3s;
+        position: relative;
+        padding: 14px 18px !important; /* Área de toque aumentada (WCAG 2.5.5) */
+        min-height: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+        min-width: 48px !important; /* Mínimo 48px para área de toque (WCAG) */
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center;
+        margin: 0 4px; /* Espaçamento mínimo de 8px entre elementos */
+      }
+      .nav-desktop a:hover {
+        color: #fdb147;
+      }
+      .btn-whatsapp-header {
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        background: #128a3f;
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-height: 48px;
+      }
+      .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+      .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: #fff;
+        transition: all 0.3s;
+        border-radius: 2px;
+      }
+      .nav-mobile {
+        display: none;
+      }
+      @media (min-width: 1024px) {
+        .nav-desktop {
+          display: flex;
+        }
+        .btn-whatsapp-header {
+          display: flex;
+        }
+        .menu-toggle {
+          display: none;
+        }
+      }
+      .hero {
+        background: #050528;
+        color: #fff;
+        padding: 120px 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        margin-top: 70px;
+      }
+      .hero-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .hero-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .hero-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border: 2px solid #fdb147;
+        border-radius: 50px;
+        color: #050528;
+        background: #fdb147;
+        font-weight: 600;
+        font-size: 0.9rem;
+        width: fit-content;
+      }
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: #fdb147;
+        line-height: 1.2;
+        margin: 0;
+      }
+      .hero-subheadline {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        margin: 0.5rem 0;
+      }
+      .hero-description {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 500px;
+      }
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+      }
+      .btn-primary {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #128a3f;
+        color: #fff;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-height: 48px;
+      }
+      .btn-secondary {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fdb147;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+      .hero-image {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+      .hero-image-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        height: 560px;
+      }
+      .hero-circle {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 30%, transparent 70%, rgba(5,5,40,0.6) 100%);
+        z-index: 3;
+        pointer-events: none;
+      }
+      .hero-person {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .hero-model-image {
+        width: 115%;
+        height: 115%;
+        object-fit: contain;
+        object-position: center bottom;
+        border-radius: 0;
+        position: relative;
+        max-width: none;
+      }
+      @media (max-width: 1024px) {
+        .hero-content {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .hero-image {
+          order: -1;
+        }
+        .hero-image-wrapper {
+          max-width: 360px;
+          height: 440px;
+        }
+      }
+      @media (max-width: 768px) {
+        .hero {
+          padding: 80px 0 60px;
+        }
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .hero-description {
+          font-size: 1rem;
+        }
+        .hero-image-wrapper {
+          max-width: 280px;
+          height: 360px;
+        }
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+      .logo-image {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+
+    <!-- Meta CAPI Parameter Builder SDK (official) -->
+    <script src="/clientParamBuilder.bundle.js"></script>
+    <script>
+      // Initialize fbc/fbp cookies via Meta's official SDK before pixel loads
+      if (window.clientParamBuilder) {
+        try { window.clientParamBuilder.processAndCollectAllParams(); } catch(e) {}
+      }
+    </script>
+
+    <!-- Meta Pixel - Stub + carregamento condicional (LGPD) -->
+    <!-- Pixel só carrega após consentimento de cookies via CookieBanner -->
+    <script>
+      window.fbq = function(){ (window.fbq.queue = window.fbq.queue || []).push(arguments); };
+      window._fbq = window.fbq;
+
+      window.__loadMetaPixel = function() {
+        if (window.__metaPixelLoaded) return;
+        window.__metaPixelLoaded = true;
+        !function(f,b,e,v,n,t,s){if(f.fbq&&f.fbq.loaded)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+        var advancedMatching = { country: 'br' };
+        try {
+          // external_id: shared key with metaCAPI.js getExternalId(). Generate here
+          // if first visit so Pixel + CAPI share the same UUID on initial PageView
+          // (otherwise React-side CAPI generates later, missing dedup for 1st event).
+          var extKey = 'fenix_external_id';
+          var extId = localStorage.getItem(extKey);
+          if (!extId) {
+            extId = (crypto && crypto.randomUUID)
+              ? crypto.randomUUID()
+              : Date.now() + '-' + Math.random().toString(36).slice(2);
+            localStorage.setItem(extKey, extId);
+          }
+          advancedMatching.external_id = extId;
+
+          var raw = localStorage.getItem('fenix_lead_data');
+          if (raw) {
+            var lead = JSON.parse(raw);
+            if (lead && lead.phone) {
+              var digits = String(lead.phone).replace(/\D/g, '');
+              if (digits && !digits.startsWith('55')) digits = '55' + digits;
+              if (digits) advancedMatching.ph = digits;
+            }
+            if (lead && lead.name) {
+              var parts = String(lead.name).trim().toLowerCase().split(/\s+/);
+              if (parts[0]) advancedMatching.fn = parts[0];
+              if (parts.length > 1) advancedMatching.ln = parts.slice(1).join(' ');
+            }
+            if (lead && lead.email) {
+              advancedMatching.em = String(lead.email).trim().toLowerCase();
+            }
+          }
+        } catch (e) { /* localStorage unavailable or corrupted — skip advanced matching */ }
+
+        fbq('init', '2877752735949899', advancedMatching);
+        // Share one event_id with the CAPI PageView dispatched from React so
+        // Meta deduplicates the pair — browser + server count as a single view.
+        window.__fenixPageViewEventId =
+          (crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : Date.now() + '-' + Math.random().toString(36).slice(2);
+        fbq('track', 'PageView', {}, { eventID: window.__fenixPageViewEventId });
+      };
+    </script>
+    <!-- End Meta Pixel -->
+
+    <!-- Script para tornar CSS não-crítico não-bloqueante -->
+    <script>
+      /* Tornar CSS não-crítico não-bloqueante usando técnica de print media */
+      (function () {
+        function makeCSSNonBlocking() {
+          setTimeout(function () {
+            var links = document.querySelectorAll('link[rel="stylesheet"]');
+            links.forEach(function (link) {
+              if (link.href && !link.href.startsWith('data:')) {
+                // Skip stylesheets that are already loaded
+                if (link.sheet) return;
+                link.media = 'print';
+                link.onload = function () {
+                  this.media = 'all';
+                };
+              }
+            });
+          }, 0);
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", makeCSSNonBlocking);
+        } else {
+          makeCSSNonBlocking();
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BozO36FK.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-Udoeyx44.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-COOsOcEo.js">
+    <link rel="modulepreload" crossorigin href="/assets/artigos-De4TCdPd.js">
+    <link rel="modulepreload" crossorigin href="/assets/reviews-D5MXNQlc.js">
+    <link rel="modulepreload" crossorigin href="/assets/consignado-lp-DXE8CA9s.js">
+    <link rel="modulepreload" crossorigin href="/assets/faq-Dnr2bU6O.js">
+    <link rel="stylesheet" crossorigin href="/assets/artigos-C-gQGOqC.css">
+    <link rel="stylesheet" crossorigin href="/assets/reviews-BkENODAt.css">
+    <link rel="stylesheet" crossorigin href="/assets/consignado-lp-9ruhoKKd.css">
+    <link rel="stylesheet" crossorigin href="/assets/faq-DVqLwSmM.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-Dr9BCGX1.css">
+    <meta property="og:image:alt" content="Trabalhador desconfia de mensagem suspeita sobre empréstimo no celular" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Artigos sobre crédito CLT e FGTS | Fênix Cred","description":"Artigos da Fênix Cred sobre consignado CLT, antecipação de FGTS e crédito para quem está negativado. Conteúdo prático para decidir com clareza.","url":"https://fenixcredbr.com.br/artigos","isPartOf":{"@type":"WebSite","name":"Fênix Cred","url":"https://fenixcredbr.com.br"},"hasPart":[{"@type":"Article","headline":"Golpes no consignado CLT: como identificar antes de perder dinheiro","url":"https://fenixcredbr.com.br/artigos/golpes-consignado-clt-como-identificar","datePublished":"2026-08-17"},{"@type":"Article","headline":"Quais bancos fazem consignado CLT em 2026 e como conferir a lista oficial","url":"https://fenixcredbr.com.br/artigos/bancos-consignado-clt-2026","datePublished":"2026-08-16"},{"@type":"Article","headline":"Como simular o consignado CLT na CTPS Digital: passo a passo","url":"https://fenixcredbr.com.br/artigos/simular-consignado-clt-ctps-digital","datePublished":"2026-08-15"},{"@type":"Article","headline":"Consignado CLT desconta no 13º e nas férias? A regra do MTE","url":"https://fenixcredbr.com.br/artigos/consignado-clt-13-salario-ferias","datePublished":"2026-08-14"},{"@type":"Article","headline":"Calendário do saque-aniversário do FGTS 2026 por mês de nascimento","url":"https://fenixcredbr.com.br/artigos/calendario-saque-aniversario-fgts-2026","datePublished":"2026-08-13"},{"@type":"Article","headline":"Quanto consigo antecipar do FGTS? Veja pelo seu saldo","url":"https://fenixcredbr.com.br/artigos/antecipacao-fgts-quanto-consigo","datePublished":"2026-08-12"},{"@type":"Article","headline":"Consignado para empregado doméstico: como funciona o Crédito do Trabalhador","url":"https://fenixcredbr.com.br/artigos/consignado-clt-empregado-domestico","datePublished":"2026-08-11"},{"@type":"Article","headline":"Seguro prestamista no consignado CLT é obrigatório?","url":"https://fenixcredbr.com.br/artigos/seguro-prestamista-consignado-clt","datePublished":"2026-08-10"},{"@type":"Article","headline":"Taxa de juros do consignado CLT em 2026: teto, média e qual banco cobra menos","url":"https://fenixcredbr.com.br/artigos/taxa-juros-consignado-clt-2026","datePublished":"2026-08-17"},{"@type":"Article","headline":"Margem consignável CLT: como calcular os 35% do seu salário","url":"https://fenixcredbr.com.br/artigos/margem-consignavel-clt-como-calcular","datePublished":"2026-08-16"},{"@type":"Article","headline":"Garantias do consignado CLT: FGTS e multa rescisória derrubam o juro para 1,99%","url":"https://fenixcredbr.com.br/artigos/garantias-consignado-clt-fgts","datePublished":"2026-08-15"},{"@type":"Article","headline":"Consignado CLT ou antecipação do FGTS: qual escolher em 2026?","url":"https://fenixcredbr.com.br/artigos/consignado-clt-ou-antecipacao-fgts","datePublished":"2026-08-14"},{"@type":"Article","headline":"Portabilidade e refinanciamento do consignado CLT: como pagar menos juros","url":"https://fenixcredbr.com.br/artigos/portabilidade-refinanciamento-consignado-clt","datePublished":"2026-08-13"},{"@type":"Article","headline":"Consignado CLT negado: os motivos mais comuns e o que fazer depois","url":"https://fenixcredbr.com.br/artigos/consignado-clt-negado-o-que-fazer","datePublished":"2026-08-11"},{"@type":"Article","headline":"Empréstimo CLT com 3 meses de carteira assinada: dá para contratar?","url":"https://fenixcredbr.com.br/artigos/emprestimo-clt-3-meses-de-carteira","datePublished":"2026-08-09"},{"@type":"Article","headline":"Fui demitido e tenho consignado CLT: o que acontece com a dívida?","url":"https://fenixcredbr.com.br/artigos/demitido-com-consignado-clt","datePublished":"2026-08-08"},{"@type":"Article","headline":"Saque-aniversário do FGTS vale a pena? O que pesar antes de aderir","url":"https://fenixcredbr.com.br/artigos/saque-aniversario-fgts-vale-a-pena","datePublished":"2026-08-07"},{"@type":"Article","headline":"Crédito consignado CLT: o que é, como funciona e quem pode contratar","url":"https://fenixcredbr.com.br/artigos/credito-consignado-clt-como-funciona","datePublished":"2026-08-12"},{"@type":"Article","headline":"Antecipação de FGTS: como funciona e o que mudou nas regras de 2026","url":"https://fenixcredbr.com.br/artigos/antecipacao-fgts-como-funciona","datePublished":"2026-08-10"},{"@type":"Article","headline":"Consignado para negativado: é possível contratar com o nome sujo?","url":"https://fenixcredbr.com.br/artigos/consignado-para-negativado","datePublished":"2026-08-06"},{"@type":"Article","headline":"Quanto tempo demora o crédito consignado CLT para cair na conta?","url":"https://fenixcredbr.com.br/artigos/quanto-tempo-demora-consignado-clt","datePublished":"2026-08-04"},{"@type":"Article","headline":"Documentos para contratar consignado CLT: checklist completo","url":"https://fenixcredbr.com.br/artigos/documentos-para-consignado-clt","datePublished":"2026-08-01"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fenixcredbr.com.br/"},{"@type":"ListItem","position":2,"name":"Artigos","item":"https://fenixcredbr.com.br/artigos"}]}</script>
+  </head>
+  <body>
+    <div id="root"><div class="App artigos-page"><main>
+      <h1>Artigos sobre crédito CLT e FGTS</h1>
+      <p>Artigos da Fênix Cred sobre consignado CLT, antecipação de FGTS e crédito para quem está negativado. Conteúdo prático para decidir com clareza.</p>
+      <ul class="artigos-grid"><li><article>
+        <a href="/artigos/golpes-consignado-clt-como-identificar"><img src="/images/artigos/golpes-consignado-clt-como-identificar.webp" alt="Trabalhador desconfia de mensagem suspeita sobre empréstimo no celular" width="600" height="315" /></a>
+        <h2><a href="/artigos/golpes-consignado-clt-como-identificar">Golpes no consignado CLT: como identificar antes de perder dinheiro</a></h2>
+        <p>Taxa antecipada, link falso da CTPS Digital, “aprovação garantida” e pedido de senha do Gov.br. Os golpes mais comuns e como conferir se a oferta é real.</p>
+        <time datetime="2026-08-17">17 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/bancos-consignado-clt-2026"><img src="/images/artigos/bancos-consignado-clt-2026.webp" alt="Trabalhador compara ofertas de bancos para consignado CLT na tela do celular" width="600" height="315" /></a>
+        <h2><a href="/artigos/bancos-consignado-clt-2026">Quais bancos fazem consignado CLT em 2026 e como conferir a lista oficial</a></h2>
+        <p>Mais de 160 instituições estão habilitadas e cerca de 100 concedem de fato. Veja quem opera, por que a lista muda e onde checar antes de fechar.</p>
+        <time datetime="2026-08-16">16 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/simular-consignado-clt-ctps-digital"><img src="/images/artigos/simular-consignado-clt-ctps-digital.webp" alt="Tela do aplicativo Carteira de Trabalho Digital aberta na mão do trabalhador" width="600" height="315" /></a>
+        <h2><a href="/artigos/simular-consignado-clt-ctps-digital">Como simular o consignado CLT na CTPS Digital: passo a passo</a></h2>
+        <p>O caminho dentro do app da Carteira de Trabalho, o que aparece em cada tela, o que a proposta precisa mostrar e onde a maioria trava.</p>
+        <time datetime="2026-08-15">15 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/consignado-clt-13-salario-ferias"><img src="/images/artigos/consignado-clt-13-salario-ferias.webp" alt="Holerite e calendário sobre a mesa para conferir descontos de férias e 13º" width="600" height="315" /></a>
+        <h2><a href="/artigos/consignado-clt-13-salario-ferias">Consignado CLT desconta no 13º e nas férias? A regra do MTE</a></h2>
+        <p>O manual do MTE limita o desconto às doze competências mensais — o 13º fica de fora. Nas férias, a parcela sai normalmente. Entenda o efeito no seu bolso.</p>
+        <time datetime="2026-08-14">14 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/calendario-saque-aniversario-fgts-2026"><img src="/images/artigos/calendario-saque-aniversario-fgts-2026.webp" alt="Calendário e celular com o aplicativo do FGTS aberto sobre a mesa" width="600" height="315" /></a>
+        <h2><a href="/artigos/calendario-saque-aniversario-fgts-2026">Calendário do saque-aniversário do FGTS 2026 por mês de nascimento</a></h2>
+        <p>Cada mês de nascimento tem uma janela de três meses para sacar. Veja a sua data, o que acontece se perder o prazo e como conferir o valor.</p>
+        <time datetime="2026-08-13">13 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/antecipacao-fgts-quanto-consigo"><img src="/images/artigos/antecipacao-fgts-quanto-consigo.webp" alt="Trabalhador confere o saldo do FGTS no celular com calculadora ao lado" width="600" height="315" /></a>
+        <h2><a href="/artigos/antecipacao-fgts-quanto-consigo">Quanto consigo antecipar do FGTS? Veja pelo seu saldo</a></h2>
+        <p>A conta parte da tabela do saque-aniversário e esbarra no teto de R$ 500 por parcela. Simule por faixa de saldo antes de pedir.</p>
+        <time datetime="2026-08-12">12 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/consignado-clt-empregado-domestico"><img src="/images/artigos/consignado-clt-empregado-domestico.webp" alt="Empregada doméstica consulta o celular na cozinha durante o intervalo" width="600" height="315" /></a>
+        <h2><a href="/artigos/consignado-clt-empregado-domestico">Consignado para empregado doméstico: como funciona o Crédito do Trabalhador</a></h2>
+        <p>Diarista, mensalista e cuidador com carteira assinada entram no programa. O que muda no eSocial doméstico e o que o empregador precisa (ou não) fazer.</p>
+        <time datetime="2026-08-11">11 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/seguro-prestamista-consignado-clt"><img src="/images/artigos/seguro-prestamista-consignado-clt.webp" alt="Pessoa lê as cláusulas do contrato de empréstimo com lupa sobre a mesa" width="600" height="315" /></a>
+        <h2><a href="/artigos/seguro-prestamista-consignado-clt">Seguro prestamista no consignado CLT é obrigatório?</a></h2>
+        <p>Não é. Desde abril de 2026 só entra na conta com autorização expressa — e o CET não pode passar de 1 ponto acima do juro contratado.</p>
+        <time datetime="2026-08-10">10 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/taxa-juros-consignado-clt-2026"><img src="/images/artigos/taxa-juros-consignado-clt-2026.webp" alt="Trabalhador compara taxas de consignado CLT na tela do celular" width="600" height="315" /></a>
+        <h2><a href="/artigos/taxa-juros-consignado-clt-2026">Taxa de juros do consignado CLT em 2026: teto, média e qual banco cobra menos</a></h2>
+        <p>Como o teto do Crédito do Trabalhador é calculado, a média divulgada pelo MTE, a faixa real de propostas e o que faz a sua taxa subir ou cair.</p>
+        <time datetime="2026-08-17">17 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/margem-consignavel-clt-como-calcular"><img src="/images/artigos/margem-consignavel-clt-como-calcular.webp" alt="Calculadora, holerite e caneta sobre a mesa para calcular a margem consignável" width="600" height="315" /></a>
+        <h2><a href="/artigos/margem-consignavel-clt-como-calcular">Margem consignável CLT: como calcular os 35% do seu salário</a></h2>
+        <p>O que entra e o que fica de fora da base de cálculo, como descobrir a margem livre e por que o valor aprovado quase nunca é o que você imaginou.</p>
+        <time datetime="2026-08-16">16 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/garantias-consignado-clt-fgts"><img src="/images/artigos/garantias-consignado-clt-fgts.webp" alt="Contrato de crédito consignado sobre a mesa com celular exibindo o saldo do FGTS" width="600" height="315" /></a>
+        <h2><a href="/artigos/garantias-consignado-clt-fgts">Garantias do consignado CLT: FGTS e multa rescisória derrubam o juro para 1,99%</a></h2>
+        <p>A Portaria MTE 1.115/2026 liberou o uso do saldo do FGTS e das verbas rescisórias como garantia. Entenda o que você entrega em troca do juro menor.</p>
+        <time datetime="2026-08-15">15 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/consignado-clt-ou-antecipacao-fgts"><img src="/images/artigos/consignado-clt-ou-antecipacao-fgts.webp" alt="Trabalhador pensativo compara duas opções de crédito no celular" width="600" height="315" /></a>
+        <h2><a href="/artigos/consignado-clt-ou-antecipacao-fgts">Consignado CLT ou antecipação do FGTS: qual escolher em 2026?</a></h2>
+        <p>Um compromete o salário todo mês, o outro consome o seu fundo de garantia. Compare custo, limite, prazo e risco antes de decidir.</p>
+        <time datetime="2026-08-14">14 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/portabilidade-refinanciamento-consignado-clt"><img src="/images/artigos/portabilidade-refinanciamento-consignado-clt.webp" alt="Pessoa revisa contrato de empréstimo com celular e calculadora ao lado" width="600" height="315" /></a>
+        <h2><a href="/artigos/portabilidade-refinanciamento-consignado-clt">Portabilidade e refinanciamento do consignado CLT: como pagar menos juros</a></h2>
+        <p>Trocar de banco, refinanciar com troco ou unificar contratos: as três saídas para quem contratou caro e quer reduzir a parcela.</p>
+        <time datetime="2026-08-13">13 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/consignado-clt-negado-o-que-fazer"><img src="/images/artigos/consignado-clt-negado-o-que-fazer.webp" alt="Trabalhador olha o celular com expressão de dúvida após recusa de crédito" width="600" height="315" /></a>
+        <h2><a href="/artigos/consignado-clt-negado-o-que-fazer">Consignado CLT negado: os motivos mais comuns e o que fazer depois</a></h2>
+        <p>Margem estourada, eSocial desatualizado, tempo de casa curto ou política do banco. Veja como identificar o motivo real e reverter a recusa.</p>
+        <time datetime="2026-08-11">11 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/emprestimo-clt-3-meses-de-carteira"><img src="/images/artigos/emprestimo-clt-3-meses-de-carteira.webp" alt="Trabalhador recém-contratado consulta a CTPS Digital no celular" width="600" height="315" /></a>
+        <h2><a href="/artigos/emprestimo-clt-3-meses-de-carteira">Empréstimo CLT com 3 meses de carteira assinada: dá para contratar?</a></h2>
+        <p>Não existe carência oficial no Crédito do Trabalhador, mas cada banco tem a sua régua de tempo de casa. Veja o que realmente pesa.</p>
+        <time datetime="2026-08-09">9 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/demitido-com-consignado-clt"><img src="/images/artigos/demitido-com-consignado-clt.webp" alt="Carteira de trabalho e documentos de rescisão sobre a mesa" width="600" height="315" /></a>
+        <h2><a href="/artigos/demitido-com-consignado-clt">Fui demitido e tenho consignado CLT: o que acontece com a dívida?</a></h2>
+        <p>Sem folha de pagamento, o desconto para. A dívida, não. Entenda o papel das verbas rescisórias, do FGTS e do boleto que chega depois.</p>
+        <time datetime="2026-08-08">8 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/saque-aniversario-fgts-vale-a-pena"><img src="/images/artigos/saque-aniversario-fgts-vale-a-pena.webp" alt="Trabalhador consulta o aplicativo do FGTS para decidir sobre o saque-aniversário" width="600" height="315" /></a>
+        <h2><a href="/artigos/saque-aniversario-fgts-vale-a-pena">Saque-aniversário do FGTS vale a pena? O que pesar antes de aderir</a></h2>
+        <p>Aderir libera saque anual e antecipação, mas trava o saque-rescisão em caso de demissão. Compare os dois cenários com números.</p>
+        <time datetime="2026-08-07">7 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/credito-consignado-clt-como-funciona"><img src="/images/artigos/credito-consignado-clt-como-funciona.webp" alt="Trabalhador CLT analisa no celular uma simulação de crédito consignado em ambiente escuro com luz dourada" width="600" height="315" /></a>
+        <h2><a href="/artigos/credito-consignado-clt-como-funciona">Crédito consignado CLT: o que é, como funciona e quem pode contratar</a></h2>
+        <p>Entenda o Crédito do Trabalhador (eConsignado): margem de 35%, contratação pela CTPS Digital, teto de juros e o que muda na prática para quem é CLT.</p>
+        <time datetime="2026-08-12">12 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/antecipacao-fgts-como-funciona"><img src="/images/artigos/antecipacao-fgts-como-funciona.webp" alt="Mãos de trabalhador seguram o celular sobre a mesa para consultar o saldo do FGTS" width="600" height="315" /></a>
+        <h2><a href="/artigos/antecipacao-fgts-como-funciona">Antecipação de FGTS: como funciona e o que mudou nas regras de 2026</a></h2>
+        <p>Saque-aniversário, limite por parcela, carência de 90 dias e a mudança de novembro de 2026. Veja o que dá para antecipar e o que vale a pena avaliar antes.</p>
+        <time datetime="2026-08-10">10 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/consignado-para-negativado"><img src="/images/artigos/consignado-para-negativado.webp" alt="Pessoa revisa documentos à mesa à noite, com expressão aliviada sob luz dourada" width="600" height="315" /></a>
+        <h2><a href="/artigos/consignado-para-negativado">Consignado para negativado: é possível contratar com o nome sujo?</a></h2>
+        <p>Quem está negativado ainda pode ter caminho no consignado CLT porque o desconto sai da folha. Entenda o que pesa na análise e o que não é garantia.</p>
+        <time datetime="2026-08-06">6 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/quanto-tempo-demora-consignado-clt"><img src="/images/artigos/quanto-tempo-demora-consignado-clt.webp" alt="Mesa vista de cima com celular, relógio e xícara — espera pela liberação do crédito" width="600" height="315" /></a>
+        <h2><a href="/artigos/quanto-tempo-demora-consignado-clt">Quanto tempo demora o crédito consignado CLT para cair na conta?</a></h2>
+        <p>Do pedido à liberação: o que costuma ser rápido, o que trava o processo e como se preparar para o dinheiro cair sem surpresa.</p>
+        <time datetime="2026-08-04">4 de agosto de 2026</time>
+      </article></li>
+<li><article>
+        <a href="/artigos/documentos-para-consignado-clt"><img src="/images/artigos/documentos-para-consignado-clt.webp" alt="Pasta, documentos e óculos organizados sobre mesa escura com iluminação dourada" width="600" height="315" /></a>
+        <h2><a href="/artigos/documentos-para-consignado-clt">Documentos para contratar consignado CLT: checklist completo</a></h2>
+        <p>RG ou CNH, CPF, comprovante de residência, contracheque e dados bancários. O checklist para não perder tempo na contratação.</p>
+        <time datetime="2026-08-01">1 de agosto de 2026</time>
+      </article></li></ul>
+    </main></div></div>
+  </body>
+</html>
