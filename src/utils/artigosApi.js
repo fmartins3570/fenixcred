@@ -12,10 +12,19 @@ async function apiFetch(route) {
   return json.data;
 }
 
+/** Remote wins per slug; static-only posts stay in the catalog. */
+function mergeCatalog(remote) {
+  const bySlug = new Map(ARTIGOS.map((artigo) => [artigo.slug, artigo]));
+  remote.forEach((post) => {
+    if (post?.slug) bySlug.set(post.slug, post);
+  });
+  return [...bySlug.values()].sort((a, b) => String(b.data).localeCompare(String(a.data)));
+}
+
 export async function listArtigos() {
   try {
     const remote = await apiFetch("/posts");
-    if (Array.isArray(remote)) return remote;
+    if (Array.isArray(remote) && remote.length) return mergeCatalog(remote);
   } catch {
     // Vite local / API offline — keep static catalog
   }
@@ -33,7 +42,10 @@ export async function loadArtigo(slug) {
   try {
     const post = await apiFetch(`/posts/${slug}`);
     if (post === null) {
-      return { post: undefined, content: null, sections: undefined, related: [] };
+      // Artigo do catálogo estático não existe no banco do /admin. Sem este
+      // fallback o React apaga o conteúdo pré-renderizado e mostra "não
+      // encontrado" — o Googlebot renderiza isso e marca soft 404.
+      return fallback.post ? fallback : { post: undefined, content: null, sections: undefined, related: [] };
     }
     const [body, related] = await Promise.all([
       apiFetch(`/posts/${slug}/content`).catch(() => ({ content: null, sections: [] })),
