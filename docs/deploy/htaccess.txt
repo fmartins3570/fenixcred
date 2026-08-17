@@ -202,8 +202,13 @@ CustomLog /dev/null combined env=dontlog
     RewriteCond %{DOCUMENT_ROOT}/dist/artigos/$1/index.html -f
     RewriteRule ^(?:dist/)?artigos/([A-Za-z0-9._-]+)/?$ /dist/artigos/$1/index.html [L]
 
-    # Sem prerender (post publicado só pelo /admin): cai no shell da SPA
+    # Sem prerender (post publicado só pelo /admin): cai no shell da SPA.
+    # O !-f impede que o próprio /dist/artigos/index.html, já reescrito,
+    # volte a cair aqui no passe seguinte.
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^artigos/?$ /dist/index.html [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^artigos/[^/]+/?$ /dist/index.html [L]
 
     # Redirecionar todas as rotas para index.html (exceto arquivos existentes)
