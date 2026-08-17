@@ -299,6 +299,20 @@
   font-weight: 650;
 }
 
+.artigos-prose a {
+  color: var(--primary-yellow);
+  text-decoration: underline;
+  text-decoration-color: rgba(253, 177, 71, 0.45);
+  text-underline-offset: 0.18em;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.artigos-prose a:hover,
+.artigos-prose a:focus-visible {
+  color: var(--primary-yellow-light);
+  text-decoration-color: var(--primary-yellow-light);
+}
+
 .artigos-prose ul,
 .artigos-prose ol {
   margin: 1rem 0 0;

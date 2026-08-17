@@ -5,10 +5,28 @@ function clean(text) {
   return text.replace(/\s{2,}/g, " ").trim();
 }
 
+// Internal links keep the reader inside the cluster; external ones must be https.
+const isSafeHref = (href) => /^\/(?!\/)/.test(href) || /^https:\/\//i.test(href);
+
 function renderInline(text) {
   return clean(text)
-    .split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g)
+    .split(/(\[[^\]]+\]\([^)\s]+\)|\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g)
     .map((part, i) => {
+      const link = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(part);
+      if (link) {
+        const href = link[2].trim();
+        if (!isSafeHref(href)) return <Fragment key={i}>{link[1]}</Fragment>;
+        const external = href.startsWith("https://");
+        return (
+          <a
+            key={i}
+            href={href}
+            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          >
+            {link[1].trim()}
+          </a>
+        );
+      }
       const bold = /^\*\*\*?([^*]+)\*\*\*?$/.exec(part);
       if (bold) return <strong key={i}>{bold[1].trim()}</strong>;
       const italic = /^\*([^*]+)\*$/.exec(part);
