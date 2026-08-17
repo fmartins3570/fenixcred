@@ -192,6 +192,17 @@ CustomLog /dev/null combined env=dontlog
     RewriteRule ^consignado-clt/?$ /dist/index.html [L]
     RewriteRule ^antecipacao-fgts/?$ /dist/index.html [L]
     RewriteRule ^investidores/?$ /dist/index.html [L]
+
+    # Artigos: servir o HTML pré-renderizado quando ele existir.
+    # O prefixo dist/ é opcional porque este mesmo arquivo é copiado para
+    # /dist no deploy e roda também naquele contexto de diretório.
+    RewriteCond %{DOCUMENT_ROOT}/dist/artigos/index.html -f
+    RewriteRule ^(?:dist/)?artigos/?$ /dist/artigos/index.html [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/dist/artigos/$1/index.html -f
+    RewriteRule ^(?:dist/)?artigos/([A-Za-z0-9._-]+)/?$ /dist/artigos/$1/index.html [L]
+
+    # Sem prerender (post publicado só pelo /admin): cai no shell da SPA
     RewriteRule ^artigos/?$ /dist/index.html [L]
     RewriteRule ^artigos/[^/]+/?$ /dist/index.html [L]
 
